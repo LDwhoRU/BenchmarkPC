@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Side bar product filtering -->
+<section class="header">
+    <div class="custom-side-bar">
+        <ul>
+            <li>
+                CPU
+                <ul>
+                    <li>Intel</li>
+                    <li>AMD</li>
+                </ul>
+            </li>
+            <li>
+                CPU Cooler
+                <ul>
+                    <li>be quiet!</li>
+                    <li>Cooler Master</li>
+                    <li>Corsair</li>
+                    <li>Noctua</li>
+                    <li>NZXT</li>
+                    <li>Other</li>
+                </ul>
+            </li>
+            <li>
+                Motherboard
+                <ul>
+                    <li>ASrock</li>
+                    <li>Asus</li>
+                    <li>Gigabyte</li>
+                    <li>MSI</li>
+                    <li>Other</li>
+                </ul>
+            </li>
+            <li>
+                Memory
+                <ul>
+                    <li>Corsair</li>
+                    <li>Crucial</li>
+                    <li>G.Skill</li>
+                    <li>Other</li>
+                </ul>
+            </li>
+            <li>
+                Graphics Card
+                <ul>
+                    <li>NVIDIA 20xx Series</li>
+                    <li>NVIDIA 10xx Series</li>
+                    <li>NVIDIA 9xx Series</li>
+                    <li>AMD Radeon 5xx Series</li>
+                    <li>AMD Radeon 4xx Series</li>
+                    <li>Other</li>
+                </ul>
+            </li>
+            <li>
+                Power Supply
+                <ul>
+                    <li>Fully-Modular</li>
+                    <li>Semi-Modular</li>
+                    <li>Non-Modular</li>
+                </ul>
+            </li>
+            <li>
+                Case
+                <ul>
+                    <li>Corsair</li>
+                    <li>Fractal Design</li>
+                    <li>NZXT</li>
+                    <li>Other</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Slide show of products -->
+    <div class="slide-show">
+        <div class="bd-example">
+            <div id="slide-show" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                <li data-target="#slide-show" data-slide-to="0" class="active"></li>
+                <li data-target="#slide-show" data-slide-to="1"></li>
+                <li data-target="#slide-show" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="static\cpu-image.jpg" class="d-block w-100" alt="static\cpu-image.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                    <h5>Intel Core i5-7500</h5>
+                    <p>$159.99</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="static\gpu-image.jpg" class="d-block w-100" alt="static\gpu-image.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                    <h5>RTX 2070 + RX 580 Combo</h5>
+                    <p>$1899.99</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="static\case-image.jpg" class="d-block w-100" alt="static\case-image.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                    <h5>be quiet! Pure Base 500 Mid Tower Case</h5>
+                    <p>$139.99</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Browse - Acts as Manage Items for assignment 2 -->
+<section class="featured">
+    <div class="container">
+        <div class="section-title">
+                <h2>Manage...</h2> <!-- Remember to change to Featured for Assignment 3 -->
+            </div>
+            <div class="row">
+                <div class="col-md-4 items">
+                    <a href="amd-ryzen-7-1700x.html">
+                        <img src="static\AMD Ryzen 7 1700X.jpg" alt="static\AMD Ryzen 7 1700X.jpg">
+                    </a>
+                    <div class="featured-price">
+                        <h3>$149.99</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 items">
+                    <a href="amd-ryzen-7-1700x.html">
+                        <img src="static\Intel Core i5-7400.PNG" alt="static\Intel Core i5-7400.PNG">
+                    </a>
+                    <div class="featured-price">
+                        <h3>$179.99</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 items">
+                    <a href="amd-ryzen-7-1700x.html">
+                        <img src="static\Intel Core i5-8500.jpg" alt="static\Intel Core i5-8500.jpg">
+                    </a>
+                    <div class="featured-price">
+                        <h3>$189.99</h3>
+                    </div>
+                </div>
+            </div>
+    </div>
+</section>
+
+<!-- Recently listed - Acts as Feature Items for assignment 2 -->
+<section class="recently-listed">
+    <div class="container">
+        <div class="just-listed-header">
+            <h2>Featured...</h2> <!-- Remember to change to Just Listed for Assignment 3 -->
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="product">
+                    <a href="geforce-rtx-2080ti.html">
+                        <img src="static\Geforce RTX 2080ti.png" alt="static\Geforce RTX 2080ti.png">
+                    </a>
+                    <div class="overlay-benchmark">
+                        <h6>Score</h6>
+                        <h3>97.3</h3>
+                    </div>
+                </div>
+                <div class="product-metadata text-center">
+                    <h3>RTX 2080ti</h3>
+                    <h5>$1499.99</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product">
+                    <a href="geforce-rtx-2080ti.html">
+                        <img src="static\Geforce RTX 2080ti.png" alt="static\Geforce RTX 2080ti.png">
+                    </a>
+                    <div class="overlay-benchmark">
+                        <h6>Score</h6>
+                        <h3>97.3</h3>
+                    </div>
+                </div>
+                <div class="product-metadata text-center">
+                    <h3>RTX 2080ti</h3>
+                    <h5>$1499.99</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product">
+                    <a href="geforce-rtx-2080ti.html">
+                        <img src="static\Geforce RTX 2080ti.png" alt="static\Geforce RTX 2080ti.png">
+                    </a>
+                    <div class="overlay-benchmark">
+                        <h6>Score</h6>
+                        <h3>97.3</h3>
+                    </div>
+                </div>
+                <div class="product-metadata text-center">
+                    <h3>RTX 2080ti</h3>
+                    <h5>$1499.99</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="product">
+                    <a href="geforce-rtx-2080ti.html">
+                        <img src="static\Geforce RTX 2080ti.png" alt="static\Geforce RTX 2080ti.png">
+                    </a>
+                    <div class="overlay-benchmark">
+                        <h6>Score</h6>
+                        <h3>97.3</h3>
+                    </div>
+                </div>
+                <div class="product-metadata text-center">
+                    <h3>RTX 2080ti</h3>
+                    <h5>$1499.99</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our guarantees -->
+<section class="guarantees">
+    <div class="container">
+        <div class="guarantee-header text-center">
+            <h2>Our Guarantee</h2>
+        </div>
+        <div class="guarantee-body">
+            <a>
+                Here at BenchmarkPC, we are so confident in our platform
+                we provide a money-back guarantee on any product purchased that
+                benchmarks 2% outside the score recorded on the date of purchase. If you happen
+                to receive a faulty product please contact our support team with both
+                proof of purchase and a video recording of the component being benchmarked
+                live at the time of purchase. If you are considering purchasing with us we
+                encourage you to ensure these are both recorded at the time of purchase, and 
+                are kept for any potential mishap.
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Whitespace -->
+<section class="Whitespace"><div class="mb-4"></div></section>
+
+{% endblock %}

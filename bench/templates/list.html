@@ -1,0 +1,322 @@
+<html>
+    <head>
+        <title>
+            BenchmarkPC
+        </title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
+    </head>
+    <body>
+        
+        <!-- Navigation and Search Bar -->
+        <div class="nav-bar">
+            <div class="search">
+                <a href="index.html">
+                    <img src="img/logo.PNG" class="logo">
+                </a>
+                <input type="text" class="form-control search-bar-form">
+                <span class="input-group-text search-bar-span">
+                    <i class="fas fa-search"></i>
+                </span>
+            </div>
+            <div class="menu-bar">
+                <ul>
+                    <li>
+                        <a href="list.html">List</a> <!-- Remember to change back to browse in assignment 3 -->
+                        <a href="amd-ryzen-7-1700x.html">Manage</a> <!-- Change link in assignment 3 -->
+                        <a href="login">Login</a>
+                        <a href="sign-up">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Breadcrumb to current listing -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a style="color: rgb(190, 190, 190)" href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">New Product Listing</li>
+            </ol>
+        </nav>
+        
+
+        <section class="product-display">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-5-5">
+                        <!-- Product slideshow -->
+                        <div class="product-carousel">
+                            <div id="product-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                    <img src="img\placeholder.png" class="d-block w-100" alt="img\placeholder.png">
+                                    </div>
+                                </div>
+                                <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Create new listing -->
+                    <div class="edit-listing-box">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <div class="edit-listing-header">
+                                    <h4>New Listing</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product Name -->
+                        <div class="new-product-box">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control new-product-input" placeholder="Product Name..." aria-label="Placeholder" aria-describedby="basic-addon2">
+                            </div>
+                        </div>
+                        <!-- Product category -->
+                        <div class="input-group mb-2 new-product-type-box">
+                            <select class="custom-select new-product-type-selection" id="inputGroupSelect02">
+                                <option selected>Product Type...</option>
+                                <option value="1">CPU</option>
+                                <option value="2">CPU Cooler</option>
+                                <option value="3">Motherboard</option>
+                                <option value="4">Memory</option>
+                                <option value="5">Graphics Card</option>
+                                <option value="6">Power Supply</option>
+                                <option value="7">Case</option>
+                            </select>
+                        </div>
+                        <!-- Benchmark Score -->
+                        <div class="benchmark-button">
+                            <h2>Benchmark Score</h2>
+                            <h5>Click here to Benchmark</h5>
+                        </div>
+                        <!-- Upload Images -->
+                        <div class="input-group mb-3 upload-new-image-box">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Upload</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                <label class="custom-file-label" for="inputGroupFile01">Product Images</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price bar -->
+                <div class="edit-price-box">
+                    <div class="input-group mb-3 edit-price-input">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text price-append">$</span>
+                        </div>
+                        <input type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="description">
+            <div class="container">
+                <div class="body-header-box">
+                    <h2>Product Description</h2>
+                    <hr>
+                </div>
+                <div class="edit-description-box">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="8" placeholder="Please enter a description of the item here..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="specifications">
+            <div class="container">
+                <div class="body-header-box">
+                    <h2>Specifications</h2>
+                </div>
+                <div class="specifications-body-box">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Manufacturer</th>
+                                <td>
+                                    <div class="input-group mb-1">
+                                        <select class="custom-select" id="inputGroupSelect02">
+                                            <option selected>Choose...</option>
+                                            <option value="1">AMD</option>
+                                            <option value="2">Intel</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Core Count</th>
+                                <td>
+                                    <div class="input-group mb-1">
+                                        <select class="custom-select" id="inputGroupSelect02">
+                                            <option selected>Choose...</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">4</option>
+                                            <option value="4">3</option>
+                                            <option value="5">6</option>
+                                            <option value="6">8</option>
+                                            <option value="7">10</option>
+                                            <option value="8">12</option>
+                                            <option value="9">14</option>
+                                            <option value="10">16</option>
+                                            <option value="11">18</option>
+                                            <option value="12">20</option>
+                                            <option value="13">22</option>
+                                            <option value="14">24</option>
+                                            <option value="15">32</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Core Clock</th>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">GHz</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Boost Clock</th>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">GHz</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">TDP</th>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">Watts</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Series</th>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Microarchitecture</th>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Socket</th>
+                                <td>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Integrated Graphics</th>
+                                <td>
+                                    <div class="input-group mb-1">
+                                        <select class="custom-select" id="inputGroupSelect02">
+                                            <option selected>Choose...</option>
+                                            <option value="1">None</option>
+                                            <option value="2">Yes</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Includes CPU Cooler</th>
+                                <td>
+                                    <div class="input-group mb-1">
+                                        <select class="custom-select" id="inputGroupSelect02">
+                                            <option selected>Choose...</option>
+                                            <option value="1">No</option>
+                                            <option value="2">Yes</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Submit Button -->
+                    <button type="button" class="btn btn-primary btn-edit-specs-submit">Submit</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section class="Footer">
+            <div class="container text-center">
+                <div class="resources">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h2>Useful Resources</h2>
+                            <p>Terms of Usage</p>
+                            <p>Privacy Policy</p>
+                            <p>Return Policy</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2>BenchmarkPC</h2>
+                            <p>About Us</p>
+                            <p>Contact Us</p>
+                            <p>Careers</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2>Social</h2>
+                            <p>
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </p>
+                            <p>
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </p>
+                            <p>
+                                <i class="fab fa-twitter"></i>
+                                Twitter
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
