@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 <html>
     <head>
         <title>
@@ -11,29 +12,7 @@
         <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
     </head>
     <body>
-        
-        <!-- Navigation and Search Bar -->
-        <div class="nav-bar">
-            <div class="search">
-                <a href="index.html">
-                    <img src="img/logo.PNG" class="logo">
-                </a>
-                <input type="text" class="form-control search-bar-form">
-                <span class="input-group-text search-bar-span">
-                    <i class="fas fa-search"></i>
-                </span>
-            </div>
-            <div class="menu-bar">
-                <ul>
-                    <li>
-                        <a href="list.html">List</a> <!-- Remember to change back to browse in assignment 3 -->
-                        <a href="amd-ryzen-7-1700x.html">Manage</a> <!-- Change link in assignment 3 -->
-                        <a href="login">Login</a>
-                        <a href="sign-up">Sign Up</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        {% block breadcrumb %}
 
         <!-- Breadcrumb to current listing -->
         <nav aria-label="breadcrumb">
@@ -43,7 +22,9 @@
                 <li class="breadcrumb-item active" aria-current="page">NVIDIA RTX 2080ti</li>
             </ol>
         </nav>
+        {% endblock %}
         
+        {% block content %}
         <!-- Listing Header -->
         <section class="listing-header">
             <div class="container">
@@ -63,13 +44,13 @@
                             <div id="product-carousel" class="carousel slide carousel-fade" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                    <img src="img\product-list-1.jpg" class="d-block w-100" alt="img\product-list-1.jpg">
+                                    <img src="static\product-list-1.jpg" class="d-block w-100" alt="img\product-list-1.jpg">
                                     </div>
                                     <div class="carousel-item">
-                                    <img src="img\product-list-2.png" class="d-block w-100" alt="img\product-list-2.png">
+                                    <img src="static\product-list-2.png" class="d-block w-100" alt="img\product-list-2.png">
                                     </div>
                                     <div class="carousel-item">
-                                    <img src="img\product-list-3.jpg" class="d-block w-100" alt="img\product-list-3.jpg">
+                                    <img src="static\product-list-3.jpg" class="d-block w-100" alt="img\product-list-3.jpg">
                                     </div>
                                 </div>
                                 <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
@@ -106,7 +87,7 @@
                             <div class="col-sm-1">
                                 <!-- Profile Picture -->
                                 <div class="list-profile-picture">
-                                    <img src="img\profile-pic.png" alt="img\profile-pic.png">
+                                    <img src="static\profile-pic.png" alt="img\profile-pic.png">
                                 </div>
                             </div>
                         </div>
@@ -308,5 +289,6 @@
                 </div>
             </div>
         </section>
+        {% endblock %}
     </body>
 </html>

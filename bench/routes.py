@@ -7,9 +7,12 @@ def index():
 @app.route('/newListing')
 def newListing():
     return render_template('createNewListing.html')
+@app.route('/manage')
+def manageListing():
+    return render_template('manageListing.html')
 @app.route('/Listing')
 def viewListing():
-    return render_template('manageListing.html')
+    return render_template("view.html")
 
 @app.errorhandler(404)
 def not_found(e):
