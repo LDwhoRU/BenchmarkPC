@@ -1,40 +1,9 @@
-<html>
-    <head>
-        <title>
-            BenchmarkPC
-        </title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-        <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
-    </head>
-    <body>
-        
-        <!-- Navigation and Search Bar -->
-        <div class="nav-bar">
-            <div class="search">
-                <a href="index.html">
-                    <img src="img/logo.PNG" class="logo">
-                </a>
-                <input type="text" class="form-control search-bar-form">
-                <span class="input-group-text search-bar-span">
-                    <i class="fas fa-search"></i>
-                </span>
-            </div>
-            <div class="menu-bar">
-                <ul>
-                    <li>
-                        <a href="list.html">List</a> <!-- Remember to change back to browse in assignment 3 -->
-                        <a href="amd-ryzen-7-1700x.html">Manage</a> <!-- Change link in assignment 3 -->
-                        <a href="login">Login</a>
-                        <a href="sign-up">Sign Up</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+{% extends 'base.html' %}
 
+<html>
+    
+        
+        {% block breadcrumb %}
         <!-- Breadcrumb to current listing -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -43,7 +12,10 @@
                 <li class="breadcrumb-item active" aria-current="page">AMD Ryzen 7 1700X</li>
             </ol>
         </nav>
+        {% endblock %}
         
+
+        {% block content %}
         <!-- Listing Header -->
         <section class="listing-header">
             <div class="container">
@@ -68,13 +40,13 @@
                             <div id="product-carousel" class="carousel slide carousel-fade" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                    <img src="img\manage-list-1.jpg" class="d-block w-100" alt="img\manage-list-1.jpg">
+                                    <img src="static\manage-list-1.jpg" class="d-block w-100" alt="img\manage-list-1.jpg">
                                     </div>
                                     <div class="carousel-item">
-                                    <img src="img\manage-list-2.png" class="d-block w-100" alt="img\manage-list-2.png">
+                                    <img src="static\manage-list-2.png" class="d-block w-100" alt="img\manage-list-2.png">
                                     </div>
                                     <div class="carousel-item">
-                                    <img src="img\manage-list-3.jpg" class="d-block w-100" alt="img\manage-list-3.jpg">
+                                    <img src="static\manage-list-3.jpg" class="d-block w-100" alt="img\manage-list-3.jpg">
                                     </div>
                                 </div>
                                 <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
@@ -344,42 +316,7 @@
                 </div>
             </div>
         </section>
-
-        <!-- Footer -->
-        <section class="Footer">
-            <div class="container text-center">
-                <div class="resources">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h2>Useful Resources</h2>
-                            <p>Terms of Usage</p>
-                            <p>Privacy Policy</p>
-                            <p>Return Policy</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h2>BenchmarkPC</h2>
-                            <p>About Us</p>
-                            <p>Contact Us</p>
-                            <p>Careers</p>
-                        </div>
-                        <div class="col-md-3">
-                            <h2>Social</h2>
-                            <p>
-                                <i class="fab fa-facebook-f"></i>
-                                Facebook
-                            </p>
-                            <p>
-                                <i class="fab fa-instagram"></i>
-                                Instagram
-                            </p>
-                            <p>
-                                <i class="fab fa-twitter"></i>
-                                Twitter
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        {% endblock %}
+       
     </body>
 </html>
