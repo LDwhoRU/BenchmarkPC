@@ -12,9 +12,10 @@
         <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
     </head>
     <body>
+           
 
         <!-- Navigation and Search Bar -->
-        <div class="nav-bar">
+        <div class="nav-bar" style="margin-bottom: 0;">
             <div class="search">
                 <a href="index.html">
                     <img src="static\logo.PNG" class="logo">
@@ -35,6 +36,8 @@
                 </ul>
             </div>
         </div>
+        {% block breadcrumb %}
+        {% endblock %}
 
     {% block content %}
     {% endblock %}
