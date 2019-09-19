@@ -4,3 +4,6 @@ from flask import render_template
 @app.route('/', methods=['GET','POST'])
 def index():
     return render_template('index.html')
+@app.route('/newListing')
+def newListing():
+    return render_template('createNewListing.html')
