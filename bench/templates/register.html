@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Register
+        </title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/base.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
+    </head>
+    <body>
+            
+
+<div class="container">
+    
+    <div class="card bg-light centre-register-box">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">
+                <a href="/">
+                    <img src="static\logo.PNG" class="logo">
+                </a>
+            </h4>
+            <p class="text-center">Register a Free Account Today</p>
+            <p>
+                <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login with Twitter</a>
+                <a href="" class="btn btn-block btn-google"> <i class="fab fa-google"></i>   Login with Google</a>
+            </p>
+            <p class="divider-text">
+                <span class="bg-light">OR</span>
+            </p>
+            <form>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="far fa-user"></i> </span>
+                </div>
+                <input name="" class="form-control" placeholder="Full name" type="text">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fas fa-inbox"></i> </span>
+                </div>
+                <input name="" class="form-control" placeholder="Email address" type="email">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fas fa-mobile-alt"></i> </span>
+                </div>
+                <select class="custom-select" style="max-width: 120px;">
+                    <option selected="">+61</option>
+                    <option value="1">+64</option>
+                    <option value="2">+44</option>
+                    <option value="3">+1</option>
+                </select>
+                <input name="" class="form-control" placeholder="Phone number" type="text">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
+                </div>
+                <input class="form-control" placeholder="Create password" type="password">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
+                </div>
+                <input class="form-control" placeholder="Re-enter password" type="password">
+            </div> <!-- form-group// -->                                      
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+            </div> <!-- form-group// -->      
+            <p class="text-center">Have an account? <a href="login">Log In</a> </p>                                                                 
+        </form>
+        </article>
+        </div> <!-- card.// -->
+    
+    </div> 
+    <!--container end.//-->
+
+
+    </body>
+</html>

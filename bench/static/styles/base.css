@@ -97,6 +97,7 @@ body {
     z-index: 2;
     background-color: #1f4582;
     color:white;
+    min-height: 90ch;
 }
 .custom-side-bar ul {
     margin-left: 10px;
@@ -145,6 +146,7 @@ body {
     max-width: 1920px;
     margin-left: 15%;
     padding: 0px 10px;
+    margin-top: 21px !important;
 }
 .carousel {
     box-shadow: 1px 1px 6px 1px rgba(12, 12, 12, 0.5);
@@ -273,13 +275,13 @@ body {
     color: #f1f1f1;
 }
 
-.footer h2 {
+.resources h2 {
     font-weight: bold;
     font-size: 14px;
     margin-top: 20px;
     margin-bottom: 25px;
 }
-.footer p {
+.resources p {
     font-size: 12px;
 }
 
@@ -579,5 +581,54 @@ body {
     text-align: center;
     align-items:center;
 
+}
+
+/* Register */
+.centre-register-box {
+    position: absolute;
+    transform: translate(0%, 15%);
+}
+.divider-text {
+    position: relative;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.divider-text span {
+    padding: 7px;
+    font-size: 12px;
+    position: relative;   
+    z-index: 2;
+}
+.divider-text:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    top: 55%;
+    left: 0;
+    z-index: 1;
+}
+.btn-google {
+    background-color: #fff !important;
+    color: rgb(37, 37, 37) !important;
+}
+.btn-twitter {
+    background-color: #42AEEC !important;
+    color: #fff !important;
+}
+/* Login */
+.centre-login-box {
+    position: absolute;
+    transform: translate(0%, 22%);
+}
+
+@media only screen and (max-width:980px) {
+    .centre-register-box {
+        transform: translate(0%, 2%);
+    }
+    .centre-login-box {
+        transform: translate(0%, 2%);
+    }
 }
 /* Used for debugging */

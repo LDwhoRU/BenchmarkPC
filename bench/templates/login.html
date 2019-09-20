@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Login
+        </title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/base.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
+    </head>
+    <body>
+            
+
+<div class="container">
+    
+    <div class="card bg-light centre-login-box">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">
+                <a href="/">
+                    <img src="static\logo.PNG" class="logo">
+                </a>
+            </h4>
+            <p>
+                <a href="" class="btn btn-block btn-twitter"> <i class="fab fa-twitter"></i>   Login with Twitter</a>
+                <a href="" class="btn btn-block btn-google"> <i class="fab fa-google"></i>   Login with Google</a>
+            </p>
+            <p class="divider-text">
+                <span class="bg-light">OR</span>
+            </p>
+            <form>
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fas fa-inbox"></i> </span>
+                </div>
+                <input name="" class="form-control" placeholder="Email address" type="email">
+            </div> <!-- form-group// -->
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"> <i class="fas fa-unlock"></i> </span>
+                </div>
+                <input class="form-control" placeholder="Enter password" type="password">
+            </div> <!-- form-group// -->                           
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+            </div> <!-- form-group// -->      
+            <p class="text-center">Haven't got an account? <a href="register">Register</a> </p>                                                                 
+        </form>
+        </article>
+        </div> <!-- card.// -->
+    
+    </div> 
+    <!--container end.//-->
+
+
+    </body>
+</html>
