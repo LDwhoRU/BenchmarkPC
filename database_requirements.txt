@@ -1,0 +1,20 @@
+7 Types of product
+CPU 
+Manufacturer (Dropdown, AMD, Intel)
+Core Count (Dropdown)
+Core Clock (GHz)
+Boost Clock (GHz)
+TDP (Watts)
+Series (Free Text)
+Microarchitecture (Free Text)
+Socket (Free Text)
+Integrated Graphics (Yes/No)
+Includes CPU Cooler (Yes/No)
+
+
+CPU Cooler
+Motherboard
+Memory
+GPU
+Power Supply
+Case
