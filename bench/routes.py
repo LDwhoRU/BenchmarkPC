@@ -1,5 +1,6 @@
 from bench import app
 from flask import render_template, request
+from forms import LoginForm
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -18,11 +19,9 @@ def register():
     return render_template("register.html")
 @app.route('/login', methods=['post', 'get'])
 def login():
-    if request.method == 'POST':
-        email = request.form.get('email')  # access the data inside 
-        password = request.form.get('password')
-        print("Email: " + email + "\n" + "Password: " + password)
-    return render_template("login.html")
+    form = LoginForm()
+   
+    return render_template("login.html", form=form)
 
 @app.errorhandler(404)
 def not_found(e):

@@ -31,20 +31,23 @@
                 <span class="bg-light">OR</span>
             </p>
             <form action="" method="POST">
+                    {{ form.csrf_token }}
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-inbox"></i> </span>
                 </div>
-                <input name="email" class="form-control" placeholder="Email address" type="email">
+                <!-- <input name="email" class="form-control" placeholder="Email address" type="email"> -->
+                {{ form.email(class_="form-control", placeholder="Enter Your Email") }}
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-unlock"></i> </span>
                 </div>
-                <input name = "password" class="form-control" placeholder="Enter password" type="password">
+                {{ form.password(class_="form-control", placeholder="Enter Password") }}
             </div> <!-- form-group// -->                           
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+                {{ form.submit(class_="btn btn-primary btn-block") }}
+
             </div> <!-- form-group// -->      
             <p class="text-center">Haven't got an account? <a href="register">Register</a> </p>                                                                 
         </form>
