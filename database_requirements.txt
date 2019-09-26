@@ -1,7 +1,7 @@
 7 Types of product
 CPU 
 Manufacturer (Dropdown, AMD, Intel)
-Core Count (Dropdown)
+Core Count (Dropdown, Integer)
 Core Clock (GHz)
 Boost Clock (GHz)
 TDP (Watts)
@@ -11,10 +11,69 @@ Socket (Free Text)
 Integrated Graphics (Yes/No)
 Includes CPU Cooler (Yes/No)
 
-
 CPU Cooler
+Manufacturer (Free Text)
+Fan RPM (Free Text, RPM)
+Noise Level (Text, dB)
+Height (Integer, mm)
+Socket (Free Text)
+Water Cooled (Yes/No)
+Fanless (Yes/No)
+
 Motherboard
+Socket (Free Text)
+Form Factor (Free Text)
+RAM Slots (Integer)
+Max RAM (Integer, GB)
+Colour (Free Text)
+Chipset (Free Text)
+Memory Type (Dropdown, text)
+SLI Support (Yes/No)
+CrossFire Support (Yes/No)
+PCI-E x16 Slots (Integer)
+PCI-E x8 Slots (Integer)
+PCI-E x4 Slots (Integer)
+PCI-E x1 Slots (Integer)
+PCI Slots (Integer)
+SATA Ports (Integer)
+M.2 Slots (Integer)
+mSATA (Integer)
+Onboard USB3.0 Headers (Yes/No)
+Onboard WiFi (Yes/No)
+RAID Support (Yes/No)
+
 Memory
+Memory Type (Dropdown, text)
+Speed (Integer)
+Modules (Text)
+Colour (Text)
+
 GPU
+Chipset (Free Text)
+Memory Type (Dropdown)
+Core Clock (MHz)
+Boost Clock (MHz)
+Interface (Free Text)
+Colour (Free Text)
+Frame Sync (Dropdown, G-Sync, Freesync)
+Length (Integer, mm)
+TDP (Watts)
+DVI Ports (Integer)
+HDMI Ports (Integer)
+Mini-HDMI Ports (Integer)
+DisplayPort Ports (Integer)
+Mini DisplayPort Ports (Integer)
+Cooling Style (Dropdown, Blower/Fan)
+
 Power Supply
+Effiency Rating (Free Text)
+Wattage (Integer, Watts)
+Modular (Dropdown, Full, Semi, No)
+SATA Connectors (Integer)
+
 Case
+Form Factor (Free Text)
+Color (Free Text)
+Side Panel (Yes/No)
+Internal 2.5" Bays (Integer)
+Internal 3.5 Bays (Integer)
