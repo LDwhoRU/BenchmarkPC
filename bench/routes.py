@@ -1,6 +1,6 @@
 from bench import app
-from flask import render_template, request
-from forms import LoginForm
+from flask import render_template, request, flash, redirect
+from forms import LoginForm, RegisterForm
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -16,11 +16,14 @@ def viewListing():
     return render_template("view.html")
 @app.route('/register')
 def register():
-    return render_template("register.html")
+    form = RegisterForm()
+    return render_template("register.html",form=form)
 @app.route('/login', methods=['post', 'get'])
 def login():
     form = LoginForm()
-   
+    if form.validate_on_submit():
+        print(form.email.data)
+        return redirect("/")
     return render_template("login.html", form=form)
 
 @app.errorhandler(404)

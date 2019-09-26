@@ -31,45 +31,44 @@
             <p class="divider-text">
                 <span class="bg-light">OR</span>
             </p>
-            <form>
+            <form action="" method="POST">
+                    {{ form.csrf_token }}
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="far fa-user"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="Full name" type="text">
+                {{form.user_name(class_="form-control",placeholder="Enter Your Full Name")}}
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-inbox"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="Email address" type="email">
+                {{form.user_name(class_="form-control",placeholder="Email Address")}}
+
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-mobile-alt"></i> </span>
                 </div>
-                <select class="custom-select" style="max-width: 120px;">
-                    <option selected="">+61</option>
-                    <option value="1">+64</option>
-                    <option value="2">+44</option>
-                    <option value="3">+1</option>
-                </select>
-                <input name="" class="form-control" placeholder="Phone number" type="text">
+                
+                {{form.phone_number(class_="form-control",placeholder="Phone Number")}}
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Create password" type="password">
+                {{form.password(class_="form-control",placeholder="Create Password")}}
+
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Re-enter password" type="password">
+                {{form.confirm(class_="form-control",placeholder="Re-Enter Password")}}
             </div> <!-- form-group// -->                                      
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block"> Create Account  </button>
+                    {{form.submit(class_="btn btn-primary btn-block",placeholder="Create Account")}}
+
             </div> <!-- form-group// -->      
             <p class="text-center">Have an account? <a href="login">Log In</a> </p>                                                                 
         </form>
