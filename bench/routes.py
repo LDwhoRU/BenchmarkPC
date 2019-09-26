@@ -1,5 +1,5 @@
 from bench import app
-from flask import render_template
+from flask import render_template, request
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -16,8 +16,12 @@ def viewListing():
 @app.route('/register')
 def register():
     return render_template("register.html")
-@app.route('/login')
+@app.route('/login', methods=['post', 'get'])
 def login():
+    if request.method == 'POST':
+        email = request.form.get('email')  # access the data inside 
+        password = request.form.get('password')
+        print("Email: " + email + "\n" + "Password: " + password)
     return render_template("login.html")
 
 @app.errorhandler(404)
