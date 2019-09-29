@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            BenchmarkPC
+        </title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/base.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
+        <style>
+
+            .dropbtn {
+                background-color: #f1f1f1;
+                color: #1f4582;
+                margin-top: 9px;
+                padding: 5px 10px 5px 5px;
+                border: none;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: #000000;
+                padding: 12px;
+                display: block;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown-content a:hover {
+                background-color: #2d66c2;
+            }
+
+        </style>
+    </head>
+    <body>
+           
+
+        <!-- Navigation and Search Bar -->
+        <div class="nav-bar" style="margin-bottom: 0;">
+            <div class="search">
+                <a href="/">
+                    <img src="static\logo.PNG" class="logo">
+                </a>
+                <input type="text" class="form-control search-bar-form">
+                <span class="input-group-text search-bar-span">
+                    <i class="fas fa-search"></i>
+                </span>
+                <div class="dropdown">
+                    <button class="dropbtn dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu dropdown-content" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">CPU</a>
+                        <a class="dropdown-item" href="#">CPU Cooler</a>
+                        <a class="dropdown-item" href="#">Motherboard</a>
+                        <a class="dropdown-item" href="#">Memory</a>
+                        <a class="dropdown-item" href="#">Graphics Card</a>
+                        <a class="dropdown-item" href="#">Power Supply</a>
+                        <a class="dropdown-item" href="#">Case</a>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-bar">
+                <ul>
+                    <li>
+                        <a href="list.html">List</a> <!-- Remember to change back to browse in assignment 3 -->
+                        <a href="amd-ryzen-7-1700x.html">Manage</a> <!-- Change link in assignment 3 -->
+                        <a href="login">Login</a>
+                        <a href="register">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {% block breadcrumb %}
+        {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    
+        <!-- Footer -->
+        <section class="Footer">
+            <div class="text-center footer-box">
+                <div class="container resources">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h2>Useful Resources</h2>
+                            <p>Terms of Usage</p>
+                            <p>Privacy Policy</p>
+                            <p>Return Policy</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2>BenchmarkPC</h2>
+                            <p>About Us</p>
+                            <p>Contact Us</p>
+                            <p>Careers</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2>Social</h2>
+                            <p>
+                                <i class="fab fa-facebook-f"></i>
+                                Facebook
+                            </p>
+                            <p>
+                                <i class="fab fa-instagram"></i>
+                                Instagram
+                            </p>
+                            <p>
+                                <i class="fab fa-twitter"></i>
+                                Twitter
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </body>
+</html>
