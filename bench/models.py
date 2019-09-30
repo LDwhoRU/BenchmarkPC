@@ -28,34 +28,44 @@ class Listing(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         ListingScore = db.Column(db.Integer, nullable=True)
 
-        ListingName = db.Column(db.String(80), unique=True, nullable=False)
-        ListingPrice  = db.Column(db.String(80), unique = False, nullable=False)
+        ListingName = db.Column(db.String(80), unique=False, nullable=False)
+        ListingPrice  = db.Column(db.Numeric, unique = False, nullable=False)
         ListingType = db.Column(db.String(80), unique = False, nullable=False)
         ListingDescription = db.Column(db.String(80), unique = False, nullable=False, default="Empty")
         ListingTimeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
 
         userId = db.Column(db.Integer, db.ForeignKey('user.id'))
-        metadataID = db.Column(db.Integer, db.ForeignKey('metadata.id'))
 
 class Bids(db.Model):
         id = db.Column(db.Integer, primary_key=True)
-        bidAmount = db.Column(db.String(80), nullable=False, default="Intel")
+        bidAmount = db.Column(db.String(80), nullable=False)
         bidUser = db.Column(db.Integer, db.ForeignKey('user.id'))
         bidListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
         bidTimeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
-class Order(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        OrderUser = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-
-
-
-
-class Metadata(db.Model):
-
+class Case(db.Model):
         id = db.Column(db.Integer, primary_key=True) 
-        manufacturer = db.Column(db.String(80), nullable=False, default="Intel")
+        manufacturer = db.Column(db.String(80), nullable=False)
+        colour = db.Column(db.String(80), nullable=True)
+        sidePanel = db.Column(db.String(80), nullable=True)
+        internal25Bays = db.Column(db.Integer, nullable=True)
+        internal35Bays = db.Column(db.Integer, nullable=True)
+        caseListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
+
+class Memory(db.Model):
+        id = db.Column(db.Integer, primary_key=True) 
+        manufacturer = db.Column(db.String(80), nullable=False)
+        memoryType = db.Column(db.String(80), nullable=True)
+        modules = db.Column(db.Integer, nullable=True)
+        colour = db.Column(db.String(80), nullable=True)
+        speed = db.Column(db.Integer, nullable=True)
+
+        memoryListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
+
+
+class CPU(db.Model):
+        id = db.Column(db.Integer, primary_key=True) 
+        manufacturer = db.Column(db.String(80), nullable=False)
         TDP = db.Column(db.Numeric, nullable=True)
         CoreCount = db.Column(db.Numeric, nullable=True)
         CoreClock = db.Column(db.Numeric, nullable=True)
@@ -65,25 +75,33 @@ class Metadata(db.Model):
         Socket = db.Column(db.String(80), nullable=True)
         IntegratedGraphics = db.Column(db.String(80), nullable=True)
         IncludesCPUCooler = db.Column(db.String(80), nullable=True)
+        CPUListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
+
+class CPUCooler(db.Model):
+        id = db.Column(db.Integer, primary_key=True) 
+        manufacturer = db.Column(db.String(80), nullable=False)
         FanRPM = db.Column(db.String(80), nullable=True)
         NoiseLevel = db.Column(db.String(80), nullable=True)
         Height = db.Column(db.Integer, nullable=True)
         WaterCooled = db.Column(db.String(80), nullable=True)
         Fanless = db.Column(db.String(80), nullable=True)
-        FormFactor = db.Column(db.String(80), nullable=True)
+        CPUCoolerListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
+class Motherboard(db.Model):
+        id = db.Column(db.Integer, primary_key=True) 
+        manufacturer = db.Column(db.String(80), nullable=False)
+
+        Socket = db.Column(db.String(80), nullable=True)
         RAMslots = db.Column(db.Integer, nullable=True)
         MaxRAM = db.Column(db.Integer, nullable=True)
-        Color = db.Column(db.String(80), nullable=True)
+        colour = db.Column(db.String(80), nullable=True)
         Chipset = db.Column(db.String(80), nullable=True)
         MemoryType = db.Column(db.String(80), nullable=True)
         SLISupport = db.Column(db.String(80), nullable=True)
         CrossFireSupport = db.Column(db.String(80), nullable=True)
-
         PCIEx16Slots = db.Column(db.Integer, nullable=True)
         PCIEx8Slots = db.Column(db.Integer, nullable=True)
         PCIEx4Slots = db.Column(db.Integer, nullable=True)
         PCIEx1Slots = db.Column(db.Integer, nullable=True)
-
         PCISlots = db.Column(db.Integer, nullable=True)
         SATAPorts = db.Column(db.Integer, nullable=True)
         M2Slots = db.Column(db.Integer, nullable=True)
@@ -93,33 +111,44 @@ class Metadata(db.Model):
         OnboardWifi = db.Column(db.String(80), nullable=True)
 
         RAIDSupport = db.Column(db.String(80), nullable=True)
+        MotherboardListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
 
-        Speed = db.Column(db.Integer, nullable=True)
-        Modules = db.Column(db.Integer, nullable=True)
-
-        Interface = db.Column(db.String(80), nullable=True)
-        FrameSync = db.Column(db.String(80), nullable=True)
-
-
+class GPU(db.Model):
+        id = db.Column(db.Integer, primary_key=True) 
+        manufacturer = db.Column(db.String(80), nullable=False)
+        Chipset = db.Column(db.String(80), nullable=True)
+        MemoryType = db.Column(db.String(80), nullable=True)
+        CoreClock = db.Column(db.Numeric, nullable=True)
+        BoostClock = db.Column(db.Numeric, nullable=True)
+        colour = db.Column(db.String(80), nullable=True)
         Length = db.Column(db.Integer, nullable=True)
+        TDP = db.Column(db.Numeric, nullable=True)
         DVIPorts = db.Column(db.Integer, nullable=True)
         HDMIPorts = db.Column(db.Integer, nullable=True)
-
         MiniHDMIPorts = db.Column(db.Integer, nullable=True)
         DisplayPortPorts = db.Column(db.Integer, nullable=True)
         MiniDisplayPortPorts = db.Column(db.Integer, nullable=True)
+        CoolingType = db.Column(db.String(80), nullable=True)
+        GPUListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
 
-        CoolingStyle = db.Column(db.String(80), nullable=True)
+class PowerSupply(db.Model):
+        id = db.Column(db.Integer, primary_key=True) 
+        manufacturer = db.Column(db.String(80), nullable=False)
         EffiencyRating = db.Column(db.String(80), nullable=True)
-
         Wattage = db.Column(db.Integer, nullable=True)
         Modular = db.Column(db.Integer, nullable=True)
         SATAConnectors = db.Column(db.Integer, nullable=True)
 
-        SidePanel = db.Column(db.String(80), nullable=True)
 
-        Internal25Bays = db.Column(db.Integer, nullable=True)
-        Internal35Bays = db.Column(db.Integer, nullable=True)
+
+class Order(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        OrderUser = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+
+
+
 
 
        

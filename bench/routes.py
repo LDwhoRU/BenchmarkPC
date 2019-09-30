@@ -3,6 +3,7 @@ from bench.models import User
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
+from bench.newListingFunctions import processListing
 
 
 @app.route('/', methods=['GET','POST'])
@@ -18,9 +19,14 @@ def newListing():
         return redirect('/login')
     form = newListingForm()
     if request.method == 'POST':
+        if(processListing(request)):
+            return redirect("/")
+        else:
+            return redirect('/manage')
         print(request.form.get('productName'))
         print(request.form.get('productPrice'))
         print(request.form.get('productDescription'))
+        print(request.form.get('productType'))
 
     title = "New Listing | BenchmarkPC"
     return render_template('createNewListing.html', form=form, title=title)

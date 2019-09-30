@@ -6,6 +6,16 @@ body {
     background-color: #f1f1f1;
     font-family: sans-serif;
 }
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .nav-bar {
     height: 57px;
     top: 0;

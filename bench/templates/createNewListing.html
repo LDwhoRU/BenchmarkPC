@@ -12,7 +12,7 @@
         <!-- Breadcrumb to current listing -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a style="color: rgb(190, 190, 190)" href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a style="color: rgb(190, 190, 190)" href="/">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">New Product Listing</li>
             </ol>
         </nav>
@@ -21,7 +21,7 @@
         {% block content %}
         
         
-        <script type="text/javascript" src="{{ url_for('static', filename = 'changeForm.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/changeForm.js') }}"></script>
         <section class="product-display">
             <div class="container">
                 <div class="row">
@@ -63,7 +63,7 @@
                         </div>
                         <!-- Product category -->
                         <div class="input-group mb-2 new-product-type-box">
-                            <select class="custom-select new-product-type-selection" id="productType" form="ListingForm" required name="productType" onchange="myFunction()">
+                            <select onload="resetDropdown()" class="custom-select new-product-type-selection" id="productType" form="ListingForm" required name="productType" onchange="myFunction()">
                                 <option value="default" selected>Product Type...</option>
                                 <option value="CPU">CPU</option>
                                 <option value="CPU Cooler">CPU Cooler</option>
@@ -129,135 +129,12 @@
                 <div class="specifications-body-box">
                     <table class="table" >
                         <tbody id="table">
-                            <tr>
-                                <th scope="row">Manufacturer</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Manufacturer">
-                                            <option selected>Choose...</option>
-                                            <option value="1">AMD</option>
-                                            <option value="2">Intel</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Core Count</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Core Count">
-                                            <option selected>Choose...</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">4</option>
-                                            <option value="4">3</option>
-                                            <option value="5">6</option>
-                                            <option value="6">8</option>
-                                            <option value="7">10</option>
-                                            <option value="8">12</option>
-                                            <option value="9">14</option>
-                                            <option value="10">16</option>
-                                            <option value="11">18</option>
-                                            <option value="12">20</option>
-                                            <option value="13">22</option>
-                                            <option value="14">24</option>
-                                            <option value="15">32</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Core Clock</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Core Clock">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">GHz</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Boost Clock</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Boost Clock">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">GHz</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">TDP</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="TDP">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">Watts</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Series</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Series">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Microarchitecture</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Microarchitecture">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Socket</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Socket">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Integrated Graphics</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="IntegratedGraphics">
-                                            <option selected>Choose...</option>
-                                            <option value="1">None</option>
-                                            <option value="2">Yes</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Includes CPU Cooler</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="CPUCooler">
-                                            <option selected>Choose...</option>
-                                            <option value="1">No</option>
-                                            <option value="2">Yes</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
+                            <h5 id="ProductText">Choose A Product Type At The Top Of The Page First</h5>
                         </tbody>
                     </table>
 
                     <!-- Submit Button -->
-                        <button type="submit" value="submit" class="btn btn-primary btn-edit-specs-submit" form="ListingForm" >Submit</button>
+                        <button id="submit" disabled="true" type="submit" value="submit" class="btn btn-primary btn-edit-specs-submit" form="ListingForm" >Submit</button>
 
 
                 </div>
