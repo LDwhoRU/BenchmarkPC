@@ -27,6 +27,7 @@
                 <div class="row">
                     <div class="col-md-5-5">
                         <!-- Product slideshow -->
+                        <form action="" method="POST" name=ListingForm id=ListingForm>{{ form.csrf_token }}</form>
                         <div class="product-carousel">
                             <div id="product-carousel" class="carousel slide carousel-fade" data-ride="carousel">
                                 <div class="carousel-inner">
@@ -57,12 +58,12 @@
                         <!-- Product Name -->
                         <div class="new-product-box">
                             <div class="input-group mb-2">
-                                <input type="text" class="form-control new-product-input" placeholder="Product Name..." aria-label="Placeholder" aria-describedby="basic-addon2">
+                                <input type="text" name="productName" class="form-control new-product-input" placeholder="Product Name..." aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm">
                             </div>
                         </div>
                         <!-- Product category -->
                         <div class="input-group mb-2 new-product-type-box">
-                            <select class="custom-select new-product-type-selection" id="inputGroupSelect02">
+                            <select class="custom-select new-product-type-selection" id="productType" form="ListingForm" required name="productType">
                                 <option selected>Product Type...</option>
                                 <option value="1">CPU</option>
                                 <option value="2">CPU Cooler</option>
@@ -84,7 +85,7 @@
                                 <span class="input-group-text">Upload</span>
                             </div>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01" form="ListingForm">
                                 <label class="custom-file-label" for="inputGroupFile01">Product Images</label>
                             </div>
                         </div>
@@ -97,7 +98,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text price-append">$</span>
                         </div>
-                        <input type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)">
+                        <input name="productPrice" type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)" form="ListingForm" required>
                     </div>
                 </div>
             </div>
@@ -112,12 +113,13 @@
                 <div class="edit-description-box">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <textarea class="form-control" rows="8" placeholder="Please enter a description of the item here..." required></textarea>
+                            <textarea name="productDescription" class="form-control" rows="8" placeholder="Please enter a description of the item here..." required form="ListingForm"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+        <form action="" method="POST" name="speciForm" form="ListingForm"></form>
 
         <section class="specifications">
             <div class="container">
@@ -131,7 +133,7 @@
                                 <th scope="row">Manufacturer</th>
                                 <td>
                                     <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
+                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Manufacturer">
                                             <option selected>Choose...</option>
                                             <option value="1">AMD</option>
                                             <option value="2">Intel</option>
@@ -143,7 +145,7 @@
                                 <th scope="row">Core Count</th>
                                 <td>
                                     <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
+                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Core Count">
                                             <option selected>Choose...</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -168,7 +170,7 @@
                                 <th scope="row">Core Clock</th>
                                 <td>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Core Clock">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">GHz</span>
                                         </div>
@@ -179,7 +181,7 @@
                                 <th scope="row">Boost Clock</th>
                                 <td>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Boost Clock">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">GHz</span>
                                         </div>
@@ -190,7 +192,7 @@
                                 <th scope="row">TDP</th>
                                 <td>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="TDP">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="basic-addon2">Watts</span>
                                         </div>
@@ -201,7 +203,7 @@
                                 <th scope="row">Series</th>
                                 <td>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Series">
                                         <div class="input-group-append">
                                         </div>
                                     </div>
@@ -211,7 +213,7 @@
                                 <th scope="row">Microarchitecture</th>
                                 <td>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Microarchitecture">
                                         <div class="input-group-append">
                                         </div>
                                     </div>
@@ -221,7 +223,7 @@
                                 <th scope="row">Socket</th>
                                 <td>
                                     <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2">
+                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Socket">
                                         <div class="input-group-append">
                                         </div>
                                     </div>
@@ -231,7 +233,7 @@
                                 <th scope="row">Integrated Graphics</th>
                                 <td>
                                     <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
+                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="IntegratedGraphics">
                                             <option selected>Choose...</option>
                                             <option value="1">None</option>
                                             <option value="2">Yes</option>
@@ -243,7 +245,7 @@
                                 <th scope="row">Includes CPU Cooler</th>
                                 <td>
                                     <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
+                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="CPUCooler">
                                             <option selected>Choose...</option>
                                             <option value="1">No</option>
                                             <option value="2">Yes</option>
@@ -255,7 +257,9 @@
                     </table>
 
                     <!-- Submit Button -->
-                    <button type="button" class="btn btn-primary btn-edit-specs-submit">Submit</button>
+                        <button type="submit" value="submit" class="btn btn-primary btn-edit-specs-submit" form="ListingForm" >Submit</button>
+
+
                 </div>
             </div>
         </section>

@@ -1,22 +1,32 @@
 from bench import app, db
 from bench.models import User
 from flask import render_template, request, flash, redirect
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
 
 
 @app.route('/', methods=['GET','POST'])
 def index():
     return render_template('index.html')
-@app.route('/newListing')
+
+@app.route('/newListing', methods=['GET','POST'])
 def newListing():
-    return render_template('createNewListing.html')
+    form = newListingForm()
+    if request.method == 'POST':
+        print(request.form.get('productName'))
+        print(request.form.get('productPrice'))
+        print(request.form.get('productDescription'))
+
+    return render_template('createNewListing.html', form=form)
+
 @app.route('/manage')
 def manageListing():
     return render_template('manageListing.html')
+
 @app.route('/listing')
 def viewListing():
     return render_template("view.html")
+
 @app.route('/register', methods=['post','get'])
 def register():
     if current_user.is_authenticated:
@@ -52,6 +62,7 @@ def login():
 @app.errorhandler(404)
 def not_found(e):
     return render_template('404Error.html')
+
 @app.route('/logout')
 def logout():
     logout_user()

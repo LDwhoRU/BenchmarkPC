@@ -29,4 +29,9 @@ class RegisterForm(FlaskForm):
             raise ValidationError("Please Use Another Email Address")
 
 
+#Form is too complex for flask forms,
+#Still need form class for CSRF token
+class newListingForm(FlaskForm):
+    pass
+
 
