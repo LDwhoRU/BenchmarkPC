@@ -50,6 +50,7 @@ Colour (Text)
 
 GPU
 Chipset (Free Text)
+Memory (Integer, GB)
 Memory Type (Dropdown)
 Core Clock (MHz)
 Boost Clock (MHz)
