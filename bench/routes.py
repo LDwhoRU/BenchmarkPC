@@ -7,7 +7,8 @@ from flask_login import current_user, login_user, logout_user
 
 @app.route('/', methods=['GET','POST'])
 def index():
-    return render_template('index.html')
+    title  = "Home | BenchmarkPC"
+    return render_template('index.html',  title=title)
 
 @app.route('/newListing', methods=['GET','POST'])
 def newListing():
@@ -21,11 +22,14 @@ def newListing():
 
 @app.route('/manage')
 def manageListing():
-    return render_template('manageListing.html')
+    title = "Manage Listings | BenchmarkPC"
+    return render_template('manageListing.html', title=title)
 
 @app.route('/listing')
 def viewListing():
-    return render_template("view.html")
+    title = "Listing | BenchmarkPC"
+
+    return render_template("view.html", title=title)
 
 @app.route('/register', methods=['post','get'])
 def register():
@@ -43,7 +47,10 @@ def register():
     if(request.method == 'POST'):
         print("Username: " + form.user_name.data)
         print("Email: " + form.email.data)
-    return render_template("register.html",form=form)
+
+    title = "Register | BenchmarkPC"
+
+    return render_template("register.html",form=form, title=title)
 
 
 @app.route('/login', methods=['post', 'get'])
@@ -57,7 +64,9 @@ def login():
             return redirect("/")
         login_user(user)
         return redirect("/")
-    return render_template("login.html", form=form)
+    title = "Login | BenchmarkPC"
+
+    return render_template("login.html", form=form, title=title)
 
 @app.errorhandler(404)
 def not_found(e):
