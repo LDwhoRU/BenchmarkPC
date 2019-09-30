@@ -1,5 +1,5 @@
 from bench import app, db
-from bench.models import User, Listing, Case, Memory
+from bench.models import User, Listing, Case, Memory, CPUCooler
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
@@ -22,7 +22,9 @@ def processListing(request):
     elif(type == "Memory"):
         if(processMemory(detailList,request) == False):
             return False
-
+    elif(type == "CPU Cooler"):
+            if(processCPUCooler(detailList,request) == False):
+                return False
     return True
 
 def priceCheck(price):
@@ -85,4 +87,32 @@ def processMemory(detailList,request):
 
     memory = Memory(manufacturer=manufacturer,colour=colour,memoryType=memoryType, speed=memorySpeed, modules=modules, memoryListing=id_)
     db.session.add(memory)
+    db.session.commit()
+
+def processCPUCooler(detailList,request):
+    print("COol")
+    manufacturer = request.form.get('Manufacturer')
+    RPM = request.form.get('Fan RPM')
+    Noise = request.form.get('Fan Noise Level')
+    Height = request.form.get('Cooler Height')
+    Socket = request.form.get('Socket')
+    WaterCooled = request.form.get('WaterCooled')
+    Fanless = request.form.get('Fanless')
+    if(manufacturer == ""):
+            return False
+    if(Height.isdigit() == False or Noise.isdigit() == False or RPM.isdigit() == False):
+            return False
+    Height = int(Height)
+    Noise = int(Noise)
+    RPM = int(RPM)
+
+    listing = Listing(ListingName=detailList[3],ListingPrice=detailList[1],
+    ListingType=detailList[0],ListingDescription=detailList[2],
+    userId=current_user.id)
+    db.session.add(listing)
+    db.session.commit()
+    id_ = listing.id
+
+    Cooler = CPUCooler(manufacturer=manufacturer,FanRPM=RPM, NoiseLevel=Noise, Height=Height, WaterCooled=WaterCooled, Fanless=Fanless, CPUCoolerListing=id_)
+    db.session.add(Cooler)
     db.session.commit()
