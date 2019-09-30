@@ -632,7 +632,9 @@ body {
         transform: translate(0%, 2%);
     }
 }
-
+#userText{
+    color: white !important;
+}
 /* Dropdown menu */
 .dropbtn {
     background-color: #1f4582 !important;
