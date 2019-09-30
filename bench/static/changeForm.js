@@ -31,6 +31,9 @@ function getNewText(value){
         case "CPU Cooler":
             xhttp.open("GET", "static/CPUCoolerHTML.html", true);
             break;
+        case "Case":
+            xhttp.open("GET", "static/CaseHTML.html", true);
+            break;
 
 
 
