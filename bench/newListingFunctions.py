@@ -143,11 +143,18 @@ def processMotherBoard(detailList, request):
     WiFi = request.form.get('WiFi')
     RAID = request.form.get('RAID')
     IntegerDetailList = [RamSlots, MaxRam, x16, x8, x4, x1, PCI, SATA, mSATA, M2 ]
+    OtherDetailList = [MemoryType,SLI, CrossFire,USB3,WiFi,RAID]
     if(manufacturer == ""):
             return False
-    for detail in IntegerDetailList:
-        if(detail.isdigit() == False):
+    for i in range(len(IntegerDetailList)):
+        if(IntegerDetailList[i] == "" or IntegerDetailList[i] == None):
+            IntegerDetailList[i] = 0
+        if(str(IntegerDetailList[i]).isdigit() == False):
             return False
+        print(IntegerDetailList[i])
+    for i in range(len(OtherDetailList)):
+        if(OtherDetailList[i] == "Choose..."):
+            OtherDetailList[i] = ""
 
     listing = Listing(ListingName=detailList[3],ListingPrice=detailList[1],
     ListingType=detailList[0],ListingDescription=detailList[2],
@@ -156,13 +163,13 @@ def processMotherBoard(detailList, request):
     db.session.commit()
     id_ = listing.id
 
-    MotherBoard = Motherboard(manufacturer=manufacturer, Socket=Socket, RAMslots=RamSlots,
-     MaxRAM=MaxRam, colour=colour, Chipset=Chipset, MemoryType=MemoryType,
-     SLISupport=SLI, CrossFireSupport=CrossFire,PCIEx16Slots=x16,
-     PCIEx8Slots=x8,PCIEx4Slots=x4,PCIEx1Slots=x1,
-     PCISlots=PCI, SATAPorts=SATA, M2Slots=M2, mSata=mSATA,
-     OnboardUSB3Headers=USB3,OnboardWifi=WiFi,
-     RAIDSupport=RAID,MotherboardListing=id_
+    MotherBoard = Motherboard(manufacturer=manufacturer, Socket=Socket, RAMslots=IntegerDetailList[0],
+     MaxRAM=IntegerDetailList[1], colour=colour, Chipset=Chipset, MemoryType=OtherDetailList[0],
+     SLISupport=OtherDetailList[1], CrossFireSupport=OtherDetailList[2],PCIEx16Slots=IntegerDetailList[2],
+     PCIEx8Slots=IntegerDetailList[3],PCIEx4Slots=IntegerDetailList[4],PCIEx1Slots=IntegerDetailList[5],
+     PCISlots=IntegerDetailList[6], SATAPorts=IntegerDetailList[7], M2Slots=IntegerDetailList[9], mSata=IntegerDetailList[8],
+     OnboardUSB3Headers=OtherDetailList[3],OnboardWifi=OtherDetailList[4],
+     RAIDSupport=OtherDetailList[5],MotherboardListing=id_
      )
     db.session.add(MotherBoard)
     db.session.commit()
