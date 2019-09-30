@@ -35,13 +35,15 @@ class Listing(db.Model):
         ListingTimeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
 
         userId = db.Column(db.Integer, db.ForeignKey('user.id'))
-        metadataid = db.Column(db.Integer, db.ForeignKey('metadata.id'))
+        metadataID = db.Column(db.Integer, db.ForeignKey('metadata.id'))
 
 class Bids(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         bidAmount = db.Column(db.String(80), nullable=False, default="Intel")
         bidUser = db.Column(db.Integer, db.ForeignKey('user.id'))
+        bidListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
         bidTimeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow())
+
 class Order(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         OrderUser = db.Column(db.Integer, db.ForeignKey('user.id'))

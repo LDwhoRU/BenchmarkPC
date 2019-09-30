@@ -8,6 +8,8 @@ from flask_login import current_user, login_user, logout_user
 @app.route('/', methods=['GET','POST'])
 def index():
     title  = "Home | BenchmarkPC"
+    if(current_user.is_authenticated):
+        print("Good")
     return render_template('index.html',  title=title)
 
 @app.route('/newListing', methods=['GET','POST'])
@@ -56,7 +58,7 @@ def register():
     return render_template("register.html",form=form, title=title)
 
 
-@app.route('/login', methods=['post', 'get'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -64,8 +66,9 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash("Invalid username Or Password")
             print("failed")
-            return redirect("/")
+            return redirect("/login")
         login_user(user)
+        print("Logged IN")
         return redirect("/")
     title = "Login | BenchmarkPC"
 
