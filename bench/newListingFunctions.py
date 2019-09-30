@@ -1,5 +1,5 @@
 from bench import app, db
-from bench.models import User, Listing, Case, Memory, CPUCooler
+from bench.models import User, Listing, Case, Memory, CPUCooler, Motherboard
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
@@ -25,6 +25,9 @@ def processListing(request):
     elif(type == "CPU Cooler"):
             if(processCPUCooler(detailList,request) == False):
                 return False
+    elif(type == "Motherboard"):
+                if(processMotherBoard(detailList,request) == False):
+                    return False
     return True
 
 def priceCheck(price):
@@ -115,4 +118,51 @@ def processCPUCooler(detailList,request):
 
     Cooler = CPUCooler(manufacturer=manufacturer,FanRPM=RPM, NoiseLevel=Noise, Height=Height, WaterCooled=WaterCooled, Fanless=Fanless, CPUCoolerListing=id_)
     db.session.add(Cooler)
+    db.session.commit()
+
+def processMotherBoard(detailList, request):
+    print("Motherboard")
+    manufacturer = request.form.get('Manufacturer')
+    Socket = request.form.get('Socket')
+    RamSlots = request.form.get('RAMSlots')
+    MaxRam = request.form.get('RAMMax')
+    colour = request.form.get('Colour')
+    Chipset = request.form.get('Chipset')
+    MemoryType = request.form.get('MemoryType')
+    SLI = request.form.get('SLI')
+    CrossFire = request.form.get('CrossFire')
+    x16 = request.form.get('x16')
+    x8 = request.form.get('x8')
+    x4 = request.form.get('x4')
+    x1 = request.form.get('x1')
+    PCI = request.form.get('PCI')
+    SATA = request.form.get('SATA')
+    mSATA = request.form.get('mSATA')
+    M2 = request.form.get('M.2')
+    USB3 = request.form.get('USB3')
+    WiFi = request.form.get('WiFi')
+    RAID = request.form.get('RAID')
+    IntegerDetailList = [RamSlots, MaxRam, x16, x8, x4, x1, PCI, SATA, mSATA, M2 ]
+    if(manufacturer == ""):
+            return False
+    for detail in IntegerDetailList:
+        if(detail.isdigit() == False):
+            return False
+
+    listing = Listing(ListingName=detailList[3],ListingPrice=detailList[1],
+    ListingType=detailList[0],ListingDescription=detailList[2],
+    userId=current_user.id)
+    db.session.add(listing)
+    db.session.commit()
+    id_ = listing.id
+
+    MotherBoard = Motherboard(manufacturer=manufacturer, Socket=Socket, RAMslots=RamSlots,
+     MaxRAM=MaxRam, colour=colour, Chipset=Chipset, MemoryType=MemoryType,
+     SLISupport=SLI, CrossFireSupport=CrossFire,PCIEx16Slots=x16,
+     PCIEx8Slots=x8,PCIEx4Slots=x4,PCIEx1Slots=x1,
+     PCISlots=PCI, SATAPorts=SATA, M2Slots=M2, mSata=mSATA,
+     OnboardUSB3Headers=USB3,OnboardWifi=WiFi,
+     RAIDSupport=RAID,MotherboardListing=id_
+     )
+    db.session.add(MotherBoard)
     db.session.commit()
