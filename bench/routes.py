@@ -18,7 +18,8 @@ def newListing():
         print(request.form.get('productPrice'))
         print(request.form.get('productDescription'))
 
-    return render_template('createNewListing.html', form=form)
+    title = "New Listing | BenchmarkPC"
+    return render_template('createNewListing.html', form=form, title=title)
 
 @app.route('/manage')
 def manageListing():
