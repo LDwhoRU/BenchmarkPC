@@ -26,10 +26,10 @@ function getNewText(value){
     };
     switch(value){
         case "CPU":
-            xhttp.open("GET", "static/CPU html.html", true);
+            xhttp.open("GET", "static/CPUHTML.html", true);
             break;
         case "CPU Cooler":
-            xhttp.open("GET", "static/CPUCoolerHTML .html", true);
+            xhttp.open("GET", "static/CPUCoolerHTML.html", true);
             break;
 
 

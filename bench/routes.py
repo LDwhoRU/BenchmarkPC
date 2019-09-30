@@ -12,6 +12,8 @@ def index():
 
 @app.route('/newListing', methods=['GET','POST'])
 def newListing():
+    if current_user.is_anonymous:
+        return redirect('/login')
     form = newListingForm()
     if request.method == 'POST':
         print(request.form.get('productName'))
