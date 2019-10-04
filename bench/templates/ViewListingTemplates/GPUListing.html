@@ -1,0 +1,63 @@
+{% extends '/ViewListingTemplates/standardListing.html' %}
+
+{% block specifications %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>{{details.manufacturer}}</td>
+</tr>
+<tr>
+    <th scope="row">Core Clock</th>
+    <td>{{"{0:.2f}".format(details.CoreClock)}} GHz
+    <td>
+</tr>
+<tr>
+    <th scope="row">Boost Clock</th>
+    <td>{{"{0:.2f}".format(details.BoostClock)}} GHz</td>
+</tr>
+<tr>
+    <th scope="row">Colour</th>
+    <td>{{details.colour}}</td>
+</tr>
+<tr>
+    <th scope="row">Length</th>
+    <td>{{"{0:.2f}".format(details.Length)}}mm</td>
+</tr>
+<tr>
+    <th scope="row">DVI Ports</th>
+    <td>{{details.DVIPorts}}</td>
+</tr>
+<tr>
+    <th scope="row">HDMI Ports</th>
+    <td>{{details.HDMIPorts}}</td>
+</tr>
+<tr>
+    <th scope="row">Mini-HDMI Ports</th>
+    <td>{{details.MiniHDMIPorts}}</td>
+</tr>
+<tr>
+    <th scope="row">DisplayPort Ports</th>
+    <td>{{details.DisplayPortPorts}}</td>
+</tr>
+<tr>
+    <th scope="row">Mini-DisplayPort Ports</th>
+    <td>{{details.MiniDisplayPortPorts}}</td>
+</tr>
+<tr>
+    <th scope="row">Memory Type</th>
+    <td>{{details.MemoryType}}</td>
+</tr>
+<tr>
+    <th scope="row">Chipset</th>
+    <td>{{details.Chipset}}</td>
+</tr>
+<tr>
+        <th scope="row">TDP</th>
+        <td>{{"{0:.0f}".format(details.TDP)}}</td>
+    </tr>
+<tr>
+    <th scope="row">Cooling Type</th>
+    <td>{{details.CoolingType}}</td>
+</tr>
+
+
+{% endblock %}

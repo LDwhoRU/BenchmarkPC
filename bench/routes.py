@@ -55,8 +55,12 @@ def viewListingNumber(id):
     print(date)
     if(listing.ListingType == "CPU"):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
-        return render_template("ViewListingTemplates/CPUListing.html", title=title, listing=listing,user=user,date=date,details=details)
-    
+        return render_template("ViewListingTemplates/CPUListing.html", title=title, 
+        listing=listing,user=user,date=date,details=details)
+    elif(listing.ListingType == "Graphics Card"):
+        details = GPU.query.filter_by(GPUListing=listing.id).first()
+        return render_template("ViewListingTemplates/GPUListing.html", title=title, 
+        listing=listing,user=user,date=date,details=details)
 @app.route('/register', methods=['post','get'])
 
 
