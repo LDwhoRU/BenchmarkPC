@@ -104,16 +104,27 @@ class CPUCooler(db.Model):
 
 class Motherboard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    #Done
     manufacturer = db.Column(db.String(80), nullable=False)
-
+    #Done
     Socket = db.Column(db.String(80), nullable=True)
+    #Done
     RAMslots = db.Column(db.Integer, nullable=False, default=0)
+    #Done
     MaxRAM = db.Column(db.Integer, nullable=False, default=0)
+    #Done
     colour = db.Column(db.String(80), nullable=True)
+    #Done
     Chipset = db.Column(db.String(80), nullable=True)
+
+    #Done
     MemoryType = db.Column(db.String(80), nullable=True)
+    #Done
     SLISupport = db.Column(db.String(80), nullable=True)
+    #Done
     CrossFireSupport = db.Column(db.String(80), nullable=True)
+
+    #Done
     PCIEx16Slots = db.Column(db.Integer, nullable=False, default=0)
     PCIEx8Slots = db.Column(db.Integer, nullable=False, default=0)
     PCIEx4Slots = db.Column(db.Integer, nullable=False, default=0)
@@ -122,7 +133,8 @@ class Motherboard(db.Model):
     SATAPorts = db.Column(db.Integer, nullable=False, default=0)
     M2Slots = db.Column(db.Integer, nullable=False, default=0)
     mSata = db.Column(db.Integer, nullable=False, default=0)
-
+    #Here
+    #Done
     OnboardUSB3Headers = db.Column(db.String(80), nullable=True)
     OnboardWifi = db.Column(db.String(80), nullable=True)
 
