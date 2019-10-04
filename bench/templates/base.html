@@ -18,7 +18,7 @@
         <div class="nav-bar" style="margin-bottom: 0;">
             <div class="search">
                 <a href="/">
-                    <img src="static\logo.PNG" class="logo">
+                    <img src="/static/logo.PNG" class="logo">
                 </a>
                 <input type="text" class="form-control search-bar-form">
                 <div class="dropdown">
@@ -41,8 +41,8 @@
             <div class="menu-bar">
                 <ul>
                     <li>
-                        <a href="newListing">List</a> <!-- Remember to change back to browse in assignment 3 -->
-                        <a href="amd-ryzen-7-1700x.html">Manage</a> <!-- Change link in assignment 3 -->
+                        <a href="newListing">New Listing</a> <!-- Remember to change back to browse in assignment 3 -->
+                        <a href="/manage">Manage</a> <!-- Change link in assignment 3 -->
                         {% if current_user.is_authenticated %}
                         <a id="userText">Hello, {{ current_user.username }}</a> 
                         {% else %}
