@@ -1,0 +1,41 @@
+{% extends '/ViewListingTemplates/standardListing.html' %}
+
+{% block specifications %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>{{details.manufacturer}}</td>
+</tr>
+<tr>
+    <th scope="row">Core Count</th>
+    <td>{{"{0:.0f}".format(details.CoreCount)}} Cores</td>
+</tr>
+
+<tr>
+    <th scope="row">Core Clock</th>
+    <td>{{"{0:.2f}".format(details.CoreClock)}} GHz<td>
+</tr>
+<tr>
+    <th scope="row">Boost Clock</th>
+    <td>{{"{0:.2f}".format(details.BoostClock)}} GHz</td>
+</tr>
+<tr>
+    <th scope="row">Series</th>
+    <td>{{details.Series}}</td>
+</tr>
+<tr>
+    <th scope="row">Microarchitecture</th>
+    <td>{{details.Microarchitecture}}</td>
+</tr>
+<tr>
+    <th scope="row">Socket</th>
+    <td>{{details.Socket}}</td>
+</tr>
+<tr>
+    <th scope="row">Integrated Graphics</th>
+    <td>{{details.IntegratedGraphics}}</td>
+</tr>
+<tr>
+    <th scope="row">Includes A Cooler</th>
+    <td>{{details.IncludesCPUCooler}}</td>
+</tr>
+{% endblock %}

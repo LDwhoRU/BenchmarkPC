@@ -1,5 +1,5 @@
 from bench import app, db
-from bench.models import User
+from bench.models import *
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
@@ -45,8 +45,18 @@ def viewListing():
 @app.route('/listing/<id>')
 def viewListingNumber(id):
     title = "Listing | BenchmarkPC"
-    print(id)
-    return render_template("view.html", title=title)
+
+    print("Viewing Listing: " + id)
+
+    listing = Listing.query.filter_by(id=id).first_or_404()
+    user = User.query.filter_by(id=listing.userId).first()
+    print(user.username)
+    date = str(listing.ListingTimeStamp.day) + "/" + str(listing.ListingTimeStamp.month) + "/" + str(listing.ListingTimeStamp.year)
+    print(date)
+    if(listing.ListingType == "CPU"):
+        details = CPU.query.filter_by(CPUListing=listing.id).first()
+        return render_template("ViewListingTemplates/CPUListing.html", title=title, listing=listing,user=user,date=date,details=details)
+    
 @app.route('/register', methods=['post','get'])
 
 

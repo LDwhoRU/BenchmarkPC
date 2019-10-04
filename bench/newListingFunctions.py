@@ -278,32 +278,32 @@ def processGPU(detailList, request):
 
         if(manufacturer == ""):
             return False
-        elif(not isDecimal(CoreClock)):
+        elif(not isDecimal(CoreClock) or CoreClock <= 0):
             print("Error: Core Clock Check Failed")
             print("Core Clock = " + str(CoreClock))
             return False
-        elif(not isDecimal(BoostClock)):
+        elif(not isDecimal(BoostClock) or BoostClock <= 0):
             print("Error: Boost Clock Check Failed")
             return False
-        elif(not isDecimal(Length)):
+        elif(not isDecimal(Length) or Length <= 0):
             print("Error: Length Check Failed")
             return False
-        elif(not TDP.isdigit()):
+        elif(not TDP.isdigit() or TDP < 0):
             print("Error: TDP Check Failed")
             return False
-        elif(not DVIPorts.isdigit()):
+        elif(not DVIPorts.isdigit() or DVIPorts < 0):
             print("Error: DVIPorts Check Failed")
             return False
-        elif(not HDMIPorts.isdigit()):
+        elif(not HDMIPorts.isdigit() or HDMIPorts < 0):
             print("Error: HDMIPorts Check Failed")
             return False
-        elif(not MiniHDMIPorts.isdigit()):
+        elif(not MiniHDMIPorts.isdigit() or MiniHDMIPorts < 0):
             print("Error: MiniHDMIPorts Check Failed")
             return False
-        elif(not DisplayPortPorts.isdigit()):
+        elif(not DisplayPortPorts.isdigit() or DisplayPortPorts < 0):
             print("Error: DisplayPortPorts Check Failed")
             return False
-        elif(not MiniDisplayPortPorts.isdigit()):
+        elif(not MiniDisplayPortPorts.isdigit() or MiniDisplayPortPorts < 0):
             print("Error: MiniDisplayPortPorts Check Failed")
             return False
         elif(CoolingType not in ["Blower", "Fan"]):
