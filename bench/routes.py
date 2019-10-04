@@ -32,8 +32,16 @@ def newListing():
     return render_template('createNewListing.html', form=form, title=title)
 
 @app.route('/manage')
-def manageListing():
+def manageListings():
+    if current_user.is_anonymous:
+        return redirect('/login')
+
     title = "Manage Listings | BenchmarkPC"
+
+    listings = Listing.query.filter_by(userId=current_user.id) 
+    entries = listings.all()
+    for entry in entries:
+        print(entry.ListingName)
     return render_template('manageListing.html', title=title)
 
 @app.route('/listing')
@@ -57,10 +65,39 @@ def viewListingNumber(id):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUListing.html", title=title, 
         listing=listing,user=user,date=date,details=details)
+
     elif(listing.ListingType == "Graphics Card"):
         details = GPU.query.filter_by(GPUListing=listing.id).first()
         return render_template("ViewListingTemplates/GPUListing.html", title=title, 
         listing=listing,user=user,date=date,details=details)
+
+    elif(listing.ListingType == "CPU Cooler"):
+        details = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
+        return render_template("ViewListingTemplates/CPUCooler.html", title=title, 
+        listing=listing,user=user,date=date,details=details)
+
+    elif(listing.ListingType == "Memory"):
+        details = Memory.query.filter_by(memoryListing=listing.id).first()
+        return render_template("ViewListingTemplates/Memory.html", title=title, 
+        listing=listing,user=user,date=date,details=details)
+
+    elif(listing.ListingType == "Case"):
+        details = Case.query.filter_by(caseListing=listing.id).first()
+        return render_template("ViewListingTemplates/Case.html", title=title, 
+        listing=listing,user=user,date=date,details=details)
+
+    elif(listing.ListingType == "Power Supply"):
+        details = PowerSupply.query.filter_by(PowerSupplyListing=listing.id).first()
+        return render_template("ViewListingTemplates/PowerSupply.html", title=title, 
+        listing=listing,user=user,date=date,details=details)
+
+    elif(listing.ListingType == "Motherboard"):
+        details = Motherboard.query.filter_by(MotherboardListing=listing.id).first()
+        return render_template("ViewListingTemplates/Motherboard.html", title=title, 
+        listing=listing,user=user,date=date,details=details)
+
+    else:
+        return redirect("/")
 @app.route('/register', methods=['post','get'])
 
 

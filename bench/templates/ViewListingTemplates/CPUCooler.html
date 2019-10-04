@@ -1,0 +1,31 @@
+{% extends '/ViewListingTemplates/standardListing.html' %}
+
+{% block specifications %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>{{details.manufacturer}}</td>
+</tr>
+<tr>
+    <th scope="row">RPM</th>
+    <td>{{details.FanRPM}}</td>
+</tr>
+<tr>
+    <th scope="row">Noise Level</th>
+    <td>{{details.NoiseLevel}}</td>
+</tr>
+<tr>
+    <th scope="row">Height</th>
+    <td>{{"{0:.2f}".format(details.Height)}}</td>
+</tr>
+<tr>
+    <th scope="row">Water Cooled</th>
+    <td>{{details.WaterCooled}}</td>
+</tr>
+<tr>
+    <th scope="row">Has A Fan</th>
+    <td>{{details.Fanless}}</td>
+</tr>
+
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends '/ViewListingTemplates/standardListing.html' %}
+
+{% block specifications %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>{{details.manufacturer}}</td>
+</tr>
+<tr>
+    <th scope="row">Type</th>
+    <td>{{details.memoryType}}</td>
+</tr>
+<tr>
+    <th scope="row">Modules</th>
+    <td>{{details.modules}}</td>
+</tr>
+<tr>
+        <th scope="row">Colour</th>
+        <td>{{details.colour}}</td>
+    </tr>
+<tr>
+    <th scope="row">Speed</th>
+    <td>{{details.speed}}MHz</td>
+</tr>
+
+
+
+
+{% endblock %}

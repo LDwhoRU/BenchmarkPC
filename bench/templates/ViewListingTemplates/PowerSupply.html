@@ -1,0 +1,28 @@
+{% extends '/ViewListingTemplates/standardListing.html' %}
+
+{% block specifications %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>{{details.manufacturer}}</td>
+</tr>
+<tr>
+    <th scope="row">Effiency Rating</th>
+    <td>{{details.EffiencyRating}}</td>
+</tr>
+<tr>
+    <th scope="row">Wattage</th>
+    <td>{{details.Wattage}}</td>
+</tr>
+<tr>
+    <th scope="row">Modular</th>
+    <td>{{details.Modular}}</td>
+</tr>
+<tr>
+    <th scope="row">SATA Connectors</th>
+    <td>{{details.SATAConnectors}}</td>
+</tr>
+
+
+
+
+{% endblock %}

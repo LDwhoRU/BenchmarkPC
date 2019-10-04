@@ -1,0 +1,28 @@
+{% extends '/ViewListingTemplates/standardListing.html' %}
+
+{% block specifications %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>{{details.manufacturer}}</td>
+</tr>
+<tr>
+    <th scope="row">Colour</th>
+    <td>{{details.colour}}</td>
+</tr>
+<tr>
+    <th scope="row">Has Side Panel</th>
+    <td>{{details.sidePanel}}</td>
+</tr>
+<tr>
+        <th scope="row">2.5" Bays</th>
+        <td>{{details.internal25Bays}}</td>
+    </tr>
+    <tr>
+            <th scope="row">3.5" Bays</th>
+            <td>{{details.internal35Bays}}</td>
+        </tr>
+
+
+
+
+{% endblock %}

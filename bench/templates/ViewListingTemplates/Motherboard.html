@@ -1,0 +1,99 @@
+{% extends '/ViewListingTemplates/standardListing.html' %}
+
+{% block specifications %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>{{details.manufacturer}}</td>
+</tr>
+<tr>
+    <th scope="row">Memory Type</th>
+    <td>{{details.MemoryType}}</td>
+</tr>
+<tr>
+    <th scope="row">Ram Slots</th>
+    <td>{{details.RAMslots}}</td>
+</tr>
+<tr>
+    <th scope="row">Max Ram</th>
+    <td>{{details.MaxRAM}}</td>
+</tr>
+
+<tr>
+    <th scope="row">SATA Ports</th>
+    <td>{{details.SATAPorts}}</td>
+</tr>
+<tr>
+    <th scope="row">mSATA Slots</th>
+    <td>{{details.mSata}}</td>
+</tr>
+<tr>
+    <th scope="row">M2Slots Slots</th>
+    <td>{{details.M2Slots}}</td>
+</tr>
+
+
+<tr>
+    <th scope="row">PCIE x16 Slots</th>
+    <td>{{details.PCIEx16Slots}}</td>
+</tr>
+<tr>
+    <th scope="row">PCIE x8 Slots</th>
+    <td>{{details.PCIEx8Slots}}</td>
+</tr>
+<tr>
+    <th scope="row">PCIE x4 Slots</th>
+    <td>{{details.PCIEx4Slots}}</td>
+</tr>
+<tr>
+    <th scope="row">PCIE x1 Slots</th>
+    <td>{{details.PCIEx1Slots}}</td>
+</tr>
+<tr>
+    <th scope="row">PCI Slots</th>
+    <td>{{details.PCISlots}}</td>
+</tr>
+
+<tr>
+    <th scope="row">Colour</th>
+    <td>{{details.colour}}</td>
+</tr>
+<tr>
+    <th scope="row">Chipset</th>
+    <td>{{details.Chipset}}</td>
+</tr>
+
+<tr>
+    <th scope="row">SLI Support</th>
+    <td>{{details.SLISupport}}</td>
+</tr>
+<tr>
+    <th scope="row">CrossFire Support</th>
+    <td>{{details.CrossFireSupport}}</td>
+</tr>
+<tr>
+    <th scope="row">Socket</th>
+    <td>{{details.Socket}}</td>
+</tr>
+<tr>
+    <th scope="row">CrossFire Support</th>
+    <td>{{details.CrossFireSupport}}</td>
+</tr>
+<tr>
+    <th scope="row"># Of Onboard USB3 Headers</th>
+    <td>{{details.OnboardUSB3Headers}}</td>
+</tr>
+<tr>
+    <th scope="row">Has Onboard WiFi</th>
+    <td>{{details.OnboardWifi}}</td>
+</tr>
+<tr>
+    <th scope="row">Has RAID Support</th>
+    <td>{{details.RAIDSupport}}</td>
+</tr>
+
+
+
+
+
+
+{% endblock %}
