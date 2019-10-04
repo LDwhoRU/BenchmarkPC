@@ -43,6 +43,12 @@ class Bids(db.Model):
         bidListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
         bidTimeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
+
+class Order(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        OrderUser = db.Column(db.Integer, db.ForeignKey('user.id'))
+#Classes For Computer Parts
+
 class Case(db.Model):
         id = db.Column(db.Integer, primary_key=True) 
         manufacturer = db.Column(db.String(80), nullable=False)
@@ -141,9 +147,7 @@ class PowerSupply(db.Model):
 
 
 
-class Order(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        OrderUser = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
 
 

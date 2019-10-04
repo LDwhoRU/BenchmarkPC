@@ -1,7 +1,8 @@
 var hello = 3;
 console.log(hello);
 function resetDropdown(){
-    document.getElementById("productType").selectedIndex = "1";
+    document.getElementById("productType").selectedIndex = 0;
+    myFunction();
     console.log("load");
 }
 function myFunction(){
@@ -67,3 +68,7 @@ function getNewText(value){
     }
     xhttp.send();
 }
+
+window.onload = function() {
+    resetDropdown();
+  };

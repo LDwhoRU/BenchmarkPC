@@ -45,6 +45,7 @@
                         <a href="/manage">Manage</a> <!-- Change link in assignment 3 -->
                         {% if current_user.is_authenticated %}
                         <a id="userText">Hello, {{ current_user.username }}</a> 
+                        <a href="/logout">Logout</a>
                         {% else %}
                         <a href="login">Login</a>
                         <a href="register">Register</a>

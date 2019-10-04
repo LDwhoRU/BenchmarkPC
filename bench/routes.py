@@ -80,11 +80,12 @@ def login():
             flash("Invalid username Or Password")
             print("failed")
             return redirect("/login")
+
         login_user(user)
         print("Logged IN")
         return redirect("/")
-    title = "Login | BenchmarkPC"
 
+    title = "Login | BenchmarkPC"
     return render_template("login.html", form=form, title=title)
 
 @app.errorhandler(404)

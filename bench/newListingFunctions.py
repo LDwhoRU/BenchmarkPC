@@ -1,5 +1,5 @@
 from bench import app, db
-from bench.models import User, Listing, Case, Memory, CPUCooler, Motherboard
+from bench.models import User, Listing, Case, Memory, CPUCooler, Motherboard, CPU
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
@@ -13,8 +13,10 @@ def processListing(request):
     detailList = [type, price, description, name]
 
     if notNull(detailList) == False:
+        print("Null Values Detected")
         return False
-    if priceCheck == False:
+    if priceCheck(price) == False:
+        print("Error: Price Not Correct Format")
         return False
     if(type == "Case"):
         if(processCase(detailList, request) == False):
@@ -28,10 +30,14 @@ def processListing(request):
     elif(type == "Motherboard"):
                 if(processMotherBoard(detailList,request) == False):
                     return False
+    elif(type == "CPU"):
+        print("reached Here")
+        if(processCPU(detailList,request) == False):
+                return False
     return True
 
 def priceCheck(price):
-    if(price.isdigit() == False or int(price) < 0):
+    if(isDecimal(price) == False or float(price) < 0):
         return False
     else:
         return True
@@ -102,6 +108,7 @@ def processCPUCooler(detailList,request):
     WaterCooled = request.form.get('WaterCooled')
     Fanless = request.form.get('Fanless')
     if(manufacturer == ""):
+            print("No Manufacturer")
             return False
     if(Height.isdigit() == False or Noise.isdigit() == False or RPM.isdigit() == False):
             return False
@@ -121,6 +128,7 @@ def processCPUCooler(detailList,request):
     db.session.commit()
 
 def processMotherBoard(detailList, request):
+
     print("Motherboard")
     manufacturer = request.form.get('Manufacturer')
     Socket = request.form.get('Socket')
@@ -146,6 +154,8 @@ def processMotherBoard(detailList, request):
     OtherDetailList = [MemoryType,SLI, CrossFire,USB3,WiFi,RAID]
     if(manufacturer == ""):
             return False
+
+    #Set Default Values If Certain Fields Are Empty
     for i in range(len(IntegerDetailList)):
         if(IntegerDetailList[i] == "" or IntegerDetailList[i] == None):
             IntegerDetailList[i] = 0
@@ -156,6 +166,7 @@ def processMotherBoard(detailList, request):
         if(OtherDetailList[i] == "Choose..."):
             OtherDetailList[i] = ""
 
+    #Add The Listing First So The Listing ID Is Available
     listing = Listing(ListingName=detailList[3],ListingPrice=detailList[1],
     ListingType=detailList[0],ListingDescription=detailList[2],
     userId=current_user.id)
@@ -163,6 +174,7 @@ def processMotherBoard(detailList, request):
     db.session.commit()
     id_ = listing.id
 
+    #Create The Motherboard Object And Add It To The Database
     MotherBoard = Motherboard(manufacturer=manufacturer, Socket=Socket, RAMslots=IntegerDetailList[0],
      MaxRAM=IntegerDetailList[1], colour=colour, Chipset=Chipset, MemoryType=OtherDetailList[0],
      SLISupport=OtherDetailList[1], CrossFireSupport=OtherDetailList[2],PCIEx16Slots=IntegerDetailList[2],
@@ -173,3 +185,62 @@ def processMotherBoard(detailList, request):
      )
     db.session.add(MotherBoard)
     db.session.commit()
+
+    manufacturer = request.form.get('Manufacturer')
+
+def processCPU(detailList, request):
+        manufacturer = request.form.get('Manufacturer')
+        TDP = request.form.get('TDP')
+        CoreCount = request.form.get('Core Count')
+        CoreClock = request.form.get('Core Clock')
+        BoostClock = request.form.get('Boost Clock')
+        Series = request.form.get('Series')
+        Microarchitecture = request.form.get('Microarchitecture')
+        Socket = request.form.get('Socket')
+        IntegratedGraphics = request.form.get('IntegratedGraphics')
+        IncludesCPUCooler = request.form.get('CPUCooler')
+        print("Reached Checks")
+        if(manufacturer == ""):
+            print("Error: Manufacturer Check Failed")
+            return False
+        elif(CoreCount.isdigit() == False):
+            print("Error: CoreCount Check Failed")
+            return False
+        elif(not isDecimal(CoreClock)):
+            print("Error: Core Clock Check Failed")
+            return False
+        elif(not isDecimal(BoostClock)):
+            print("Error: Boost Clock Check Failed")
+            return False
+        elif(IntegratedGraphics not in ["Yes", "No"]):
+            print("Error: IntegratedGraphics Check Failed")
+            return False
+        elif(IncludesCPUCooler not in ["Yes", "No"]):
+            print("Error: IncludesCPUCooler Check Failed")
+            return False
+        print("Passed Checks")
+        #Add The Listing First So The Listing ID Is Available
+        listing = Listing(ListingName=detailList[3],ListingPrice=detailList[1],
+        ListingType=detailList[0],ListingDescription=detailList[2],
+        userId=current_user.id)
+        db.session.add(listing)
+        db.session.commit()
+        id_ = listing.id
+
+        cpu = CPU(manufacturer=manufacturer, TDP=TDP,CoreCount=CoreClock,
+        CoreClock=CoreClock,BoostClock=BoostClock,Series=Series,Microarchitecture=Microarchitecture,
+        Socket=Socket,IntegratedGraphics=IntegratedGraphics,IncludesCPUCooler=IncludesCPUCooler,
+        CPUListing=id_)
+
+        db.session.add(cpu)
+        db.session.commit()
+        
+        
+
+
+def isDecimal(number):
+    try:
+        float(number)
+        return True
+    except ValueError:
+        return False
