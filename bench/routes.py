@@ -42,7 +42,14 @@ def viewListing():
 
     return render_template("view.html", title=title)
 
+@app.route('/listing/<id>')
+def viewListingNumber(id):
+    title = "Listing | BenchmarkPC"
+    print(id)
+    return render_template("view.html", title=title)
 @app.route('/register', methods=['post','get'])
+
+
 def register():
     if current_user.is_authenticated:
         return redirect('/')
