@@ -28,6 +28,9 @@ class RegisterForm(FlaskForm):
         if user is not None:
             raise ValidationError("Please Use Another Email Address")
 
+class bidForm(FlaskForm):
+    pass;
+
 
 #Form is too complex for flask forms,
 #Still need form class for CSRF token

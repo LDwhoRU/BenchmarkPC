@@ -1,7 +1,7 @@
 from bench import app, db
 from bench.models import *
 from flask import render_template, request, flash, redirect
-from forms import LoginForm, RegisterForm, newListingForm
+from forms import LoginForm, RegisterForm, newListingForm, bidForm
 from flask_login import current_user, login_user, logout_user
 from bench.newListingFunctions import processListing
 
@@ -72,7 +72,7 @@ def viewListing():
 
     return render_template("view.html", title=title)
 
-@app.route('/listing/<id>')
+@app.route('/listing/<id>', methods=['GET','POST'])
 def viewListingNumber(id):
     title = "Listing | BenchmarkPC"
 
@@ -83,40 +83,55 @@ def viewListingNumber(id):
     print(user.username)
     date = str(listing.ListingTimeStamp.day) + "/" + str(listing.ListingTimeStamp.month) + "/" + str(listing.ListingTimeStamp.year)
     print(date)
+    form = bidForm()
+    if(request.method == "POST"):
+        exists = db.session.query(Bids.bidUser).filter_by(bidUser=current_user.id)
+
+        bidMoney = request.form.get("bid")
+        if(exists is not None):
+                bid = Bids.query.filter_by(bidUser=current_user.id, bidListing=id).first()
+                bid.bidAmount = bidMoney
+        else:
+                bid = Bids(bidAmount=bidMoney, bidUser=current_user.id, bidListing=id)
+        db.session.add(bid)
+        db.session.commit()
+
+
+
     if(listing.ListingType == "CPU"):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details)
+        listing=listing,user=user,date=date,details=details,form=form)
 
     elif(listing.ListingType == "Graphics Card"):
         details = GPU.query.filter_by(GPUListing=listing.id).first()
         return render_template("ViewListingTemplates/GPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details)
+        listing=listing,user=user,date=date,details=details,form=form)
 
     elif(listing.ListingType == "CPU Cooler"):
         details = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUCooler.html", title=title, 
-        listing=listing,user=user,date=date,details=details)
+        listing=listing,user=user,date=date,details=details,form=form)
 
     elif(listing.ListingType == "Memory"):
         details = Memory.query.filter_by(memoryListing=listing.id).first()
         return render_template("ViewListingTemplates/Memory.html", title=title, 
-        listing=listing,user=user,date=date,details=details)
+        listing=listing,user=user,date=date,details=details,form=form)
 
     elif(listing.ListingType == "Case"):
         details = Case.query.filter_by(caseListing=listing.id).first()
         return render_template("ViewListingTemplates/Case.html", title=title, 
-        listing=listing,user=user,date=date,details=details)
+        listing=listing,user=user,date=date,details=details,form=form)
 
     elif(listing.ListingType == "Power Supply"):
         details = PowerSupply.query.filter_by(PowerSupplyListing=listing.id).first()
         return render_template("ViewListingTemplates/PowerSupply.html", title=title, 
-        listing=listing,user=user,date=date,details=details)
+        listing=listing,user=user,date=date,details=details,form=form)
 
     elif(listing.ListingType == "Motherboard"):
         details = Motherboard.query.filter_by(MotherboardListing=listing.id).first()
         return render_template("ViewListingTemplates/Motherboard.html", title=title, 
-        listing=listing,user=user,date=date,details=details)
+        listing=listing,user=user,date=date,details=details,form=form)
 
     else:
         return redirect("/")

@@ -34,7 +34,7 @@
                 </div>
             </div>
         </section>
-
+        <form action="" method="POST" name=ListingForm id=ListingForm>{{ form.csrf_token }}</form>
         <section class="product-display">
             <div class="container">
                 <div class="row">
@@ -122,9 +122,9 @@
                         </div>
                         <!-- Bid for item -->
                         <div class="input-group mb-3 price-input">
-                            <input type="number" min="1" step="any" class="price-input-field" placeholder=" ${{"{0: .2f}".format(listing.ListingPrice)}}" aria-label="$1499.99" aria-describedby="basic-addon2">
+                            <input type="number" form=ListingForm name="bid" min="1" step="any" class="price-input-field" placeholder=" ${{"{0: .2f}".format(listing.ListingPrice)}}" aria-label="$1499.99" aria-describedby="basic-addon2">
                             <div class="input-group-append">
-                                    <button type="button" class="btn btn-primary btn-bid">Bid</button>
+                                    <button type="submit" form=ListingForm class="btn btn-primary btn-bid">Bid</button>
                             </div>
                         </div>
                     </div>
@@ -164,11 +164,12 @@
                             
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </section>
 
-        
+
         {% endblock %}
     </body>
 </html>
