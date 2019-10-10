@@ -42,7 +42,29 @@ def manageListings():
     entries = listings.all()
     for entry in entries:
         print(entry.ListingName)
-    return render_template('manageListing.html', title=title)
+    return render_template('manageListing.html', title=title, entries=entries)
+
+@app.route('/manage/<id>')
+def manageListing(id):
+    print("Test")
+    title = "Managing Listing {0} | BenchmarkPC".format(id)
+    listing = Listing.query.filter_by(id=id).first_or_404()
+    listingBids = Bids.query.filter_by(bidListing=id)
+    bidUsers = []
+    listingBidsLists = []
+    for i in listingBids:
+        print(i)
+        bidUsers.append(User.query.filter_by(id=i.bidUser).first())
+        listingBidsLists.append(i)
+    combinedList = [bidUsers, listingBidsLists]
+    length = len(listingBidsLists)
+    if current_user.is_anonymous:
+        return redirect('/login')
+    elif current_user.id != listing.userId:
+        return redirect("/")
+    return render_template('manageListingTemplates/manageListingTemplate.html', title=title,
+    bids=combinedList, length=length,listing=listing)
+
 
 @app.route('/listing')
 def viewListing():

@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 <html>
@@ -23,9 +22,8 @@
                 <!-- Product Name -->
                 <div class="listing-header-box edit-product-box">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" value="Ryzen 7 1700X" aria-label="Placeholder" aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" value="{{listing.ListingName}}" aria-label="Placeholder" aria-describedby="basic-addon2">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-secondary btn-submit" type="button">Submit</button>
                         </div>
                     </div>
                 </div>
@@ -87,38 +85,27 @@
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Phone No.</th>
+                                    <th scope="col">Bid Amount</th>
+
                                     <th scope="col">Date</th>
                                     <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for i in range(0,length) %} 
                                     <tr>
-                                    <th scope="row">Alex</th>
-                                    <td>alexderry@gmail.com</td>
-                                    <td>0428955321</td>
-                                    <td>16/07/2019</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#acceptBidModal">Accept</button>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">Mark</th>
-                                    <td>markjacob@hotmail.com</td>
-                                    <td>0419388261</td>
-                                    <td>16/07/2019</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#acceptBidModal">Accept</button>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <th scope="row">Brock</th>
-                                    <td>brocklarry@outlook.com</td>
-                                    <td>0981158733</td>
-                                    <td>17/07/2019</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#acceptBidModal">Accept</button>
-                                    </td>
-                                    </tr>
+                                            <th scope="row">{{bids[0][i].username}}</th>
+                                            <td>{{bids[0][i].email}}</td>
+                                            <td>{{bids[0][i].phone}}</td>
+                                            <td>${{bids[1][i].bidAmount}}</td>
+                                            <td>{{bids[1][i].bidTimeStamp.day}}/{{bids[1][i].bidTimeStamp.month}}/{{bids[1][i].bidTimeStamp.year}}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#acceptBidModal">Accept</button>
+                                            </td>
+                                            </tr>
+                                        
+                                    {%endfor%} 
+                                    
                                 </tbody>
                             </table>
                             <!-- Confirmation Notification -->
@@ -134,9 +121,10 @@
                                     <div class="modal-body">
                                     Are you sure you wish to accept this bid?
                                     </div>
+                                    <form id="bidForm" action="" method="POST"></form>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Accept</button> <!-- Remember to change data-dismiss for assignment 3 -->
+                                    <button type="submit" form="bidForm" class="btn btn-primary" data-dismiss="modal">Accept</button> <!-- Remember to change data-dismiss for assignment 3 -->
                                     </div>
                                 </div>
                                 </div>
@@ -153,14 +141,15 @@
                         </div>
                         <input type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)">
                         <div class="input-group-append">
-                            <span class="input-group-text price-append">Current - $149.99</span>
-                            <button class="btn btn-outline-dark submit-price-edit" type="button">Submit</button>
+                            <span class="input-group-text price-append">Current - ${{"{0:.2f}".format(listing.ListingPrice)}}</span>
+                            <!-- <button class="btn btn-outline-dark submit-price-edit" type="button">Submit</button> -->
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        
         <section class="description">
             <div class="container">
                 <div class="body-header-box">
@@ -170,7 +159,7 @@
                 <div class="edit-description-box">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <textarea class="form-control" rows="12" placeholder="Error: No Description Provided" required>Ryzen 7 1700X is a 64-bit octa-core high-end performance x86 desktop microprocessor introduced by AMD in early 2017. This processor is based on AMD's Zen microarchitecture and is fabricated on a 14 nm process. The 1700X operates at a base frequency of 3.4 GHz with a TDP of 95 W and a Boost frequency of up to 3.8 GHz. This model is better suited for overclocking (as opposed to its 1700 variant). This MPU supports up to 64 GiB of dual-channel DDR4-2666 ECC memory.</textarea>
+                            <textarea class="form-control" rows="12" placeholder="Error: No Description Provided" required>{{listing.ListingDescription}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -321,3 +310,4 @@
        
     </body>
 </html>
+
