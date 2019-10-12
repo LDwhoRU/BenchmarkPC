@@ -120,7 +120,7 @@ def processCPUCooler(detailList, request):
     RPM = request.form.get('Fan RPM')
     Noise = request.form.get('Fan Noise Level')
     Height = request.form.get('Cooler Height')
-    Socket = request.form.get('Socket')
+    socket = request.form.get('Socket')
     WaterCooled = request.form.get('WaterCooled')
     Fanless = request.form.get('Fanless')
     if(manufacturer == ""):
@@ -140,7 +140,7 @@ def processCPUCooler(detailList, request):
     id_ = listing.id
 
     Cooler = CPUCooler(manufacturer=manufacturer, FanRPM=RPM, NoiseLevel=Noise,
-                       Height=Height, WaterCooled=WaterCooled, Fanless=Fanless, CPUCoolerListing=id_)
+                       Height=Height, WaterCooled=WaterCooled, Fanless=Fanless, CPUCoolerListing=id_, Socket=socket)
     db.session.add(Cooler)
     db.session.commit()
 

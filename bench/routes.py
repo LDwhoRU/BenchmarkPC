@@ -62,11 +62,17 @@ def manageListing(id):
         return redirect('/login')
     elif current_user.id != listing.userId:
         return redirect("/")
-        
+
     if(listing.ListingType == "Case"):
         case = Case.query.filter_by(caseListing=id).first()
         return render_template('manageListingTemplates/CaseHTML.html', title=title,
             bids=combinedList, length=length,listing=listing, case=case)
+    elif(listing.ListingType == "CPU Cooler"):
+        cooler = CPUCooler.query.filter_by(CPUCoolerListing=id).first()
+        return render_template('manageListingTemplates/CPUCoolerHTML.html', title=title,
+            bids=combinedList, length=length,listing=listing, cooler=cooler)
+
+
     
    
 
@@ -90,7 +96,7 @@ def viewListingNumber(id):
     print(date)
     form = bidForm()
     if(request.method == "POST"):
-        exists = db.session.query(Bids.bidUser).filter_by(bidUser=current_user.id)
+        exists = db.session.query(Bids.bidUser).filter_by(bidUser=current_user.id).first()
 
         bidMoney = request.form.get("bid")
         if(exists is not None):

@@ -98,6 +98,7 @@ class CPUCooler(db.Model):
     NoiseLevel = db.Column(db.String(80), nullable=True)
     Height = db.Column(db.Integer, nullable=True)
     WaterCooled = db.Column(db.String(80), nullable=True)
+    Socket = db.Column(db.String(80), nullable=True)
     Fanless = db.Column(db.String(80), nullable=True)
     CPUCoolerListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
 
