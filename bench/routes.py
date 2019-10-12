@@ -62,8 +62,13 @@ def manageListing(id):
         return redirect('/login')
     elif current_user.id != listing.userId:
         return redirect("/")
-    return render_template('manageListingTemplates/manageListingTemplate.html', title=title,
-    bids=combinedList, length=length,listing=listing)
+        
+    if(listing.ListingType == "Case"):
+        case = Case.query.filter_by(caseListing=id).first()
+        return render_template('manageListingTemplates/CaseHTML.html', title=title,
+            bids=combinedList, length=length,listing=listing, case=case)
+    
+   
 
 
 @app.route('/listing')

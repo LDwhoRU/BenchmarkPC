@@ -1,0 +1,59 @@
+{% extends 'manageListingTemplates/manageListingTemplate.html' %}
+
+{% block form %}
+<tr>
+    <th scope="row">Manufacturer</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value="{{ case.manufacturer }}" type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+                form="ListingForm" placeholder="Enter Manufacturer Name..." name="Manufacturer">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">Name</span>
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Colour</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value={{ case.colour }} type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+                form="ListingForm" placeholder="Enter Case Colour..." name="CaseColour">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">Colour</span>
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Side Panel</th>
+    <td>
+        <div class="input-group mb-1">
+            <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="SidePanel">
+                <option value="Yes" {% if case.sidePanel == "Yes" %} selected="selected" {% endif %}>Yes</option>
+                <option value="No" {% if case.sidePanel == "No" %} selected="selected" {% endif %}>No</option>
+            </select>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Internal 2.5" Bays</th>
+    <td>
+        <div class="input-group mb-3">
+            <input min="0" value={{ case.internal25Bays }} type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+                form="ListingForm" placeholder="Enter Amount Of Bays..." name="2.5Bays">
+
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Internal 3.5" Bays</th>
+    <td>
+        <div class="input-group mb-3">
+            <input min="0" value={{ case.internal35Bays }}  type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+                form="ListingForm" placeholder="Enter Amount Of Bays..." name="3.5Bays">
+
+        </div>
+    </td>
+</tr>
+{% endblock %}

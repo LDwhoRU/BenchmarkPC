@@ -174,135 +174,14 @@
                 <div class="specifications-body-box">
                     <table class="table">
                         <tbody>
-                            <tr>
-                                <th scope="row">Manufacturer</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
-                                            <option selected>AMD</option>
-                                            <!-- <option value="1">AMD</option> -->
-                                            <option value="1">Intel</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Core Count</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
-                                            <option selected>8</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">4</option>
-                                            <option value="4">3</option>
-                                            <option value="5">6</option>
-                                            <option value="6">8</option>
-                                            <option value="7">10</option>
-                                            <option value="8">12</option>
-                                            <option value="9">14</option>
-                                            <option value="10">16</option>
-                                            <option value="11">18</option>
-                                            <option value="12">20</option>
-                                            <option value="13">22</option>
-                                            <option value="14">24</option>
-                                            <option value="15">32</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Core Clock</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" value="3.4" aria-label="Placeholder" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">GHz</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Boost Clock</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" value="3.8" aria-label="Placeholder" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">GHz</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">TDP</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" value="95" aria-label="Placeholder" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">Watts</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Series</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" value="AMD Ryzen 7" aria-label="Placeholder" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Microarchitecture</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" value="Zen" aria-label="Placeholder" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Socket</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" value="AM4" aria-label="Placeholder" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Integrated Graphics</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
-                                            <option selected>None</option>
-                                            <!-- <option value="1">None</option> -->
-                                            <option value="1">Yes</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Includes CPU Cooler</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02">
-                                            <option selected>No</option>
-                                            <!-- <option value="1">None</option> -->
-                                            <option value="1">Yes</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
+                            {% block form %}
+
+                            {% endblock %}
                         </tbody>
                     </table>
 
                     <!-- Submit Button -->
-                    <button type="button" class="btn btn-primary btn-edit-specs-submit">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-edit-specs-submit">Update</button>
                 </div>
             </div>
         </section>
