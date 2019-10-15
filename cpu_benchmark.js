@@ -23,5 +23,5 @@ function timeIt(repeats, functionName) {
 
 result = timeit.repeat(10, bench);
 result.sort((a, b) => b - a);
-final_result = ((3 - result[0] * 1 / 1.8) * 100;
+final_result = (3 - result[0] / 1.8) * 100;
 console.log(final_result);
