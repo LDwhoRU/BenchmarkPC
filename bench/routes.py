@@ -71,6 +71,12 @@ def manageListing(id):
         cooler = CPUCooler.query.filter_by(CPUCoolerListing=id).first()
         return render_template('manageListingTemplates/CPUCoolerHTML.html', title=title,
             bids=combinedList, length=length,listing=listing, cooler=cooler)
+    elif(listing.ListingType == "CPU"):
+        cpu = CPU.query.filter_by(CPUListing=id).first_or_404()
+        print(cpu.Socket)
+        print(cpu.Microarchitecture)
+        return render_template('manageListingTemplates/CPUHTML.html', title=title,
+            bids=combinedList, length=length,listing=listing, cpu=cpu)
 
 
     
@@ -97,7 +103,7 @@ def viewListingNumber(id):
     form = bidForm()
     if(request.method == "POST"):
         exists = db.session.query(Bids.bidUser).filter_by(bidUser=current_user.id).first()
-
+        print(exists)
         bidMoney = request.form.get("bid")
         if(exists is not None):
                 bid = Bids.query.filter_by(bidUser=current_user.id, bidListing=id).first()

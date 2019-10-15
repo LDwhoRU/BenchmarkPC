@@ -45,6 +45,30 @@ def processListing(request):
         return False
     return True
 
+def getCPUCoolerValues(request):
+    return {
+        "manufacturer" : request.form.get('Manufacturer'),
+        "RPM" : request.form.get('Fan RPM'),
+        "Noise" : request.form.get('Fan Noise Level'),
+        "Height" : request.form.get('Cooler Height'),
+        "socket" : request.form.get('Socket'),
+        "WaterCooled" : request.form.get('WaterCooled'),
+        "Fanless" : request.form.get('Fanless')
+    }
+def getCaseValues(request):
+    return {
+        "manufacturer" : request.form.get('Manufacturer'),
+        "Colour" : request.form.get('CaseColour'),
+        "SidePanel" : request.form.get('SidePanel'),
+        "Bays25" : request.form.get('2.5Bays'),
+        "Bays35" : request.form.get('3.5Bays')
+    }
+    
+    
+    
+    
+    
+
 
 def priceCheck(price):
     if(isDecimal(price) == False or float(price) < 0):
@@ -60,18 +84,13 @@ def notNull(detailList):
 
 
 def processCase(detailList, request):
-    manufacturer = request.form.get('Manufacturer')
-    print("Manufacturer: " + manufacturer)
-    Colour = request.form.get('CaseColour')
-    SidePanel = request.form.get('SidePanel')
-    Bays25 = request.form.get('2.5Bays')
-    Bays35 = request.form.get('3.5Bays')
-    if(manufacturer == ""):
+    values = getCaseValues(request)
+    if(values.get('manufacturer') == ""):
         return False
-    if(Bays25.isdigit() == False or Bays35.isdigit() == False):
+    if(values.get('Bays25').isdigit() == False or values.get('Bays35').isdigit() == False):
         return False
-    Bays25 = int(Bays25)
-    Bays35 = int(Bays35)
+    values.update({Bays25 : int(values.get('Bays25')),
+     Bays35 : int(values.get('Bays35')) } )
 
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
                       ListingType=detailList[0], ListingDescription=detailList[2],
@@ -80,8 +99,11 @@ def processCase(detailList, request):
     db.session.commit()
     listingID = listing.id
 
-    case = Case(manufacturer=manufacturer, colour=Colour, sidePanel=SidePanel,
-                internal25Bays=Bays25, internal35Bays=Bays35, caseListing=listingID)
+    case = Case(manufacturer=values.get('manufacturer')
+    , colour=values.get('Colour'), sidePanel=values.get('SidePanel'),
+        internal25Bays=values.get('Bays25'),
+         internal35Bays=values.get('Bays35'),
+         caseListing=listingID)
     db.session.add(case)
     db.session.commit()
 
@@ -116,21 +138,16 @@ def processMemory(detailList, request):
 
 def processCPUCooler(detailList, request):
     print("COol")
-    manufacturer = request.form.get('Manufacturer')
-    RPM = request.form.get('Fan RPM')
-    Noise = request.form.get('Fan Noise Level')
-    Height = request.form.get('Cooler Height')
-    socket = request.form.get('Socket')
-    WaterCooled = request.form.get('WaterCooled')
-    Fanless = request.form.get('Fanless')
-    if(manufacturer == ""):
+    values = getCPUCoolerValues(request)
+    
+    if(values.get('manufacturer') == ""):
             print("No Manufacturer")
             return False
-    if(Height.isdigit() == False or Noise.isdigit() == False or RPM.isdigit() == False):
+    if(values.get('Height') == False or values.get('Noise').isdigit() == False or values.get('RPM').isdigit() == False):
             return False
-    Height = int(Height)
-    Noise = int(Noise)
-    RPM = int(RPM)
+    values.update({'Height' :  int(values.get('Height'))} )
+    values.update({'Noise' :  int(values.get('Noise'))}) 
+    values.update({'RPM' : int(values.get('RPM'))})
 
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
                       ListingType=detailList[0], ListingDescription=detailList[2],
@@ -139,8 +156,10 @@ def processCPUCooler(detailList, request):
     db.session.commit()
     id_ = listing.id
 
-    Cooler = CPUCooler(manufacturer=manufacturer, FanRPM=RPM, NoiseLevel=Noise,
-                       Height=Height, WaterCooled=WaterCooled, Fanless=Fanless, CPUCoolerListing=id_, Socket=socket)
+    Cooler = CPUCooler(manufacturer=values.get('manufacturer'), FanRPM=values.get('RPM')
+    , NoiseLevel=values.get('Noise'), Height=values.get('Height')
+    , WaterCooled=values.get('WaterCooled'), Fanless=values.get('Fanless')
+    , CPUCoolerListing=id_, Socket=values.get('socket'))
     db.session.add(Cooler)
     db.session.commit()
 

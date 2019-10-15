@@ -1,124 +1,133 @@
+{% extends 'manageListingTemplates/manageListingTemplate.html' %}
+
+{% block form %}
 <tr>
-                                <th scope="row">Manufacturer</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Manufacturer">
-                                            <option selected>Choose...</option>
-                                            <option value="AMD">AMD</option>
-                                            <option value="Intel">Intel</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Core Count</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Core Count">
-                                            <option selected>Choose...</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">4</option>
-                                            <option value="4">3</option>
-                                            <option value="5">6</option>
-                                            <option value="6">8</option>
-                                            <option value="7">10</option>
-                                            <option value="8">12</option>
-                                            <option value="9">14</option>
-                                            <option value="10">16</option>
-                                            <option value="11">18</option>
-                                            <option value="12">20</option>
-                                            <option value="13">22</option>
-                                            <option value="14">24</option>
-                                            <option value="15">32</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Core Clock</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="number" step="0.01" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Core Clock" placeholder="Enter Core Clock Speed...">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">GHz</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Boost Clock</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="number" step="0.01" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Boost Clock" placeholder="Enter Boost Clock Speed...">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">GHz</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">TDP</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input min = "0" placeholder= "Enter TDP In Watts..." type="number" step="any" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="TDP">
-                                        <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon2">Watts</span>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Series</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Series" placeholder="Enter CPU Series...">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Microarchitecture</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Microarchitecture" placeholder="Enter CPU Microarchitecture...">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Socket</th>
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="Socket" placeholder="Enter CPU Socket Type...">
-                                        <div class="input-group-append">
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Integrated Graphics</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="IntegratedGraphics">
-                                            <option selected>Choose...</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Includes CPU Cooler</th>
-                                <td>
-                                    <div class="input-group mb-1">
-                                        <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="CPUCooler">
-                                            <option selected>Choose...</option>
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
+    <th scope="row">Manufacturer</th>
+    <td>
+        <div class="input-group mb-1">
+            <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Manufacturer">
+                <option value="AMD"  {% if cpu.manufacturer == AMD %} selected="selected"{% endif %}>AMD</option>
+                <option value="Intel" {% if cpu.manufacturer == Intel %} selected="selected"{% endif %}>Intel</option>
+            </select>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Core Count</th>
+    <td>
+        <div class="input-group mb-1">
+            <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Core Count">
+                <option value=1 {% if cpu.CoreCount == 1 %} selected="selected"{% endif %}>1</option>
+                <option value=2 {% if cpu.CoreCount == 2 %} selected="selected"{% endif %}>2</option>
+                <option value=4 {% if cpu.CoreCount == 4 %} selected="selected"{% endif %}>4</option>
+                <option value=3 {% if cpu.CoreCount == 3 %} selected="selected"{% endif %}>3</option>
+                <option value=6 {% if cpu.CoreCount == 6 %} selected="selected"{% endif %}>6</option>
+                <option value=8 {% if cpu.CoreCount == 8 %} selected="selected"{% endif %}>8</option>
+                <option value=10 {% if cpu.CoreCount == 10 %} selected="selected"{% endif %}>10</option>
+                <option value=12 {% if cpu.CoreCount == 12 %} selected="selected"{% endif %}>12</option>
+                <option value=14 {% if cpu.CoreCount == 14 %} selected="selected"{% endif %}>14</option>
+                <option value=16 {% if cpu.CoreCount == 16 %} selected="selected"{% endif %}>16</option>
+                <option value=18 {% if cpu.CoreCount == 18 %} selected="selected"{% endif %}>18</option>
+                <option value=20 {% if cpu.CoreCount == 20 %} selected="selected"{% endif %}>20</option>
+                <option value=22 {% if cpu.CoreCount == 22 %} selected="selected"{% endif %}>22</option>
+                <option value=24 {% if cpu.CoreCount == 24 %} selected="selected"{% endif %}>24</option>
+                <option value=32 {% if cpu.CoreCount == 32 %} selected="selected"{% endif %}>32</option>
+            </select>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Core Clock</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value="{{ cpu.CoreClock }}" type="number" step="0.01" class="form-control" aria-label="Placeholder"
+                aria-describedby="basic-addon2" form="ListingForm" name="Core Clock"
+                placeholder="Enter Core Clock Speed...">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">GHz</span>
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Boost Clock</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value="{{ cpu.BoostClock }}" type="number" step="0.01" class="form-control" aria-label="Placeholder"
+                aria-describedby="basic-addon2" form="ListingForm" name="Boost Clock"
+                placeholder="Enter Boost Clock Speed...">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">GHz</span>
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">TDP</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value="{{ cpu.TDP }}" min="0" placeholder="Enter TDP In Watts..." type="number" step="any" class="form-control"
+                aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" name="TDP">
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2">Watts</span>
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Series</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value="{{ cpu.Series }}" type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+                form="ListingForm" name="Series" placeholder="Enter CPU Series...">
+            <div class="input-group-append">
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Microarchitecture</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value="{{ cpu.Microarchitecture }}" type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+                form="ListingForm" name="Microarchitecture" placeholder="Enter CPU Microarchitecture...">
+            <div class="input-group-append">
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Socket</th>
+    <td>
+        <div class="input-group mb-3">
+            <input value="{{ cpu.Socket }}" type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+                form="ListingForm" name="Socket" placeholder="Enter CPU Socket Type...">
+            <div class="input-group-append">
+            </div>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Integrated Graphics</th>
+    <td>
+        <div class="input-group mb-1">
+            <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="IntegratedGraphics">
+                <option selected>Choose...</option>
+                <option value="Yes" {% if cpu.IntegratedGraphics == "Yes" %} selected="selected"{% endif %}>Yes</option>
+                <option value="No" {% if cpu.IntegratedGraphics == "No" %} selected="selected"{% endif %}>No</option>
+            </select>
+        </div>
+    </td>
+</tr>
+<tr>
+    <th scope="row">Includes CPU Cooler</th>
+    <td>
+        <div class="input-group mb-1">
+            <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="CPUCooler">
+                <option value="Yes"  {% if cpu.IncludesCPUCooler == "Yes" %} selected="selected"{% endif %}>Yes</option>
+                <option value="No" {% if cpu.IncludesCPUCooler == "No" %} selected="selected"{% endif %}>No</option>
+            </select>
+        </div>
+    </td>
+</tr>
+{% endblock %}
