@@ -26,48 +26,80 @@ def processListing(request):
         if(processMemory(detailList, request) == False):
             return False
     elif(type == "CPU Cooler"):
-            if(processCPUCooler(detailList, request) == False):
-                return False
+        if(processCPUCooler(detailList, request) == False):
+            return False
     elif(type == "Motherboard"):
-                if(processMotherBoard(detailList, request) == False):
-                    return False
+        if(processMotherBoard(detailList, request) == False):
+            return False
     elif(type == "CPU"):
         print("reached Here")
         if(processCPU(detailList, request) == False):
-                return False
+            return False
     elif(type == "Graphics Card"):
         if(processGPU(detailList, request) == False):
-                return False
+            return False
     elif(type == "Power Supply"):
         if(processPowerSupply(detailList, request) == False):
-                return False
+            return False
     else:
         return False
     return True
 
+
 def getCPUCoolerValues(request):
     return {
-        "manufacturer" : request.form.get('Manufacturer'),
-        "RPM" : request.form.get('Fan RPM'),
-        "Noise" : request.form.get('Fan Noise Level'),
-        "Height" : request.form.get('Cooler Height'),
-        "socket" : request.form.get('Socket'),
-        "WaterCooled" : request.form.get('WaterCooled'),
-        "Fanless" : request.form.get('Fanless')
+        "manufacturer": request.form.get('Manufacturer'),
+        "RPM": request.form.get('Fan RPM'),
+        "Noise": request.form.get('Fan Noise Level'),
+        "Height": request.form.get('Cooler Height'),
+        "socket": request.form.get('Socket'),
+        "WaterCooled": request.form.get('WaterCooled'),
+        "Fanless": request.form.get('Fanless')
     }
+
+
 def getCaseValues(request):
     return {
-        "manufacturer" : request.form.get('Manufacturer'),
-        "Colour" : request.form.get('CaseColour'),
-        "SidePanel" : request.form.get('SidePanel'),
-        "Bays25" : request.form.get('2.5Bays'),
-        "Bays35" : request.form.get('3.5Bays')
+        "manufacturer": request.form.get('Manufacturer'),
+        "Colour": request.form.get('CaseColour'),
+        "SidePanel": request.form.get('SidePanel'),
+        "Bays25": request.form.get('2.5Bays'),
+        "Bays35": request.form.get('3.5Bays')
     }
-    
-    
-    
-    
-    
+
+
+def getCPUValues(request):
+    return {
+        "manufacturer": request.form.get('Manufacturer'),
+        "TDP": request.form.get('TDP'),
+        "CoreCount": request.form.get('Core Count'),
+        "CoreClock": request.form.get('Core Clock'),
+        "BoostClock": request.form.get('Boost Clock'),
+        "Series": request.form.get('Series'),
+        "Microarchitecture": request.form.get('Microarchitecture'),
+        "Socket": request.form.get('Socket'),
+        "IntegratedGraphics": request.form.get('IntegratedGraphics'),
+        "IncludesCPUCooler": request.form.get('CPUCooler')
+    }
+
+
+def getGPUValues(request):
+    return {
+        "manufacturer": request.form.get('Manufacturer'),
+        "Chipset": request.form.get('Chipset'),
+        "MemoryType": request.form.get('MemoryType'),
+        "CoreClock": request.form.get('CoreClock'),
+        "BoostClock": request.form.get('BoostClock'),
+        "colour": request.form.get('GPUColour'),
+        "Length": request.form.get('Length'),
+        "TDP": request.form.get('TDP'),
+        "DVIPorts": request.form.get('DVI'),
+        "HDMIPorts": request.form.get('HDMI'),
+        "MiniHDMIPorts": request.form.get('Mini-HDMI'),
+        "DisplayPortPorts": request.form.get('DisplayPort'),
+        "MiniDisplayPortPorts": request.form.get('Mini-DisplayPort'),
+        "CoolingType": request.form.get('CoolingType')
+    }
 
 
 def priceCheck(price):
@@ -78,7 +110,7 @@ def priceCheck(price):
 
 
 def notNull(detailList):
-     for detail in detailList:
+    for detail in detailList:
         if detail == "":
             return False
 
@@ -89,8 +121,8 @@ def processCase(detailList, request):
         return False
     if(values.get('Bays25').isdigit() == False or values.get('Bays35').isdigit() == False):
         return False
-    values.update({Bays25 : int(values.get('Bays25')),
-     Bays35 : int(values.get('Bays35')) } )
+    values.update({Bays25: int(values.get('Bays25')),
+                   Bays35: int(values.get('Bays35'))})
 
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
                       ListingType=detailList[0], ListingDescription=detailList[2],
@@ -99,11 +131,10 @@ def processCase(detailList, request):
     db.session.commit()
     listingID = listing.id
 
-    case = Case(manufacturer=values.get('manufacturer')
-    , colour=values.get('Colour'), sidePanel=values.get('SidePanel'),
-        internal25Bays=values.get('Bays25'),
-         internal35Bays=values.get('Bays35'),
-         caseListing=listingID)
+    case = Case(manufacturer=values.get('manufacturer'), colour=values.get('Colour'), sidePanel=values.get('SidePanel'),
+                internal25Bays=values.get('Bays25'),
+                internal35Bays=values.get('Bays35'),
+                caseListing=listingID)
     db.session.add(case)
     db.session.commit()
 
@@ -139,15 +170,15 @@ def processMemory(detailList, request):
 def processCPUCooler(detailList, request):
     print("COol")
     values = getCPUCoolerValues(request)
-    
+
     if(values.get('manufacturer') == ""):
-            print("No Manufacturer")
-            return False
+        print("No Manufacturer")
+        return False
     if(values.get('Height') == False or values.get('Noise').isdigit() == False or values.get('RPM').isdigit() == False):
-            return False
-    values.update({'Height' :  int(values.get('Height'))} )
-    values.update({'Noise' :  int(values.get('Noise'))}) 
-    values.update({'RPM' : int(values.get('RPM'))})
+        return False
+    values.update({'Height':  int(values.get('Height'))})
+    values.update({'Noise':  int(values.get('Noise'))})
+    values.update({'RPM': int(values.get('RPM'))})
 
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
                       ListingType=detailList[0], ListingDescription=detailList[2],
@@ -156,10 +187,8 @@ def processCPUCooler(detailList, request):
     db.session.commit()
     id_ = listing.id
 
-    Cooler = CPUCooler(manufacturer=values.get('manufacturer'), FanRPM=values.get('RPM')
-    , NoiseLevel=values.get('Noise'), Height=values.get('Height')
-    , WaterCooled=values.get('WaterCooled'), Fanless=values.get('Fanless')
-    , CPUCoolerListing=id_, Socket=values.get('socket'))
+    Cooler = CPUCooler(manufacturer=values.get('manufacturer'), FanRPM=values.get('RPM'), NoiseLevel=values.get('Noise'), Height=values.get(
+        'Height'), WaterCooled=values.get('WaterCooled'), Fanless=values.get('Fanless'), CPUCoolerListing=id_, Socket=values.get('socket'))
     db.session.add(Cooler)
     db.session.commit()
 
@@ -191,9 +220,9 @@ def processMotherBoard(detailList, request):
                          x16, x8, x4, x1, PCI, SATA, mSATA, M2]
     OtherDetailList = [MemoryType, SLI, CrossFire, USB3, WiFi, RAID]
     if(manufacturer == ""):
-            return False
+        return False
 
-    #Set Default Values If Certain Fields Are Empty
+    # Set Default Values If Certain Fields Are Empty
     for i in range(len(IntegerDetailList)):
         if(IntegerDetailList[i] == "" or IntegerDetailList[i] == None):
             IntegerDetailList[i] = 0
@@ -204,7 +233,7 @@ def processMotherBoard(detailList, request):
         if(OtherDetailList[i] == "Choose..."):
             OtherDetailList[i] = ""
 
-    #Add The Listing First So The Listing ID Is Available
+    # Add The Listing First So The Listing ID Is Available
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
                       ListingType=detailList[0], ListingDescription=detailList[2],
                       userId=current_user.id)
@@ -212,7 +241,7 @@ def processMotherBoard(detailList, request):
     db.session.commit()
     id_ = listing.id
 
-    #Create The Motherboard Object And Add It To The Database
+    # Create The Motherboard Object And Add It To The Database
     MotherBoard = Motherboard(manufacturer=manufacturer, Socket=Socket, RAMslots=IntegerDetailList[0],
                               MaxRAM=IntegerDetailList[1], colour=colour, Chipset=Chipset, MemoryType=OtherDetailList[0],
                               SLISupport=OtherDetailList[1], CrossFireSupport=OtherDetailList[2], PCIEx16Slots=IntegerDetailList[2],
@@ -230,155 +259,155 @@ def processMotherBoard(detailList, request):
 
 
 def processCPU(detailList, request):
-        manufacturer = request.form.get('Manufacturer')
-        TDP = request.form.get('TDP')
-        CoreCount = request.form.get('Core Count')
-        CoreClock = request.form.get('Core Clock')
-        BoostClock = request.form.get('Boost Clock')
-        Series = request.form.get('Series')
-        Microarchitecture = request.form.get('Microarchitecture')
-        Socket = request.form.get('Socket')
-        IntegratedGraphics = request.form.get('IntegratedGraphics')
-        IncludesCPUCooler = request.form.get('CPUCooler')
-        print("Reached Checks")
-        if(manufacturer == ""):
-            print("Error: Manufacturer Check Failed")
-            return False
-        elif(CoreCount == None or CoreCount.isdigit() == False):
-            print("Error: CoreCount Check Failed")
-            return False
-        elif(CoreClock == None or not isDecimal(CoreClock)):
-            print("Error: Core Clock Check Failed")
-            return False
-        elif(BoostClock == None or not isDecimal(BoostClock)):
-            print("Error: Boost Clock Check Failed")
-            return False
-        elif(TDP == None or not TDP.isdigit()):
-            return False
-        elif(IntegratedGraphics not in ["Yes", "No"]):
-            print("Error: IntegratedGraphics Check Failed")
-            return False
-        elif(IncludesCPUCooler not in ["Yes", "No"]):
-            print("Error: IncludesCPUCooler Check Failed")
-            return False
-        print("Passed Checks")
-        #Add The Listing First So The Listing ID Is Available
-        listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                          ListingType=detailList[0], ListingDescription=detailList[2],
-                          userId=current_user.id)
-        db.session.add(listing)
-        db.session.commit()
-        id_ = listing.id
+    values = getCPUValues(request)
+    print("Reached Checks")
+    if(values.get('manufacturer') == ""):
+        print("Error: Manufacturer Check Failed")
+        return False
+    elif(values.get('CoreCount') == None or values.get('CoreCount').isdigit() == False):
+        print("Error: CoreCount Check Failed")
+        return False
+    elif(values.get('CoreClock') == None or not isDecimal(values.get('CoreClock'))):
+        print("Error: Core Clock Check Failed")
+        return False
+    elif(values.get('BoostClock') == None or not isDecimal(values.get('BoostClock'))):
+        print("Error: Boost Clock Check Failed")
+        return False
+    elif(values.get('TDP') == None or not values.get('TDP').isdigit()):
+        return False
+    elif(values.get('IntegratedGraphics') not in ["Yes", "No"]):
+        print("Error: IntegratedGraphics Check Failed")
+        return False
+    elif(values.get('IncludesCPUCooler') not in ["Yes", "No"]):
+        print("Error: IncludesCPUCooler Check Failed")
+        return False
+    print("Passed Checks")
+    # Add The Listing First So The Listing ID Is Available
+    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
+                      ListingType=detailList[0], ListingDescription=detailList[2],
+                      userId=current_user.id)
+    db.session.add(listing)
+    db.session.commit()
+    id_ = listing.id
 
-        cpu = CPU(manufacturer=manufacturer, TDP=TDP, CoreCount=CoreClock,
-                  CoreClock=CoreClock, BoostClock=BoostClock, Series=Series, Microarchitecture=Microarchitecture,
-                  Socket=Socket, IntegratedGraphics=IntegratedGraphics, IncludesCPUCooler=IncludesCPUCooler,
-                  CPUListing=id_)
+    cpu = CPU(
+        manufacturer=values.get('manufacturer'),
+        TDP=values.get('TDP'),
+        CoreCount=values.get('CoreCount'),
+        CoreClock=values.get('CoreClock'),
+        BoostClock=values.get('BoostClock'),
+        Series=values.get('Series'),
+        Microarchitecture=values.get('Microarchitecture'),
+        Socket=values.get('Socket'),
+        IntegratedGraphics=values.get('IntegratedGraphics'),
+        IncludesCPUCooler=values.get('IncludesCPUCooler'),
+        CPUListing=id_)
 
-        db.session.add(cpu)
-        db.session.commit()
+    db.session.add(cpu)
+    db.session.commit()
 
 
 def processGPU(detailList, request):
-        manufacturer = request.form.get('Manufacturer')
-        Chipset = request.form.get('Chipset')
-        MemoryType = request.form.get('MemoryType')
-        CoreClock = request.form.get('CoreClock')
-        BoostClock = request.form.get('BoostClock')
-        colour = request.form.get('GPUColour')
-        Length = request.form.get('Length')
-        TDP = request.form.get('TDP')
-        DVIPorts = request.form.get('DVI')
-        HDMIPorts = request.form.get('HDMI')
-        MiniHDMIPorts = request.form.get('Mini-HDMI')
-        DisplayPortPorts = request.form.get('DisplayPort')
-        MiniDisplayPortPorts = request.form.get('Mini-DisplayPort')
-        CoolingType = request.form.get('CoolingType')
+    manufacturer = request.form.get('Manufacturer')
+    Chipset = request.form.get('Chipset')
+    MemoryType = request.form.get('MemoryType')
+    CoreClock = request.form.get('CoreClock')
+    BoostClock = request.form.get('BoostClock')
+    colour = request.form.get('GPUColour')
+    Length = request.form.get('Length')
+    TDP = request.form.get('TDP')
+    DVIPorts = request.form.get('DVI')
+    HDMIPorts = request.form.get('HDMI')
+    MiniHDMIPorts = request.form.get('Mini-HDMI')
+    DisplayPortPorts = request.form.get('DisplayPort')
+    MiniDisplayPortPorts = request.form.get('Mini-DisplayPort')
+    CoolingType = request.form.get('CoolingType')
 
-        if(manufacturer == ""):
-            return False
-        elif(not isDecimal(CoreClock) or CoreClock <= 0):
-            print("Error: Core Clock Check Failed")
-            print("Core Clock = " + str(CoreClock))
-            return False
-        elif(not isDecimal(BoostClock) or BoostClock <= 0):
-            print("Error: Boost Clock Check Failed")
-            return False
-        elif(not isDecimal(Length) or Length <= 0):
-            print("Error: Length Check Failed")
-            return False
-        elif(not TDP.isdigit() or TDP < 0):
-            print("Error: TDP Check Failed")
-            return False
-        elif(not DVIPorts.isdigit() or DVIPorts < 0):
-            print("Error: DVIPorts Check Failed")
-            return False
-        elif(not HDMIPorts.isdigit() or HDMIPorts < 0):
-            print("Error: HDMIPorts Check Failed")
-            return False
-        elif(not MiniHDMIPorts.isdigit() or MiniHDMIPorts < 0):
-            print("Error: MiniHDMIPorts Check Failed")
-            return False
-        elif(not DisplayPortPorts.isdigit() or DisplayPortPorts < 0):
-            print("Error: DisplayPortPorts Check Failed")
-            return False
-        elif(not MiniDisplayPortPorts.isdigit() or MiniDisplayPortPorts < 0):
-            print("Error: MiniDisplayPortPorts Check Failed")
-            return False
-        elif(CoolingType not in ["Blower", "Fan"]):
-            print("Error: CoolingType Check Failed")
-            return False
+    if(manufacturer == ""):
+        return False
+    elif(not isDecimal(CoreClock) or CoreClock <= 0):
+        print("Error: Core Clock Check Failed")
+        print("Core Clock = " + str(CoreClock))
+        return False
+    elif(not isDecimal(BoostClock) or BoostClock <= 0):
+        print("Error: Boost Clock Check Failed")
+        return False
+    elif(not isDecimal(Length) or Length <= 0):
+        print("Error: Length Check Failed")
+        return False
+    elif(not TDP.isdigit() or TDP < 0):
+        print("Error: TDP Check Failed")
+        return False
+    elif(not DVIPorts.isdigit() or DVIPorts < 0):
+        print("Error: DVIPorts Check Failed")
+        return False
+    elif(not HDMIPorts.isdigit() or HDMIPorts < 0):
+        print("Error: HDMIPorts Check Failed")
+        return False
+    elif(not MiniHDMIPorts.isdigit() or MiniHDMIPorts < 0):
+        print("Error: MiniHDMIPorts Check Failed")
+        return False
+    elif(not DisplayPortPorts.isdigit() or DisplayPortPorts < 0):
+        print("Error: DisplayPortPorts Check Failed")
+        return False
+    elif(not MiniDisplayPortPorts.isdigit() or MiniDisplayPortPorts < 0):
+        print("Error: MiniDisplayPortPorts Check Failed")
+        return False
+    elif(CoolingType not in ["Blower", "Fan"]):
+        print("Error: CoolingType Check Failed")
+        return False
 
-        #Add The Listing First So The Listing ID Is Available
-        listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                          ListingType=detailList[0], ListingDescription=detailList[2],
-                          userId=current_user.id)
-        db.session.add(listing)
-        db.session.commit()
-        id_ = listing.id
+    # Add The Listing First So The Listing ID Is Available
+    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
+                      ListingType=detailList[0], ListingDescription=detailList[2],
+                      userId=current_user.id)
+    db.session.add(listing)
+    db.session.commit()
+    id_ = listing.id
 
-        gpu = GPU(manufacturer=manufacturer, Chipset=Chipset, MemoryType=MemoryType,
-                  CoreClock=CoreClock, BoostClock=BoostClock, colour=colour,
-                  Length=Length, TDP=TDP, DVIPorts=DVIPorts, HDMIPorts=HDMIPorts,
-                  MiniHDMIPorts=MiniHDMIPorts, DisplayPortPorts=DisplayPortPorts,
-                  MiniDisplayPortPorts=MiniDisplayPortPorts, CoolingType=CoolingType,
-                  GPUListing=id_)
+    gpu = GPU(manufacturer=manufacturer, Chipset=Chipset, MemoryType=MemoryType,
+              CoreClock=CoreClock, BoostClock=BoostClock, colour=colour,
+              Length=Length, TDP=TDP, DVIPorts=DVIPorts, HDMIPorts=HDMIPorts,
+              MiniHDMIPorts=MiniHDMIPorts, DisplayPortPorts=DisplayPortPorts,
+              MiniDisplayPortPorts=MiniDisplayPortPorts, CoolingType=CoolingType,
+              GPUListing=id_)
 
-        db.session.add(gpu)
-        db.session.commit()
-        print("Commit GPU")
+    db.session.add(gpu)
+    db.session.commit()
+    print("Commit GPU")
 
 
 def processPowerSupply(detailList, request):
-        manufacturer = request.form.get('Manufacturer')
-        EffiencyRating = request.form.get('Effiency Rating')
-        Wattage = request.form.get('Wattage')
-        Modular = request.form.get('Modular')
-        SATAConnectors = request.form.get('SATA')
+    manufacturer = request.form.get('Manufacturer')
+    EffiencyRating = request.form.get('Effiency Rating')
+    Wattage = request.form.get('Wattage')
+    Modular = request.form.get('Modular')
+    SATAConnectors = request.form.get('SATA')
 
-        if(manufacturer == ""):
-            return False
-        elif(Wattage == None or not Wattage.isdigit() or Wattage < 1):
-            return False
-        elif(SATAConnectors == None or not SATAConnectors.isdigit() or SATAConnectors < 0):
-            return False
-        elif(EffiencyRating == None):
-            return False
-        elif(Modular == None or Modular not in ["Full", "Semi", "None"]):
-            return False
+    if(manufacturer == ""):
+        return False
+    elif(Wattage == None or not Wattage.isdigit() or Wattage < 1):
+        return False
+    elif(SATAConnectors == None or not SATAConnectors.isdigit() or SATAConnectors < 0):
+        return False
+    elif(EffiencyRating == None):
+        return False
+    elif(Modular == None or Modular not in ["Full", "Semi", "None"]):
+        return False
 
-        #Add The Listing First So The Listing ID Is Available
-        listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                          ListingType=detailList[0], ListingDescription=detailList[2],
-                          userId=current_user.id)
-        db.session.add(listing)
-        db.session.commit()
-        id_ = listing.id
+    # Add The Listing First So The Listing ID Is Available
+    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
+                      ListingType=detailList[0], ListingDescription=detailList[2],
+                      userId=current_user.id)
+    db.session.add(listing)
+    db.session.commit()
+    id_ = listing.id
 
-        powerSupply = PowerSupply(manufacturer=manufacturer,EffiencyRating=EffiencyRating,
-        Wattage=Wattage, Modular=Modular, SATAConnectors=SATAConnectors,PowerSupplyListing=id_)
-        db.session.add(powerSupply)
-        db.session.commit()
+    powerSupply = PowerSupply(manufacturer=manufacturer, EffiencyRating=EffiencyRating,
+                              Wattage=Wattage, Modular=Modular, SATAConnectors=SATAConnectors, PowerSupplyListing=id_)
+    db.session.add(powerSupply)
+    db.session.commit()
+
 
 def isDecimal(number):
     try:

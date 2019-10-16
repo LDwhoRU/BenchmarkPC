@@ -36,5 +36,7 @@ class bidForm(FlaskForm):
 #Still need form class for CSRF token
 class newListingForm(FlaskForm):
     pass
+class manageListingForm(FlaskForm):
+    pass
 
 

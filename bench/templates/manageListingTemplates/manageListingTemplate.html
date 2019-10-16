@@ -16,6 +16,7 @@
         
 
         {% block content %}
+        <form action="" method="POST" name=ListingForm id=ListingForm>{{ form.csrf_token }}</form>
         <!-- Listing Header -->
         <section class="listing-header">
             <div class="container">
@@ -139,7 +140,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text price-append">$</span>
                         </div>
-                        <input type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)">
+                        <input form="ListingForm" type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)">
                         <div class="input-group-append">
                             <span class="input-group-text price-append">Current - ${{"{0:.2f}".format(listing.ListingPrice)}}</span>
                             <!-- <button class="btn btn-outline-dark submit-price-edit" type="button">Submit</button> -->
@@ -159,7 +160,7 @@
                 <div class="edit-description-box">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <textarea class="form-control" rows="12" placeholder="Error: No Description Provided" required>{{listing.ListingDescription}}</textarea>
+                            <textarea form="ListingForm" class="form-control" rows="12" placeholder="Error: No Description Provided" required>{{listing.ListingDescription}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -181,7 +182,7 @@
                     </table>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary btn-edit-specs-submit">Update</button>
+                    <button type="submit" form="ListingForm" class="btn btn-primary btn-edit-specs-submit">Update</button>
                 </div>
             </div>
         </section>

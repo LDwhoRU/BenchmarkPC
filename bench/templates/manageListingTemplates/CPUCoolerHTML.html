@@ -4,8 +4,8 @@
 <tr>
     <th scope="row">Manufacturer</th>
     <td>
-        <div class="input-group mb-3">
-            <input type="text" value={{cooler.manufacturer}} class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+        <div class="input-group mb-3"">
+            <input type="text" value="{{cooler.manufacturer}}" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Manufacturer Name..." name="Manufacturer">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">Name</span>
@@ -17,7 +17,7 @@
     <th scope="row">Fan RPM</th>
     <td>
         <div class="input-group mb-3">
-            <input min="0" type="number" value={{cooler.FanRPM}} class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+            <input min="0" type="number" value="{{cooler.FanRPM}}" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Fan RPM..." name="Fan RPM">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">RPM</span>
@@ -29,7 +29,7 @@
     <th scope="row">Noise Level</th>
     <td>
         <div class="input-group mb-3">
-            <input type="text" value={{cooler.NoiseLevel}} class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+            <input type="text" value="{{cooler.NoiseLevel}}" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Noise Level..." name="Fan Noise Level">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">dB</span>
@@ -41,7 +41,7 @@
     <th scope="row">Cooler Height</th>
     <td>
         <div class="input-group mb-3">
-            <input min="0" value={{cooler.Height}} type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+            <input min="0" value="{{cooler.Height}}" type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Height In Milimetres..." name="Cooler Height">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">mm</span>
@@ -53,7 +53,7 @@
     <th scope="row">Socket</th>
     <td>
         <div class="input-group mb-3">
-            <input value={{ cooler.Socket }} type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+            <input value="{{ cooler.Socket }}" type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Socket..." name="Socket">
 
         </div>

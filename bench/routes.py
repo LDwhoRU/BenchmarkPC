@@ -1,7 +1,7 @@
 from bench import app, db
 from bench.models import *
 from flask import render_template, request, flash, redirect
-from forms import LoginForm, RegisterForm, newListingForm, bidForm
+from forms import LoginForm, RegisterForm, newListingForm, bidForm,manageListingForm
 from flask_login import current_user, login_user, logout_user
 from bench.newListingFunctions import processListing
 
@@ -44,39 +44,44 @@ def manageListings():
         print(entry.ListingName)
     return render_template('manageListing.html', title=title, entries=entries)
 
-@app.route('/manage/<id>')
+@app.route('/manage/<id>',methods=['GET','POST'])
 def manageListing(id):
-    print("Test")
-    title = "Managing Listing {0} | BenchmarkPC".format(id)
-    listing = Listing.query.filter_by(id=id).first_or_404()
-    listingBids = Bids.query.filter_by(bidListing=id)
-    bidUsers = []
-    listingBidsLists = []
-    for i in listingBids:
-        print(i)
-        bidUsers.append(User.query.filter_by(id=i.bidUser).first())
-        listingBidsLists.append(i)
-    combinedList = [bidUsers, listingBidsLists]
-    length = len(listingBidsLists)
-    if current_user.is_anonymous:
-        return redirect('/login')
-    elif current_user.id != listing.userId:
-        return redirect("/")
+    form = manageListingForm()
+    if(request.method == "POST"):
+        print("hello")
+    
+    else:
+        print("Test")
+        title = "Managing Listing {0} | BenchmarkPC".format(id)
+        listing = Listing.query.filter_by(id=id).first_or_404()
+        listingBids = Bids.query.filter_by(bidListing=id)
+        bidUsers = []
+        listingBidsLists = []
+        for i in listingBids:
+            print(i)
+            bidUsers.append(User.query.filter_by(id=i.bidUser).first())
+            listingBidsLists.append(i)
+        combinedList = [bidUsers, listingBidsLists]
+        length = len(listingBidsLists)
+        if current_user.is_anonymous:
+            return redirect('/login')
+        elif current_user.id != listing.userId:
+            return redirect("/")
 
-    if(listing.ListingType == "Case"):
-        case = Case.query.filter_by(caseListing=id).first()
-        return render_template('manageListingTemplates/CaseHTML.html', title=title,
-            bids=combinedList, length=length,listing=listing, case=case)
-    elif(listing.ListingType == "CPU Cooler"):
-        cooler = CPUCooler.query.filter_by(CPUCoolerListing=id).first()
-        return render_template('manageListingTemplates/CPUCoolerHTML.html', title=title,
-            bids=combinedList, length=length,listing=listing, cooler=cooler)
-    elif(listing.ListingType == "CPU"):
-        cpu = CPU.query.filter_by(CPUListing=id).first_or_404()
-        print(cpu.Socket)
-        print(cpu.Microarchitecture)
-        return render_template('manageListingTemplates/CPUHTML.html', title=title,
-            bids=combinedList, length=length,listing=listing, cpu=cpu)
+        if(listing.ListingType == "Case"):
+            case = Case.query.filter_by(caseListing=id).first()
+            return render_template('manageListingTemplates/CaseHTML.html', title=title,
+                bids=combinedList, length=length,listing=listing, case=case,form=form)
+        elif(listing.ListingType == "CPU Cooler"):
+            cooler = CPUCooler.query.filter_by(CPUCoolerListing=id).first()
+            return render_template('manageListingTemplates/CPUCoolerHTML.html', title=title,
+                bids=combinedList, length=length,listing=listing, cooler=cooler,form=form)
+        elif(listing.ListingType == "CPU"):
+            cpu = CPU.query.filter_by(CPUListing=id).first_or_404()
+            print(cpu.Socket)
+            print(cpu.Microarchitecture)
+            return render_template('manageListingTemplates/CPUHTML.html', title=title,
+                bids=combinedList, length=length,listing=listing, cpu=cpu,form=form)
 
 
     
