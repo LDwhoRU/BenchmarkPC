@@ -48,7 +48,10 @@ def manageListings():
 def manageListing(id):
     form = manageListingForm()
     if(request.method == "POST"):
-        print("hello")
+        if('UpdateListing' in request.form):
+            print("\n---Updating Listing---\n")
+
+        
     
     else:
         print("Test")

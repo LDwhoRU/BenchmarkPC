@@ -111,8 +111,10 @@ def getPowerSupplyValues(request):
         "Modular": request.form.get('Modular'),
         "SATAConnectors": request.form.get('SATA')
     }
+
+
 def getMotherboardValues(request):
-    
+
     return {
         "manufacturer": request.form.get('Manufacturer'),
         "Socket": request.form.get('Socket'),
@@ -223,51 +225,42 @@ def processCPUCooler(detailList, request):
     db.session.commit()
     id_ = listing.id
 
-    Cooler = CPUCooler(manufacturer=values.get('manufacturer'), FanRPM=values.get('RPM'), NoiseLevel=values.get('Noise'), Height=values.get(
-        'Height'), WaterCooled=values.get('WaterCooled'), Fanless=values.get('Fanless'), CPUCoolerListing=id_, Socket=values.get('socket'))
+    Cooler = CPUCooler(
+        manufacturer=values.get('manufacturer'),
+        FanRPM=values.get('RPM'),
+        NoiseLevel=values.get('Noise'),
+        Height=values.get('Height'),
+        WaterCooled=values.get('WaterCooled'),
+        Fanless=values.get('Fanless'),
+        CPUCoolerListing=id_,
+        Socket=values.get('socket'))
     db.session.add(Cooler)
     db.session.commit()
 
 
 def processMotherBoard(detailList, request):
     values = getMotherboardValues(request)
-    print("Motherboard")
-    manufacturer = request.form.get('Manufacturer')
-    Socket = request.form.get('Socket')
-    RamSlots = request.form.get('RAMSlots')
-    MaxRam = request.form.get('RAMMax')
-    colour = request.form.get('Colour')
-    Chipset = request.form.get('Chipset')
-    MemoryType = request.form.get('MemoryType')
-    SLI = request.form.get('SLI')
-    CrossFire = request.form.get('CrossFire')
-    x16 = request.form.get('x16')
-    x8 = request.form.get('x8')
-    x4 = request.form.get('x4')
-    x1 = request.form.get('x1')
-    PCI = request.form.get('PCI')
-    SATA = request.form.get('SATA')
-    mSATA = request.form.get('mSATA')
-    M2 = request.form.get('M.2')
-    USB3 = request.form.get('USB3')
-    WiFi = request.form.get('WiFi')
-    RAID = request.form.get('RAID')
-    IntegerDetailList = [RamSlots, MaxRam,
-                         x16, x8, x4, x1, PCI, SATA, mSATA, M2]
-    OtherDetailList = [MemoryType, SLI, CrossFire, USB3, WiFi, RAID]
-    if(manufacturer == ""):
+
+    if(values.get('manufacturer') == ""):
         return False
 
-    # Set Default Values If Certain Fields Are Empty
-    for i in range(len(IntegerDetailList)):
-        if(IntegerDetailList[i] == "" or IntegerDetailList[i] == None):
-            IntegerDetailList[i] = 0
-        if(str(IntegerDetailList[i]).isdigit() == False):
-            return False
-        print(IntegerDetailList[i])
-    for i in range(len(OtherDetailList)):
-        if(OtherDetailList[i] == "Choose..."):
-            OtherDetailList[i] = ""
+    IntegerKeys = [
+        'RamSlots',
+        'MaxRam',
+        'SATAConnectors',
+        'x16',
+        'x8',
+        'x4',
+        'x1',
+        'PCI',
+        'SATA',
+        'mSATA',
+        'M2'
+    ]
+    for key in IntegerKeys:
+        if(values.get(key).isdigit() == False
+           or int(values.get(key)) < 0):
+            values.update({key, 0})
 
     # Add The Listing First So The Listing ID Is Available
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
@@ -278,16 +271,29 @@ def processMotherBoard(detailList, request):
     id_ = listing.id
 
     # Create The Motherboard Object And Add It To The Database
-    MotherBoard = Motherboard(manufacturer=manufacturer, Socket=Socket, RAMslots=IntegerDetailList[0],
-                              MaxRAM=IntegerDetailList[1], colour=colour, Chipset=Chipset, MemoryType=OtherDetailList[0],
-                              SLISupport=OtherDetailList[1], CrossFireSupport=OtherDetailList[2], PCIEx16Slots=IntegerDetailList[2],
-                              PCIEx8Slots=IntegerDetailList[3], PCIEx4Slots=IntegerDetailList[
-                                  4], PCIEx1Slots=IntegerDetailList[5],
-                              PCISlots=IntegerDetailList[6], SATAPorts=IntegerDetailList[
-                                  7], M2Slots=IntegerDetailList[9], mSata=IntegerDetailList[8],
-                              OnboardUSB3Headers=OtherDetailList[3], OnboardWifi=OtherDetailList[4],
-                              RAIDSupport=OtherDetailList[5], MotherboardListing=id_
-                              )
+    MotherBoard = Motherboard(
+        manufacturer=values.get('manufacturer'),
+        Socket=values.get('Socket'),
+        RAMslots=values.get('RamSlots'),
+        MaxRAM=values.get('MaxRam'),
+        colour=values.get('colour'),
+        Chipset=values.get('Chipset'),
+        MemoryType=values.get('MemoryType'),
+        SLISupport=values.get('SLI'),
+         CrossFireSupport=values.get('CrossFire'),
+          PCIEx16Slots=values.get('x16'),
+        PCIEx8Slots=values.get('x8'),
+        PCIEx4Slots=values.get('x4'),
+         PCIEx1Slots=values.get('x1'),
+        PCISlots=values.get('PCI'),
+        SATAPorts=values.get('SATA'),
+         M2Slots = values.get('M2'),
+          mSata = values.get('mSATA'),
+        OnboardUSB3Headers=values.get('USB3'),
+         OnboardWifi=values.get('Wifi'),
+        RAIDSupport=values.get('RAID'),
+         MotherboardListing=id_
+    )
     db.session.add(MotherBoard)
     db.session.commit()
 
