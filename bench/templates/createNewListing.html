@@ -22,6 +22,7 @@
         
         
         <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/changeForm.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/cpu_benchmark.js') }}"></script>
         <section class="product-display">
             <div class="container">
                 <div class="row">
@@ -75,7 +76,7 @@
                             </select>
                         </div>
                         <!-- Benchmark Score -->
-                        <div class="benchmark-button">
+                        <div class="benchmark-button" onclick="main()">
                             <h2>Benchmark Score</h2>
                             <h5>Click here to Benchmark</h5>
                         </div>
