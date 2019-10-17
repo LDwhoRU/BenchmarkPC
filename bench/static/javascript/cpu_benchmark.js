@@ -29,6 +29,7 @@ function main() {
         final_result = Math.floor(((3 - (result[0] / 1000))) * (1 / 8) * 100);
         console.log(final_result);
         activated = true;
+        document.getElementById('benchmark').innerHTML = "<h5>Score: " + final_result + "</h5>"
     }
 }
 
