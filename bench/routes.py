@@ -3,7 +3,7 @@ from bench.models import *
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm, bidForm,manageListingForm
 from flask_login import current_user, login_user, logout_user
-from bench.newListingFunctions import processListing
+from bench.newListingFunctions import processListing, UpdateListing
 
 
 @app.route('/', methods=['GET','POST'])
@@ -50,6 +50,8 @@ def manageListing(id):
     if(request.method == "POST"):
         if('UpdateListing' in request.form):
             print("\n---Updating Listing---\n")
+            UpdateListing(request,id)
+            return redirect('/manage/' + id)
 
         
     
@@ -72,7 +74,7 @@ def manageListing(id):
             return redirect("/")
 
         if(listing.ListingType == "Case"):
-            case = Case.query.filter_by(caseListing=id).first()
+            case = Case.query.filter_by(caseListing=id).first_or_404()
             return render_template('manageListingTemplates/CaseHTML.html', title=title,
                 bids=combinedList, length=length,listing=listing, case=case,form=form)
         elif(listing.ListingType == "CPU Cooler"):
@@ -85,6 +87,8 @@ def manageListing(id):
             print(cpu.Microarchitecture)
             return render_template('manageListingTemplates/CPUHTML.html', title=title,
                 bids=combinedList, length=length,listing=listing, cpu=cpu,form=form)
+        elif(listing.ListingType == 'Memory'):
+            memory = Memory.query.filter_by(memoryListing=id).first_or_404()
 
 
     

@@ -26,6 +26,14 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+class Sales(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ListingID = db.Column(db.Integer, db.ForeignKey('listing.id'))
+    BuyerID = db.Column(db.Integer, db.ForeignKey('user.id'))
+    SalePrice = db.Column(db.Numeric, unique=False, nullable=False)
+
+
+
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ListingScore = db.Column(db.Integer, nullable=True)
@@ -105,27 +113,27 @@ class CPUCooler(db.Model):
 
 class Motherboard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #Done
+    # Done
     manufacturer = db.Column(db.String(80), nullable=False)
-    #Done
+    # Done
     Socket = db.Column(db.String(80), nullable=True)
-    #Done
+    # Done
     RAMslots = db.Column(db.Integer, nullable=False, default=0)
-    #Done
+    # Done
     MaxRAM = db.Column(db.Integer, nullable=False, default=0)
-    #Done
+    # Done
     colour = db.Column(db.String(80), nullable=True)
-    #Done
+    # Done
     Chipset = db.Column(db.String(80), nullable=True)
 
-    #Done
+    # Done
     MemoryType = db.Column(db.String(80), nullable=True)
-    #Done
+    # Done
     SLISupport = db.Column(db.String(80), nullable=True)
-    #Done
+    # Done
     CrossFireSupport = db.Column(db.String(80), nullable=True)
 
-    #Done
+    # Done
     PCIEx16Slots = db.Column(db.Integer, nullable=False, default=0)
     PCIEx8Slots = db.Column(db.Integer, nullable=False, default=0)
     PCIEx4Slots = db.Column(db.Integer, nullable=False, default=0)
@@ -134,8 +142,8 @@ class Motherboard(db.Model):
     SATAPorts = db.Column(db.Integer, nullable=False, default=0)
     M2Slots = db.Column(db.Integer, nullable=False, default=0)
     mSata = db.Column(db.Integer, nullable=False, default=0)
-    #Here
-    #Done
+    # Here
+    # Done
     OnboardUSB3Headers = db.Column(db.String(80), nullable=True)
     OnboardWifi = db.Column(db.String(80), nullable=True)
 

@@ -23,7 +23,7 @@
                 <!-- Product Name -->
                 <div class="listing-header-box edit-product-box">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" value="{{listing.ListingName}}" aria-label="Placeholder" aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" form="ListingForm" name="ListingName" value="{{listing.ListingName}}" aria-label="Placeholder" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text price-append">$</span>
                         </div>
-                        <input form="ListingForm" type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)">
+                        <input form="ListingForm" name="Price" type="number" form="ListingForm" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)">
                         <div class="input-group-append">
                             <span class="input-group-text price-append">Current - ${{"{0:.2f}".format(listing.ListingPrice)}}</span>
                             <!-- <button class="btn btn-outline-dark submit-price-edit" type="button">Submit</button> -->
@@ -160,7 +160,7 @@
                 <div class="edit-description-box">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <textarea form="ListingForm" class="form-control" rows="12" placeholder="Error: No Description Provided" required>{{listing.ListingDescription}}</textarea>
+                            <textarea name="ListingDescription" form="ListingForm" class="form-control" rows="12" placeholder="Error: No Description Provided" required>{{listing.ListingDescription}}</textarea>
                         </div>
                     </div>
                 </div>

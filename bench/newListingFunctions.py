@@ -5,8 +5,58 @@ from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
 
 
+def UpdateListing(request, idL):
+    print("Updating Listing")
+    name = request.form.get('ListingName')
+    price = request.form.get('Price')
+    description = request.form.get('ListingDescription')
+
+    print("Request")
+    print(request.form)
+    print("End Request")
+    print("Listing Name: " + name)
+    listing = Listing.query.filter_by(id=idL).first()
+    listingType = listing.ListingType
+
+    if(name == ""):
+        name = listing.ListingName
+    if(price == ""):
+        price = listing.ListingPrice
+
+    listing.ListingName = name
+    listing.ListingPrice = price
+    listing.ListingDescription = description
+
+    if(listingType == "Case"):
+        values = getCaseValues(request)
+        case = Case.query.filter_by(id=idL).first()
+        case = Case(
+            manufacturer=values.get('manufacturer'),
+            colour=values.get('Colour'),
+            sidePanel=values.get('SidePanel'),
+            internal25Bays=values.get('Bays25'),
+            internal35Bays=values.get('Bays35'),
+            caseListing=listing.id)
+
+        db.session.add(case)
+        db.session.commit()
+
+    elif(listingType == "Memory"):
+        values = getMemoryValues(request)
+        memory = Memory.query.filter_by(id=idL).first()
+        memory = Memory(
+            manufacturer=values.get('manufacturer'),
+            colour=values.get('colour'),
+            memoryType=values.get('memoryType'),
+            speed=values.get('memorySpeed'),
+            modules=values.get('modules'),
+            memoryListing=id_)
+        db.session.add(memory)
+        db.session.commit()
+
+
 def processListing(request):
-    print("Test")
+    print("Creating New Lisiting")
     type = request.form.get('productType')
     price = request.form.get('productPrice')
     description = request.form.get('productDescription')
@@ -140,6 +190,15 @@ def getMotherboardValues(request):
     }
 
 
+def getMemoryValues(request):
+    return {
+        "manufacturer": request.form.get('Manufacturer'),
+        "memoryType": request.form.get('MemoryType'),
+        "memorySpeed": request.form.get('RAMSpeed'),
+        "modules": request.form.get('Modules'),
+        "colour": request.form.get('RAMColour')}
+
+
 def priceCheck(price):
     if(isDecimal(price) == False or float(price) < 0):
         return False
@@ -159,8 +218,8 @@ def processCase(detailList, request):
         return False
     if(values.get('Bays25').isdigit() == False or values.get('Bays35').isdigit() == False):
         return False
-    values.update({Bays25: int(values.get('Bays25')),
-                   Bays35: int(values.get('Bays35'))})
+    values.update({'Bays25': int(values.get('Bays25'))})
+    values.update({'Bays35': int(values.get('Bays35'))})
 
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
                       ListingType=detailList[0], ListingDescription=detailList[2],
@@ -179,18 +238,15 @@ def processCase(detailList, request):
 
 def processMemory(detailList, request):
     print("Memory")
-    manufacturer = request.form.get('Manufacturer')
-    memoryType = request.form.get('MemoryType')
-    memorySpeed = request.form.get('RAMSpeed')
-    modules = request.form.get('Modules')
-    colour = request.form.get('RAMColour')
+    print(request.form)
+    values = getMemoryValues(request)
 
-    if(manufacturer == ""):
+    if(values.get('manufacturer') == ""):
         return False
-    if(modules.isdigit() == False or memorySpeed.isdigit() == False):
+    if(values.get('modules').isdigit() == False or values.get('memorySpeed').isdigit() == False):
         return False
-    modules = int(modules)
-    memorySpeed = int(memorySpeed)
+    values.update({'modules': int(values.get('modules'))})
+    values.update({'memorySpeed': int(values.get('memorySpeed'))})
 
     listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
                       ListingType=detailList[0], ListingDescription=detailList[2],
@@ -199,8 +255,13 @@ def processMemory(detailList, request):
     db.session.commit()
     id_ = listing.id
 
-    memory = Memory(manufacturer=manufacturer, colour=colour, memoryType=memoryType,
-                    speed=memorySpeed, modules=modules, memoryListing=id_)
+    memory = Memory(
+        manufacturer=values.get('manufacturer'),
+        colour=values.get('colour'),
+        memoryType=values.get('memoryType'),
+        speed=values.get('memorySpeed'),
+        modules=values.get('modules'),
+        memoryListing=id_)
     db.session.add(memory)
     db.session.commit()
 
@@ -280,19 +341,19 @@ def processMotherBoard(detailList, request):
         Chipset=values.get('Chipset'),
         MemoryType=values.get('MemoryType'),
         SLISupport=values.get('SLI'),
-         CrossFireSupport=values.get('CrossFire'),
-          PCIEx16Slots=values.get('x16'),
+        CrossFireSupport=values.get('CrossFire'),
+        PCIEx16Slots=values.get('x16'),
         PCIEx8Slots=values.get('x8'),
         PCIEx4Slots=values.get('x4'),
-         PCIEx1Slots=values.get('x1'),
+        PCIEx1Slots=values.get('x1'),
         PCISlots=values.get('PCI'),
         SATAPorts=values.get('SATA'),
-         M2Slots = values.get('M2'),
-          mSata = values.get('mSATA'),
+        M2Slots=values.get('M2'),
+        mSata=values.get('mSATA'),
         OnboardUSB3Headers=values.get('USB3'),
-         OnboardWifi=values.get('Wifi'),
+        OnboardWifi=values.get('Wifi'),
         RAIDSupport=values.get('RAID'),
-         MotherboardListing=id_
+        MotherboardListing=id_
     )
     db.session.add(MotherBoard)
     db.session.commit()
