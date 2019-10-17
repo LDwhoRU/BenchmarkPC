@@ -3,7 +3,8 @@ from bench.models import User, Listing, Case, Memory, CPUCooler, Motherboard, CP
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
-
+from werkzeug.utils import secure_filename
+import os
 
 def UpdateListing(request, idL):
     print("Updating Listing")
@@ -197,6 +198,36 @@ def getCPUCoolerValues(request):
         "Fanless": request.form.get('Fanless')
     }
 
+def allowed_image(filename):
+    if not "." in filename:
+        return False
+
+    ext = filename.rsplit(".", 1)[1]
+
+    return True
+    """ if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        return True
+    else:
+        return False """
+
+def upload_image(request):
+    print("Uploading Image")
+    print(request.files["file"])
+
+    if request.method == "POST":
+        if request.files:
+            image = request.files["file"]
+            if image.filename == "":
+                print("No filename")
+                return redirect('/')
+            if allowed_image(image.filename):
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                print("Image saved")
+                return filename
+            else:
+                print("File extension must be .jpg, .jpeg, .png, .tiff, .gif")
+                return redirect(request.url)
 
 def getCaseValues(request):
     return {
@@ -304,6 +335,7 @@ def notNull(detailList):
 
 def processCase(detailList, request):
     values = getCaseValues(request)
+    print(upload_image(request))
     if(values.get('manufacturer') == ""):
         return False
     if(values.get('Bays25').isdigit() == False or values.get('Bays35').isdigit() == False):

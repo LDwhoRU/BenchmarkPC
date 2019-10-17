@@ -31,6 +31,10 @@ def newListing():
     title = "New Listing | BenchmarkPC"
     return render_template('createNewListing.html', form=form, title=title)
 
+
+
+
+
 @app.route('/manage')
 def manageListings():
     if current_user.is_anonymous:

@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="col-md-5-5">
                         <!-- Product slideshow -->
-                        <form action="" method="POST" name=ListingForm id=ListingForm>{{ form.csrf_token }}</form>
+                        <form action="" enctype="multipart/form-data" method="POST" name=ListingForm id=ListingForm>{{ form.csrf_token }}</form>
                         <div class="product-carousel">
                             <div id="product-carousel" class="carousel slide carousel-fade" data-ride="carousel">
                                 <div class="carousel-inner">
@@ -83,7 +83,7 @@
                                 <span class="input-group-text">Upload</span>
                             </div>
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="inputGroupFile01" form="ListingForm">
+                                <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" form="ListingForm">
                                 <label class="custom-file-label" for="inputGroupFile01">Product Images</label>
                             </div>
                         </div>
