@@ -22,21 +22,18 @@
         
         
         <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/changeForm.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/cpu_benchmark.js') }}"></script>
         <section class="product-display">
             <div class="container">
                 <div class="row">
                     <div class="col-md-5-5">
                         <!-- Product slideshow -->
-                        <form action="" method="POST" name="ListingForm" id="ListingForm">{{ form.csrf_token }}</form>
+                        <form action="" method="POST" name=ListingForm id=ListingForm>{{ form.csrf_token }}</form>
                         <div class="product-carousel">
                             <div id="product-carousel" class="carousel slide carousel-fade" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        {% if filename %}
-                                            <img src="{{ url_for('send_image', filename=filename) }}" class="d-block w-100">
-                                        {% else %}
-                                            <img src="static\placeholder.png" class="d-block w-100" alt="img\placeholder.png">
-                                        {% endif %}
+                                    <img src="static\placeholder.png" class="d-block w-100" alt="img\placeholder.png">
                                     </div>
                                 </div>
                                 <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
@@ -79,30 +76,19 @@
                             </select>
                         </div>
                         <!-- Benchmark Score -->
-                        <div class="benchmark-button">
-                            <h2>Benchmark Score</h2>
-                            <h5>Click here to Benchmark</h5>
-                        </div>
+                        <div id="benchmarkTemp"></div>
                         <!-- Upload Images -->
-                        <form action="/upload-image" method="POST" enctype="multipart/form-data">
-                            {{ form.hidden_tag()}}
-                            <div class="input-group mb-3 upload-new-image-box">
-                                <div class="form-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="image" id="image">
-                                        <label class="custom-file-label" for="image">Product Images</label>
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Upload</button>
-                                </div>
-                                <script>
-                                    $('#image').on('change', function(){
-                                        var fileName = $(this).val().replace('C:\\fakepath\\', " ");
-                                        $(this).next('.custom-file-label').html(fileName);
-                                    })
-                                </script>
+                        <div class="input-group mb-3 upload-new-image-box">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Upload</span>
                             </div>
-                        </form>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01" form="ListingForm">
+                                <label class="custom-file-label" for="inputGroupFile01">Product Images</label>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
                 <!-- Price bar -->
                 <div class="edit-price-box">
