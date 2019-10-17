@@ -1,10 +1,16 @@
 from bench import app, db
 from bench.models import *
-from flask import render_template, request, flash, redirect
-from forms import LoginForm, RegisterForm, newListingForm, bidForm,manageListingForm
+from flask import render_template, request, flash, redirect, url_for, send_from_directory
+from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
-from bench.newListingFunctions import processListing, UpdateListing
+from bench.newListingFunctions import processListing
+from werkzeug.utils import secure_filename
+import os
 
+UPLOAD_FOLDER = "/Users/Brock/Documents/BenchmarkPC-master/bench/static"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPG", "JPEG", "PNG", "TIFF", "GIF"]
+app.config["MAX_CONTENT_LENGTH"] = 30 * 1024 * 1024
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -15,8 +21,8 @@ def index():
 
 @app.route('/newListing', methods=['GET','POST'])
 def newListing():
-    if current_user.is_anonymous:
-        return redirect('/login')
+    #if current_user.is_anonymous:
+        #return redirect('/login')
     form = newListingForm()
     if request.method == 'POST':
         if(processListing(request)):
@@ -31,6 +37,47 @@ def newListing():
     title = "New Listing | BenchmarkPC"
     return render_template('createNewListing.html', form=form, title=title)
 
+
+def allowed_image(filename):
+    if not "." in filename:
+        return False
+
+    ext = filename.rsplit(".", 1)[1]
+
+    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        return True
+    else:
+        return False
+
+@app.route('/upload-image', methods=["GET", "POST"])
+def upload_image():
+    form = newListingForm()
+    title = "New Listing | BenchmarkPC"
+    if request.method == "POST":
+        if request.files:
+            image = request.files["image"]
+            if image.filename == "":
+                print("No filename")
+                return redirect(request.url)
+            if allowed_image(image.filename):
+                filename = secure_filename(image.filename)
+                image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+                print("Image saved")
+                return redirect(request.url)
+            else:
+                print("File extension must be .jpg, .jpeg, .png, .tiff, .gif")
+                return redirect(request.url)
+
+    return render_template('createNewListing.html', form=form, title=title)
+
+@app.route('/show/<filename>')
+def uploaded_image(filename):
+    return render_template('createNewListing.html', filename=filename)
+
+@app.route('/static/<filename>')
+def send_image(filename):
+    return send_from_directory('static', filename)
+
 @app.route('/manage')
 def manageListings():
     if current_user.is_anonymous:
@@ -44,68 +91,26 @@ def manageListings():
         print(entry.ListingName)
     return render_template('manageListing.html', title=title, entries=entries)
 
-@app.route('/manage/<id>',methods=['GET','POST'])
+@app.route('/manage/<id>')
 def manageListing(id):
-    form = manageListingForm()
-    if(request.method == "POST"):
-        if('UpdateListing' in request.form):
-            print("\n---Updating Listing---\n")
-            UpdateListing(request,id)
-            return redirect('/manage/' + id)
-
-        
-    
-    else:
-        print("Test")
-        title = "Managing Listing {0} | BenchmarkPC".format(id)
-        listing = Listing.query.filter_by(id=id).first_or_404()
-        listingBids = Bids.query.filter_by(bidListing=id)
-        bidUsers = []
-        listingBidsLists = []
-        for i in listingBids:
-            print(i)
-            bidUsers.append(User.query.filter_by(id=i.bidUser).first())
-            listingBidsLists.append(i)
-        combinedList = [bidUsers, listingBidsLists]
-        length = len(listingBidsLists)
-        if current_user.is_anonymous:
-            return redirect('/login')
-        elif current_user.id != listing.userId:
-            return redirect("/")
-
-        if(listing.ListingType == "Case"):
-            case = Case.query.filter_by(caseListing=id).first_or_404()
-            return render_template('manageListingTemplates/CaseHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, case=case,form=form)
-        elif(listing.ListingType == "CPU Cooler"):
-            cooler = CPUCooler.query.filter_by(CPUCoolerListing=id).first()
-            return render_template('manageListingTemplates/CPUCoolerHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, cooler=cooler,form=form)
-        elif(listing.ListingType == "CPU"):
-            cpu = CPU.query.filter_by(CPUListing=id).first_or_404()
-            print(cpu.Socket)
-            print(cpu.Microarchitecture)
-            return render_template('manageListingTemplates/CPUHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, cpu=cpu,form=form)
-        elif(listing.ListingType == 'Memory'):
-            memory = Memory.query.filter_by(memoryListing=id).first_or_404()
-            return render_template('manageListingTemplates/memoryHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, memory=memory,form=form)
-        elif(listing.ListingType == 'Graphics Card'):
-            gpu = GPU.query.filter_by(GPUListing=id).first_or_404()
-            return render_template('manageListingTemplates/GPUHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, gpu=gpu,form=form)
-        elif(listing.ListingType == 'Power Supply'):
-            powerSupply = PowerSupply.query.filter_by(PowerSupplyListing=id).first_or_404()
-            return render_template('manageListingTemplates/PowerSupplyHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, powerSupply=powerSupply,form=form)
-        elif(listing.ListingType == 'Motherboard'):
-            motherboard = Motherboard.query.filter_by(MotherboardListing=id).first_or_404()
-            return render_template('manageListingTemplates/MotherboardHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, motherboard=motherboard,form=form)
-
-    
-   
+    print("Test")
+    title = "Managing Listing {0} | BenchmarkPC".format(id)
+    listing = Listing.query.filter_by(id=id).first_or_404()
+    listingBids = Bids.query.filter_by(bidListing=id)
+    bidUsers = []
+    listingBidsLists = []
+    for i in listingBids:
+        print(i)
+        bidUsers.append(User.query.filter_by(id=i.bidUser).first())
+        listingBidsLists.append(i)
+    combinedList = [bidUsers, listingBidsLists]
+    length = len(listingBidsLists)
+    if current_user.is_anonymous:
+        return redirect('/login')
+    elif current_user.id != listing.userId:
+        return redirect("/")
+    return render_template('manageListingTemplates/manageListingTemplate.html', title=title,
+    bids=combinedList, length=length,listing=listing)
 
 
 @app.route('/listing')
@@ -114,7 +119,7 @@ def viewListing():
 
     return render_template("view.html", title=title)
 
-@app.route('/listing/<id>', methods=['GET','POST'])
+@app.route('/listing/<id>')
 def viewListingNumber(id):
     title = "Listing | BenchmarkPC"
 
@@ -122,58 +127,43 @@ def viewListingNumber(id):
 
     listing = Listing.query.filter_by(id=id).first_or_404()
     user = User.query.filter_by(id=listing.userId).first()
+    print(user.username)
     date = str(listing.ListingTimeStamp.day) + "/" + str(listing.ListingTimeStamp.month) + "/" + str(listing.ListingTimeStamp.year)
-    form = bidForm()
-    if(request.method == "POST"):
-        if(current_user.is_anonymous):
-            return redirect('/login')
-        exists = db.session.query(Bids.bidUser).filter_by(bidUser=current_user.id).first()
-        print(exists)
-        bidMoney = request.form.get("bid")
-        if(exists is not None):
-                bid = Bids.query.filter_by(bidUser=current_user.id, bidListing=id).first()
-                bid.bidAmount = bidMoney
-        else:
-                bid = Bids(bidAmount=bidMoney, bidUser=current_user.id, bidListing=id)
-        db.session.add(bid)
-        db.session.commit()
-
-
-
+    print(date)
     if(listing.ListingType == "CPU"):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details)
 
     elif(listing.ListingType == "Graphics Card"):
         details = GPU.query.filter_by(GPUListing=listing.id).first()
         return render_template("ViewListingTemplates/GPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details)
 
     elif(listing.ListingType == "CPU Cooler"):
         details = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUCooler.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details)
 
     elif(listing.ListingType == "Memory"):
         details = Memory.query.filter_by(memoryListing=listing.id).first()
         return render_template("ViewListingTemplates/Memory.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details)
 
     elif(listing.ListingType == "Case"):
         details = Case.query.filter_by(caseListing=listing.id).first()
         return render_template("ViewListingTemplates/Case.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details)
 
     elif(listing.ListingType == "Power Supply"):
         details = PowerSupply.query.filter_by(PowerSupplyListing=listing.id).first()
         return render_template("ViewListingTemplates/PowerSupply.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details)
 
     elif(listing.ListingType == "Motherboard"):
         details = Motherboard.query.filter_by(MotherboardListing=listing.id).first()
         return render_template("ViewListingTemplates/Motherboard.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details)
 
     else:
         return redirect("/")
