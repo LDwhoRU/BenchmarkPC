@@ -18,7 +18,7 @@
     <td>
         <div class="input-group mb-3">
             
-            <input value={{ case.colour }} type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+            <input value="{{ case.colour }}"" type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Case Colour..." name="CaseColour">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">Colour</span>
@@ -41,7 +41,7 @@
     <th scope="row">Internal 2.5" Bays</th>
     <td>
         <div class="input-group mb-3">
-            <input min="0" value={{ case.internal25Bays }} type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+            <input min="0" value="{{ case.internal25Bays }}" type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Amount Of Bays..." name="2.5Bays">
 
         </div>
@@ -51,7 +51,7 @@
     <th scope="row">Internal 3.5" Bays</th>
     <td>
         <div class="input-group mb-3">
-            <input min="0" value={{ case.internal35Bays }}  type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
+            <input min="0" value="{{ case.internal35Bays }}"  type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2"
                 form="ListingForm" placeholder="Enter Amount Of Bays..." name="3.5Bays">
 
         </div>

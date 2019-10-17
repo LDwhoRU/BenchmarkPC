@@ -1,8 +1,11 @@
+{% extends 'manageListingTemplates/manageListingTemplate.html' %}
+
+{% block form %}
 <tr>
     <th scope="row">Manufacturer</th>
     <td>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter Manufacturer Name..." name="Manufacturer">
+            <input type="text" value="{{ powerSupply.manufacturer }}" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter Manufacturer Name..." name="Manufacturer">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">Name</span>
             </div>
@@ -13,7 +16,7 @@
     <th scope="row">Effiency Rating</th>
     <td>
         <div class="input-group mb-3">
-            <input type="text" value= {{formValue.ER}} class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter Effiency Rating..." name="Effiency Rating">
+            <input type="text" value="{{ powerSupply.EffiencyRating }}" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter Effiency Rating..." name="Effiency Rating">
             
         </div>
     </td>
@@ -22,7 +25,7 @@
     <th scope="row">Wattage</th>
     <td>
         <div class="input-group mb-3">
-            <input min="0" type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter Wattage..." name="Wattage">
+            <input min="0" type="number" value="{{ powerSupply.Wattage }}" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter Wattage..." name="Wattage">
             <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">Watts</span>
             </div>
@@ -35,9 +38,9 @@
         <div class="input-group mb-1">
             <select class="custom-select" id="inputGroupSelect02" form="ListingForm" name="Modular">
                 <option selected>Choose...</option>
-                <option value="Full">Full</option>
-                <option value="Semi">Semi</option>
-                <option value="None">None</option>
+                <option value="Full" {% if powerSupply.Modular == "Full" %} selected="selected" {% endif %}>Full</option>
+                <option value="Semi"{% if powerSupply.Modular == "Semi" %} selected="selected" {% endif %}>Semi</option>
+                <option value="None"{% if powerSupply.Modular == "None" %} selected="selected" {% endif %}>None</option>
             </select>
         </div>
     </td>
@@ -46,9 +49,10 @@
     <th scope="row">SATA Connectors</th>
     <td>
         <div class="input-group mb-3">
-            <input min="0" type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter SATA Connectors..." name="SATA">
+            <input min="0" value="{{ powerSupply.SATAConnectors }}" type="number" class="form-control" aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm" placeholder="Enter SATA Connectors..." name="SATA">
             
         </div>
     </td>
 </tr>
+{% endblock %}
 

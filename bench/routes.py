@@ -89,7 +89,20 @@ def manageListing(id):
                 bids=combinedList, length=length,listing=listing, cpu=cpu,form=form)
         elif(listing.ListingType == 'Memory'):
             memory = Memory.query.filter_by(memoryListing=id).first_or_404()
-
+            return render_template('manageListingTemplates/memoryHTML.html', title=title,
+                bids=combinedList, length=length,listing=listing, memory=memory,form=form)
+        elif(listing.ListingType == 'Graphics Card'):
+            gpu = GPU.query.filter_by(GPUListing=id).first_or_404()
+            return render_template('manageListingTemplates/GPUHTML.html', title=title,
+                bids=combinedList, length=length,listing=listing, gpu=gpu,form=form)
+        elif(listing.ListingType == 'Power Supply'):
+            powerSupply = PowerSupply.query.filter_by(PowerSupplyListing=id).first_or_404()
+            return render_template('manageListingTemplates/PowerSupplyHTML.html', title=title,
+                bids=combinedList, length=length,listing=listing, powerSupply=powerSupply,form=form)
+        elif(listing.ListingType == 'Motherboard'):
+            motherboard = Motherboard.query.filter_by(MotherboardListing=id).first_or_404()
+            return render_template('manageListingTemplates/MotherboardHTML.html', title=title,
+                bids=combinedList, length=length,listing=listing, motherboard=motherboard,form=form)
 
     
    

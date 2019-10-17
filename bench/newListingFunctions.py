@@ -29,30 +29,120 @@ def UpdateListing(request, idL):
 
     if(listingType == "Case"):
         values = getCaseValues(request)
-        case = Case.query.filter_by(id=idL).first()
-        case = Case(
-            manufacturer=values.get('manufacturer'),
-            colour=values.get('Colour'),
-            sidePanel=values.get('SidePanel'),
-            internal25Bays=values.get('Bays25'),
-            internal35Bays=values.get('Bays35'),
-            caseListing=listing.id)
 
-        db.session.add(case)
+        case = Case.query.filter_by(caseListing=listing.id).first()
+        case.manufacturer=values.get('manufacturer')
+        case.colour=values.get('Colour')
+        case.sidePanel=values.get('SidePanel')
+        case.internal25Bays=values.get('Bays25')
+        case.internal35Bays=values.get('Bays35')
+
         db.session.commit()
 
     elif(listingType == "Memory"):
         values = getMemoryValues(request)
-        memory = Memory.query.filter_by(id=idL).first()
-        memory = Memory(
-            manufacturer=values.get('manufacturer'),
-            colour=values.get('colour'),
-            memoryType=values.get('memoryType'),
-            speed=values.get('memorySpeed'),
-            modules=values.get('modules'),
-            memoryListing=id_)
-        db.session.add(memory)
+        memory = Memory.query.filter_by(memoryListing=listing.id).first()
+
+        memory.manufacturer = values.get('manufacturer')
+        memory.colour = values.get('colour')
+        memory.memoryType=values.get('memoryType')
+        memory.speed=values.get('memorySpeed')
+        memory.modules=values.get('modules')
+
         db.session.commit()
+    elif(listingType == "CPU"):
+        cpu = CPU.query.filter_by(CPUListing=listing.id).first()
+        values = getCPUValues(request)
+        
+
+        cpu.cpu.manufacturer=values.get('manufacturer')
+        cpu.TDP=values.get('TDP')
+        cpu.CoreCount=values.get('CoreCount')
+        cpu.CoreClock=values.get('CoreClock')
+        cpu.BoostClock=values.get('BoostClock')
+        cpu.Series=values.get('Series')
+        cpu.Microarchitecture=values.get('Microarchitecture')
+        cpu.Socket=values.get('Socket')
+        cpu.IntegratedGraphics=values.get('IntegratedGraphics')
+        cpu.IncludesCPUCooler=values.get('IncludesCPUCooler')
+        
+        db.session.commit()
+    elif(listingType == "CPU Cooler"):
+        cooler = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
+        values = getCPUCoolerValues(request)      
+    
+        cooler.manufacturer=values.get('manufacturer')
+        cooler.FanRPM=values.get('RPM')
+        cooler.NoiseLevel=values.get('Noise')
+        cooler.Height=values.get('Height')
+        cooler.WaterCooled=values.get('WaterCooled')
+        cooler.Fanless=values.get('Fanless')
+        cooler.Socket=values.get('socket')
+
+        db.session.commit()
+    elif(listingType == "Graphics Card"):
+        values = getGPUValues(request)
+        gpu = GPU.query.filter_by(GPUListing=listing.id).first()
+        
+        gpu.manufacturer=values.get('manufacturer')
+        gpu.Chipset=values.get('Chipset')
+        gpu.MemoryType=values.get('MemoryType')
+        gpu.CoreClock=values.get('CoreClock')
+        gpu.BoostClock=values.get('BoostClock')
+        gpu.colour=values.get('colour')
+        gpu.Length=values.get('Length')
+        gpu.TDP=values.get('TDP')
+        gpu.DVIPorts=values.get('DVIPorts')
+        gpu.HDMIPorts=values.get('HDMIPorts')
+        gpu.MiniHDMIPorts=values.get('MiniHDMIPorts')
+        gpu.DisplayPortPorts=values.get('DisplayPortPorts')
+        gpu.MiniDisplayPortPorts=values.get('MiniDisplayPortPorts')
+        gpu.CoolingType=values.get('CoolingType')
+
+        db.session.commit()
+    elif(listingType == "Power Supply"):
+        values = getPowerSupplyValues(request)
+        powerSupply = PowerSupply.query.filter_by(PowerSupplyListing=listing.id).first()
+        powerSupply.manufacturer=values.get('manufacturer')
+        powerSupply.EffiencyRating=values.get('EffiencyRating')
+        powerSupply.Wattage=values.get('Wattage')
+        powerSupply.Modular=values.get('Modular')
+        powerSupply.SATAConnectors=values.get('SATAConnectors')
+        db.session.commit()
+    elif(listingType == "Motherboard"):
+        values = getMotherboardValues(request)
+        motherboard = Motherboard.query.filter_by(MotherboardListing=listing.id).first()
+
+        motherboard.manufacturer=values.get('manufacturer')
+        motherboard.Socket=values.get('Socket')
+        motherboard.RAMslots=values.get('RamSlots')
+        motherboard.MaxRAM=values.get('MaxRam')
+        motherboard.colour=values.get('colour')
+        motherboard.Chipset=values.get('Chipset')
+        motherboard.MemoryType=values.get('MemoryType')
+        motherboard.SLISupport=values.get('SLI')
+        motherboard.CrossFireSupport=values.get('CrossFire')
+        motherboard.PCIEx16Slots=values.get('x16')
+        motherboard.PCIEx8Slots=values.get('x8')
+        motherboard.PCIEx4Slots=values.get('x4')
+        motherboard.PCIEx1Slots=values.get('x1')
+        motherboard.PCISlots=values.get('PCI')
+        motherboard.SATAPorts=values.get('SATA')
+        motherboard.M2Slots=values.get('M2')
+        motherboard.mSata=values.get('mSATA')
+        motherboard.OnboardUSB3Headers=values.get('USB3')
+        motherboard.OnboardWifi=values.get('Wifi')
+        motherboard.RAIDSupport=values.get('RAID')
+
+        db.session.commit()
+
+
+
+
+
+
+
+
 
 
 def processListing(request):
@@ -411,36 +501,36 @@ def processCPU(detailList, request):
 
 
 def processGPU(detailList, request):
-    values = getGPUValues()
+    values = getGPUValues(request)
 
-    if(manufacturer == ""):
+    if(values.get('manufacturer') == ""):
         return False
-    elif(not isDecimal(values.get('CoreClock')) or values.get('CoreClock') <= 0):
+    elif(not isDecimal(values.get('CoreClock')) or float(values.get('CoreClock')) <= 0):
         print("Error: Core Clock Check Failed")
         print("Core Clock = " + str(values.get('CoreClock')))
         return False
-    elif(not isDecimal(values.get('BoostClock')) or values.get('BoostClock') <= 0):
+    elif(not isDecimal(values.get('BoostClock')) or float(values.get('BoostClock')) <= 0):
         print("Error: Boost Clock Check Failed")
         return False
-    elif(not isDecimal(values.get('Length')) or values.get('Length') <= 0):
+    elif(not isDecimal(values.get('Length')) or float(values.get('Length')) <= 0):
         print("Error: Length Check Failed")
         return False
-    elif(not values.get('TDP').isdigit() or values.get('TDP') < 0):
+    elif(not values.get('TDP').isdigit() or int(values.get('TDP')) < 0):
         print("Error: TDP Check Failed")
         return False
-    elif(not values.get('DVIPorts').isdigit() or values.get('DVIPorts') < 0):
+    elif(not values.get('DVIPorts').isdigit() or int(values.get('DVIPorts')) < 0):
         print("Error: DVIPorts Check Failed")
         return False
-    elif(not values.get('HDMIPorts').isdigit() or values.get('HDMIPorts') < 0):
+    elif(not values.get('HDMIPorts').isdigit() or int(values.get('HDMIPorts')) < 0):
         print("Error: HDMIPorts Check Failed")
         return False
-    elif(not values.get('MiniHDMIPorts').isdigit() or values.get('MiniHDMIPorts') < 0):
+    elif(not values.get('MiniHDMIPorts').isdigit() or int(values.get('MiniHDMIPorts')) < 0):
         print("Error: MiniHDMIPorts Check Failed")
         return False
-    elif(not values.get('DisplayPortPorts').isdigit() or values.get('DisplayPortPorts') < 0):
+    elif(not values.get('DisplayPortPorts').isdigit() or int(values.get('DisplayPortPorts')) < 0):
         print("Error: DisplayPortPorts Check Failed")
         return False
-    elif(not values.get('MiniDisplayPortPorts').isdigit() or values.get('MiniDisplayPortPorts') < 0):
+    elif(not values.get('MiniDisplayPortPorts').isdigit() or int(values.get('MiniDisplayPortPorts')) < 0):
         print("Error: MiniDisplayPortPorts Check Failed")
         return False
     elif(values.get('CoolingType') not in ["Blower", "Fan"]):
@@ -482,9 +572,9 @@ def processPowerSupply(detailList, request):
 
     if(values.get('manufacturer') == ""):
         return False
-    elif(values.get('Wattage') == None or not values.get('Wattage').isdigit() or values.get('Wattage') < 1):
+    elif(values.get('Wattage') == None or not values.get('Wattage').isdigit() or int(values.get('Wattage')) < 1):
         return False
-    elif(values.get('SATAConnectors') == None or not values.get('SATAConnectors').isdigit() or values.get('SATAConnectors') < 0):
+    elif(values.get('SATAConnectors') == None or not values.get('SATAConnectors').isdigit() or int(values.get('SATAConnectors')) < 0):
         return False
     elif(values.get('EffiencyRating') == None):
         return False
