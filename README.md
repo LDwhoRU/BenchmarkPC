@@ -17,3 +17,6 @@ This page shows images, price information, benchmark scores, detailed product de
 
 5. Manage item Page(insert screenshot of manageListing.html)
 This page allows sellers to edit product descriptions and specifications, benchmark their items, set the price and see all bids made by bidders. The bids information will contain dates, names, phone numbers, and e-mails. The sellers can choose to accept the bids or not. 
+
+6. New listing Page(insert screenshot of createNewListing.html)
+This page allows sellers to update images of the product they want to sell, they can set up new production description and specification and the price. 
