@@ -10,11 +10,11 @@ function bench() {
     }
     return product
 }
-function timeIt(repeats, functionName) {
+function timeIt(sampleSize, repeats , functionName) {
     let times = [];
-    for (let i = 0; i < repeats; i++) {
+    for (let i = 0; i < sampleSize; i++) {
         let t0 = performance.now();
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < repeats; j++) {
             functionName();
         }
         let t1 = performance.now();
@@ -24,12 +24,12 @@ function timeIt(repeats, functionName) {
 }
 function main() {
     if (!activated) {
-        result = timeIt(10, bench);
+        result = timeIt(10, 10, bench);
         result.sort((a, b) => a - b);
-        final_result = Math.floor(((3 - (result[0] / 1000))) * (1 / 8) * 100);
+        final_result = Math.floor(((3 - (result[0] / 1000)) * 1/1.8) * 100)
         console.log(final_result);
         activated = true;
-        document.getElementById('benchmark').innerHTML = "<h5>Score: " + final_result + "</h5>"
+        document.getElementById('benchmark').innerHTML = "<h3>Score: " + final_result + "</h3>"
     }
 }
 

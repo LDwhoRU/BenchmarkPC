@@ -122,11 +122,11 @@ def viewListingNumber(id):
 
     listing = Listing.query.filter_by(id=id).first_or_404()
     user = User.query.filter_by(id=listing.userId).first()
-    print(user.username)
     date = str(listing.ListingTimeStamp.day) + "/" + str(listing.ListingTimeStamp.month) + "/" + str(listing.ListingTimeStamp.year)
-    print(date)
     form = bidForm()
     if(request.method == "POST"):
+        if(current_user.is_anonymous):
+            return redirect('/login')
         exists = db.session.query(Bids.bidUser).filter_by(bidUser=current_user.id).first()
         print(exists)
         bidMoney = request.form.get("bid")

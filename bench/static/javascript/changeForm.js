@@ -7,7 +7,6 @@ function resetDropdown(){
 }
 function myFunction(){
     var select = document.getElementById("productType");
-
     var value = select.options[select.selectedIndex].value;
     console.log(value);
     clearSpecifications();

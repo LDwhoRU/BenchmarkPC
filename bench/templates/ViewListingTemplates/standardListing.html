@@ -121,12 +121,14 @@
                             </div>
                         </div>
                         <!-- Bid for item -->
+                        {% if listing.ListingState == "Open" and current_user.id != listing.userId%}
                         <div class="input-group mb-3 price-input">
                             <input type="number" form=ListingForm name="bid" min="1" step="any" class="price-input-field" placeholder=" ${{"{0: .2f}".format(listing.ListingPrice)}}" aria-label="$1499.99" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                     <button type="submit" form=ListingForm class="btn btn-primary btn-bid">Bid</button>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
 
