@@ -8,6 +8,15 @@ function resetDropdown(){
 function myFunction(){
     var select = document.getElementById("productType");
     var value = select.options[select.selectedIndex].value;
+    if(value == "CPU"){
+        document.getElementById('benchmarkTemp').innerHTML = `<div id="benchmark" class="benchmark-button" onclick="main()">
+        <h2>Benchmark Score</h2>
+        <h5>Click here to Benchmark</h5>
+    </div>`;
+    }
+    else{
+        document.getElementById('benchmarkTemp').innerHTML = "";
+    }
     console.log(value);
     clearSpecifications();
     var submit = document.getElementById("submit");
