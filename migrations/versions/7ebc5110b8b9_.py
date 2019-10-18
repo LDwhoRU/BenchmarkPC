@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 24d22b4d006f
+Revision ID: 7ebc5110b8b9
 Revises: 
-Create Date: 2019-10-17 16:00:30.292432
+Create Date: 2019-10-18 15:04:31.600553
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '24d22b4d006f'
+revision = '7ebc5110b8b9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -118,6 +118,13 @@ def upgrade():
     sa.ForeignKeyConstraint(['CPUCoolerListing'], ['listing.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('images',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('ImageName', sa.String(length=80), nullable=False),
+    sa.Column('ImageListing', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['ImageListing'], ['listing.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('memory',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('manufacturer', sa.String(length=80), nullable=False),
@@ -184,6 +191,7 @@ def downgrade():
     op.drop_table('power_supply')
     op.drop_table('motherboard')
     op.drop_table('memory')
+    op.drop_table('images')
     op.drop_table('cpu_cooler')
     op.drop_table('case')
     op.drop_table('bids')

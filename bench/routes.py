@@ -15,21 +15,26 @@ def index():
 
 @app.route('/newListing', methods=['GET','POST'])
 def newListing():
+    title = "New Listing | BenchmarkPC"
+
     if current_user.is_anonymous:
         return redirect('/login')
     form = newListingForm()
     if request.method == 'POST':
-        if(processListing(request)):
+        message = processListing(request)
+        if(message[0] == "Passed"):
             return redirect("/")
         else:
-            return redirect('/manage')
+            Images.query.filter_by(ImageListing=message[1]).delete()
+            Listing.query.filter_by(id=message[1]).delete()
+            db.session.commit()
+            return render_template('createNewListing.html', form=form,title=title, message=message)
         print(request.form.get('productName'))
         print(request.form.get('productPrice'))
         print(request.form.get('productDescription'))
         print(request.form.get('productType'))
 
-    title = "New Listing | BenchmarkPC"
-    return render_template('createNewListing.html', form=form, title=title)
+    return render_template('createNewListing.html', form=form, title=title, message=None)
 
 
 

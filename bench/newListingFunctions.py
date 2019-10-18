@@ -1,5 +1,5 @@
 from bench import app, db
-from bench.models import User, Listing, Case, Memory, CPUCooler, Motherboard, CPU, GPU, PowerSupply
+from bench.models import User, Listing, Case, Memory, CPUCooler, Motherboard, CPU, GPU, PowerSupply, Images
 from flask import render_template, request, flash, redirect
 from forms import LoginForm, RegisterForm, newListingForm
 from flask_login import current_user, login_user, logout_user
@@ -152,39 +152,54 @@ def processListing(request):
     price = request.form.get('productPrice')
     description = request.form.get('productDescription')
     name = request.form.get('productName')
-    detailList = [type, price, description, name]
 
-    if notNull(detailList) == False:
-        print("Null Values Detected")
-        return False
-    if priceCheck(price) == False:
-        print("Error: Price Not Correct Format")
-        return False
-    if(type == "Case"):
-        if(processCase(detailList, request) == False):
-            return False
-    elif(type == "Memory"):
-        if(processMemory(detailList, request) == False):
-            return False
-    elif(type == "CPU Cooler"):
-        if(processCPUCooler(detailList, request) == False):
-            return False
-    elif(type == "Motherboard"):
-        if(processMotherBoard(detailList, request) == False):
-            return False
-    elif(type == "CPU"):
-        print("reached Here")
-        if(processCPU(detailList, request) == False):
-            return False
-    elif(type == "Graphics Card"):
-        if(processGPU(detailList, request) == False):
-            return False
-    elif(type == "Power Supply"):
-        if(processPowerSupply(detailList, request) == False):
-            return False
+    detailList = { "type" : type, "price" : price, "description" : description, "name" : name}
+    
+    error = notNull(detailList)
+    if(error == False):
+        pass
     else:
-        return False
-    return True
+        return error
+    if(priceCheck(detailList['price']) == False):
+        return "Price Error"
+
+    listing = Listing(
+        ListingName=detailList["name"], 
+        ListingPrice=detailList["price"],
+        ListingType=detailList["type"], 
+        ListingDescription=detailList["description"],
+        userId=current_user.id)
+
+    db.session.add(listing)
+    db.session.commit()
+
+    ListingID = listing.id
+    error = upload_image(ListingID,request)
+    if(error != "Passed"):
+        Listing.query.filter_by(id=ListingID).delete()
+        db.session.commit()
+        return error
+    
+    if(type == "Case"):
+        return [processCase(request,ListingID),ListingID] 
+    elif(type == "Memory"):
+        return [processMemory(request, ListingID), ListingID]
+    elif(type == "CPU Cooler"):
+        return [processCPUCooler(request, ListingID), ListingID]
+    elif(type == "Motherboard"):
+        return [processMotherBoard(request, ListingID), ListingID ]
+    elif(type == "CPU"):
+        return [processCPU(request, ListingID), ListingID]
+    elif(type == "Graphics Card"):
+        return [processGPU( request, ListingID), ListingID] 
+    elif(type == "Power Supply"):
+        return [processPowerSupply(request, ListingID), ListingID]
+    else:
+        return "No Type Selected"
+
+
+
+
 
 
 def getCPUCoolerValues(request):
@@ -201,33 +216,34 @@ def getCPUCoolerValues(request):
 def allowed_image(filename):
     if not "." in filename:
         return False
-
-    ext = filename.rsplit(".", 1)[1]
-
-    return True
-    """ if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+    if(filename.lower().endswith(('.png','.jpg','.jpeg'))):
         return True
     else:
-        return False """
+        return False
 
-def upload_image(request):
-    print("Uploading Image")
-    print(request.files["file"])
 
-    if request.method == "POST":
-        if request.files:
-            image = request.files["file"]
-            if image.filename == "":
-                print("No filename")
-                return redirect('/')
-            if allowed_image(image.filename):
-                filename = secure_filename(image.filename)
-                image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-                print("Image saved")
-                return filename
-            else:
-                print("File extension must be .jpg, .jpeg, .png, .tiff, .gif")
-                return redirect(request.url)
+def upload_image(id, request):
+    print(request.files)
+    if request.files:
+        image = request.files["file"]
+        if image.filename == "":
+            return "Passed"
+        if allowed_image(image.filename):
+            if(image.filename.lower().endswith('.png')):
+                image.filename = str(id) + '.png'
+            elif(image.filename.lower().endswith('.jpg')):
+                image.filename = str(id) + '.jpg'
+            elif(image.filename.lower().endswith('.jpeg')):
+                image.filename = str(id) + '.jpeg'
+                
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config["UPLOAD_FOLDER"],filename ))
+            image = Images(ImageName=filename,ImageListing=id)
+            db.session.add(image)
+            db.session.commit()
+            return "Passed"
+        else:
+            return "Not Correct File Type"
 
 def getCaseValues(request):
     return {
@@ -328,54 +344,64 @@ def priceCheck(price):
 
 
 def notNull(detailList):
-    for detail in detailList:
-        if detail == "":
-            return False
+    if(detailList["type"] == ""):
+        return "Invalid Type"
+    elif(detailList["price"] == ""):
+        return "Invalid Price"
+    elif(detailList["name"] == ""):
+        return "Invalid Name"
+    return False
 
 
-def processCase(detailList, request):
+
+
+def processCase(request, id):
     values = getCaseValues(request)
-    print(upload_image(request))
-    if(values.get('manufacturer') == ""):
-        return False
-    if(values.get('Bays25').isdigit() == False or values.get('Bays35').isdigit() == False):
-        return False
-    values.update({'Bays25': int(values.get('Bays25'))})
-    values.update({'Bays35': int(values.get('Bays35'))})
+    
+    error = manufacturerError(values.get('manufacturer'))
+    if(error != "Passed"):
+        return error
 
-    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                      ListingType=detailList[0], ListingDescription=detailList[2],
-                      userId=current_user.id)
-    db.session.add(listing)
-    db.session.commit()
-    listingID = listing.id
+    if(values.get('Bays25').isdigit() == False or values.get('Bays35').isdigit() == False):
+        values.update({'Bays25': 0})
+        values.update({'Bays35': 0})
+    else:
+        values.update({'Bays25': int(values.get('Bays25'))})
+        values.update({'Bays35': int(values.get('Bays35'))})    
+
+        
 
     case = Case(manufacturer=values.get('manufacturer'), colour=values.get('Colour'), sidePanel=values.get('SidePanel'),
                 internal25Bays=values.get('Bays25'),
                 internal35Bays=values.get('Bays35'),
-                caseListing=listingID)
+                caseListing=id)
     db.session.add(case)
     db.session.commit()
 
+    return "Passed"
 
-def processMemory(detailList, request):
-    print("Memory")
-    print(request.form)
+def manufacturerError(manufacturer):
+    if(manufacturer == ""):
+        return "No Value For Manufacturer Provided"
+    else:
+        return "Passed"
+def processMemory(request, id):
     values = getMemoryValues(request)
 
-    if(values.get('manufacturer') == ""):
-        return False
-    if(values.get('modules').isdigit() == False or values.get('memorySpeed').isdigit() == False):
-        return False
+    error = manufacturerError(values.get('manufacturer'))
+    if(error != "Passed"):
+        return error
+        
+    if(values.get('modules').isdigit() == False):
+        values.update({'modules' : 1})
+
+    if(values.get('memorySpeed').isdigit() == False):
+        return "Memory Speed Not Provided Or In Incorrect Format"
+
     values.update({'modules': int(values.get('modules'))})
     values.update({'memorySpeed': int(values.get('memorySpeed'))})
 
-    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                      ListingType=detailList[0], ListingDescription=detailList[2],
-                      userId=current_user.id)
-    db.session.add(listing)
-    db.session.commit()
-    id_ = listing.id
+    
 
     memory = Memory(
         manufacturer=values.get('manufacturer'),
@@ -383,30 +409,35 @@ def processMemory(detailList, request):
         memoryType=values.get('memoryType'),
         speed=values.get('memorySpeed'),
         modules=values.get('modules'),
-        memoryListing=id_)
+        memoryListing=id)
     db.session.add(memory)
     db.session.commit()
 
+    return "Passed"
 
-def processCPUCooler(detailList, request):
-    print("COol")
+
+def processCPUCooler(request, id):
     values = getCPUCoolerValues(request)
+    
+    error = manufacturerError(values.get('manufacturer'))
+    if(error != "Passed"):
+        return error
 
-    if(values.get('manufacturer') == ""):
-        print("No Manufacturer")
-        return False
-    if(values.get('Height') == False or values.get('Noise').isdigit() == False or values.get('RPM').isdigit() == False):
-        return False
+    if(values.get('Height').isDecimal() == False):
+        return "Height Not Provided In Decimal Form"
+
+    if(values.get('Noise').isdigit() == False):
+        return "Noise Was Not Provided In Integer Form"
+
+
+    if(values.get('RPM').isdigit() == False):
+        return "RPM Not Provided As An Integer"
+        
     values.update({'Height':  int(values.get('Height'))})
     values.update({'Noise':  int(values.get('Noise'))})
     values.update({'RPM': int(values.get('RPM'))})
 
-    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                      ListingType=detailList[0], ListingDescription=detailList[2],
-                      userId=current_user.id)
-    db.session.add(listing)
-    db.session.commit()
-    id_ = listing.id
+    
 
     Cooler = CPUCooler(
         manufacturer=values.get('manufacturer'),
@@ -415,17 +446,20 @@ def processCPUCooler(detailList, request):
         Height=values.get('Height'),
         WaterCooled=values.get('WaterCooled'),
         Fanless=values.get('Fanless'),
-        CPUCoolerListing=id_,
+        CPUCoolerListing=id,
         Socket=values.get('socket'))
     db.session.add(Cooler)
     db.session.commit()
 
+    return "Passed"
 
-def processMotherBoard(detailList, request):
+
+def processMotherBoard(request, id):
     values = getMotherboardValues(request)
 
-    if(values.get('manufacturer') == ""):
-        return False
+    error = manufacturerError(values.get('manufacturer'))
+    if(error != "Passed"):
+        return error
 
     IntegerKeys = [
         'RamSlots',
@@ -445,13 +479,7 @@ def processMotherBoard(detailList, request):
            or int(values.get(key)) < 0):
             values.update({key, 0})
 
-    # Add The Listing First So The Listing ID Is Available
-    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                      ListingType=detailList[0], ListingDescription=detailList[2],
-                      userId=current_user.id)
-    db.session.add(listing)
-    db.session.commit()
-    id_ = listing.id
+    
 
     # Create The Motherboard Object And Add It To The Database
     MotherBoard = Motherboard(
@@ -475,45 +503,33 @@ def processMotherBoard(detailList, request):
         OnboardUSB3Headers=values.get('USB3'),
         OnboardWifi=values.get('Wifi'),
         RAIDSupport=values.get('RAID'),
-        MotherboardListing=id_
+        MotherboardListing=id
     )
     db.session.add(MotherBoard)
     db.session.commit()
 
-    manufacturer = request.form.get('Manufacturer')
+    return "Passed"
 
 
-def processCPU(detailList, request):
+def processCPU(request, id):
     values = getCPUValues(request)
-    print("Reached Checks")
-    if(values.get('manufacturer') == ""):
-        print("Error: Manufacturer Check Failed")
-        return False
+
+    error = manufacturerError(values.get('manufacturer'))
+    if(error != "Passed"):
+        return error
     elif(values.get('CoreCount') == None or values.get('CoreCount').isdigit() == False):
-        print("Error: CoreCount Check Failed")
-        return False
+        return "Core Count Not Proivded, Or Is Not Proivded In The Correct Format"
     elif(values.get('CoreClock') == None or not isDecimal(values.get('CoreClock'))):
-        print("Error: Core Clock Check Failed")
-        return False
+        return "Core Clock Not Provided, Or Is Proivded In The Correct Format"
     elif(values.get('BoostClock') == None or not isDecimal(values.get('BoostClock'))):
-        print("Error: Boost Clock Check Failed")
-        return False
+        return "Boost Clock Value Is Not Proivded, Or Is Provided In The Wrong Format"
     elif(values.get('TDP') == None or not values.get('TDP').isdigit()):
-        return False
+        values.update({'TDP' : "Unknown"})
     elif(values.get('IntegratedGraphics') not in ["Yes", "No"]):
-        print("Error: IntegratedGraphics Check Failed")
-        return False
+        values.update({"IntegratedGraphics" : "No"})
     elif(values.get('IncludesCPUCooler') not in ["Yes", "No"]):
-        print("Error: IncludesCPUCooler Check Failed")
-        return False
-    print("Passed Checks")
-    # Add The Listing First So The Listing ID Is Available
-    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                      ListingType=detailList[0], ListingDescription=detailList[2],
-                      userId=current_user.id)
-    db.session.add(listing)
-    db.session.commit()
-    id_ = listing.id
+        values.update({"IncludesCPUCooler" : "No"})
+
 
     cpu = CPU(
         manufacturer=values.get('manufacturer'),
@@ -526,57 +542,42 @@ def processCPU(detailList, request):
         Socket=values.get('Socket'),
         IntegratedGraphics=values.get('IntegratedGraphics'),
         IncludesCPUCooler=values.get('IncludesCPUCooler'),
-        CPUListing=id_)
+        CPUListing=id)
 
     db.session.add(cpu)
     db.session.commit()
 
+    return "Passed"
 
-def processGPU(detailList, request):
+
+def processGPU(request, id):
     values = getGPUValues(request)
 
-    if(values.get('manufacturer') == ""):
-        return False
+    error = manufacturerError(values.get('manufacturer'))
+    if(error != "Passed"):
+        return error
     elif(not isDecimal(values.get('CoreClock')) or float(values.get('CoreClock')) <= 0):
-        print("Error: Core Clock Check Failed")
-        print("Core Clock = " + str(values.get('CoreClock')))
-        return False
+        return "Core Clock Is Not A Decimal Or Is Equal To Or Less Than 0"
     elif(not isDecimal(values.get('BoostClock')) or float(values.get('BoostClock')) <= 0):
-        print("Error: Boost Clock Check Failed")
-        return False
+        return "Boost Clock Is Not A Decimal Or Is Equal To Or Less Than 0"
     elif(not isDecimal(values.get('Length')) or float(values.get('Length')) <= 0):
-        print("Error: Length Check Failed")
-        return False
+        return "Length Is Not A Decimal Or Is Equal To Or Less Than 0"
     elif(not values.get('TDP').isdigit() or int(values.get('TDP')) < 0):
-        print("Error: TDP Check Failed")
-        return False
+        return "TDP Is Not A Integer Or Is Less Than 0"
     elif(not values.get('DVIPorts').isdigit() or int(values.get('DVIPorts')) < 0):
-        print("Error: DVIPorts Check Failed")
-        return False
+        values.update({"DVIPorts" : 0})
     elif(not values.get('HDMIPorts').isdigit() or int(values.get('HDMIPorts')) < 0):
-        print("Error: HDMIPorts Check Failed")
-        return False
+        values.update({"HDMIPorts" : 0})
     elif(not values.get('MiniHDMIPorts').isdigit() or int(values.get('MiniHDMIPorts')) < 0):
-        print("Error: MiniHDMIPorts Check Failed")
-        return False
+        values.update({"MiniHDMIPorts" : 0})
     elif(not values.get('DisplayPortPorts').isdigit() or int(values.get('DisplayPortPorts')) < 0):
-        print("Error: DisplayPortPorts Check Failed")
-        return False
+        values.update({"DisplayPortPorts" : 0})
     elif(not values.get('MiniDisplayPortPorts').isdigit() or int(values.get('MiniDisplayPortPorts')) < 0):
-        print("Error: MiniDisplayPortPorts Check Failed")
-        return False
+        values.update({"MiniDisplayPortPorts" : 0})
     elif(values.get('CoolingType') not in ["Blower", "Fan"]):
-        print("Error: CoolingType Check Failed")
-        return False
+        values.update({"CoolingType" : "Fan"})
 
-    # Add The Listing First So The Listing ID Is Available
-    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                      ListingType=detailList[0], ListingDescription=detailList[2],
-                      userId=current_user.id)
-    db.session.add(listing)
-    db.session.commit()
-    id_ = listing.id
-
+    
     gpu = GPU(
         manufacturer=values.get('manufacturer'),
         Chipset=values.get('Chipset'),
@@ -592,34 +593,30 @@ def processGPU(detailList, request):
         DisplayPortPorts=values.get('DisplayPortPorts'),
         MiniDisplayPortPorts=values.get('MiniDisplayPortPorts'),
         CoolingType=values.get('CoolingType'),
-        GPUListing=id_)
+        GPUListing=id)
 
     db.session.add(gpu)
     db.session.commit()
-    print("Commit GPU")
+    
+    return "Passed"
 
 
-def processPowerSupply(detailList, request):
+def processPowerSupply(request, id):
     values = getPowerSupplyValues(request)
 
-    if(values.get('manufacturer') == ""):
-        return False
+    error = manufacturerError(values.get('manufacturer'))
+    if(error != "Passed"):
+        return error
     elif(values.get('Wattage') == None or not values.get('Wattage').isdigit() or int(values.get('Wattage')) < 1):
-        return False
+        return "Wattage Not Given As An Interger Or Is Less Than 1"
     elif(values.get('SATAConnectors') == None or not values.get('SATAConnectors').isdigit() or int(values.get('SATAConnectors')) < 0):
-        return False
+        return "Sata Connectors Not Given As An Interger Or Less Than 0"
     elif(values.get('EffiencyRating') == None):
-        return False
+        return "Effiency Rating Not Given"
     elif(values.get('Modular') == None or values.get('Modular') not in ["Full", "Semi", "None"]):
-        return False
+        return "Modular Status Not Given Or Does Not Match Any Of The Dropdown Values"
 
-    # Add The Listing First So The Listing ID Is Available
-    listing = Listing(ListingName=detailList[3], ListingPrice=detailList[1],
-                      ListingType=detailList[0], ListingDescription=detailList[2],
-                      userId=current_user.id)
-    db.session.add(listing)
-    db.session.commit()
-    id_ = listing.id
+   
 
     powerSupply = PowerSupply(
         manufacturer=values.get('manufacturer'),
@@ -627,10 +624,12 @@ def processPowerSupply(detailList, request):
         Wattage=values.get('Wattage'),
         Modular=values.get('Modular'),
         SATAConnectors=values.get('SATAConnectors'),
-        PowerSupplyListing=id_)
+        PowerSupplyListing=id)
 
     db.session.add(powerSupply)
     db.session.commit()
+
+    return "Passed"
 
 
 def isDecimal(number):

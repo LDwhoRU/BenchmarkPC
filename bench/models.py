@@ -150,6 +150,12 @@ class Motherboard(db.Model):
     RAIDSupport = db.Column(db.String(80), nullable=True)
     MotherboardListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
 
+class Images(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ImageName = db.Column(db.String(80), nullable=False)
+    ImageListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
+
+
 
 class GPU(db.Model):
     id = db.Column(db.Integer, primary_key=True)

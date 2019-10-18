@@ -2,12 +2,14 @@
 
 
 <html>
+
+<head>
+    <title>
+        12BenchmarkPC
+    </title>
+
     <head>
-        <title>
-            12BenchmarkPC
-        </title>
-    <head>
-        
+
         {% block breadcrumb %}
         <!-- Breadcrumb to current listing -->
         <nav aria-label="breadcrumb">
@@ -19,8 +21,8 @@
         {% endblock %}
 
         {% block content %}
-        
-        
+
+
         <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/changeForm.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/cpu_benchmark.js') }}"></script>
         <section class="product-display">
@@ -28,19 +30,23 @@
                 <div class="row">
                     <div class="col-md-5-5">
                         <!-- Product slideshow -->
-                        <form action="" enctype="multipart/form-data" method="POST" name=ListingForm id=ListingForm>{{ form.csrf_token }}</form>
+                        <form action="" enctype="multipart/form-data" method="POST" name=ListingForm id=ListingForm>
+                            {{ form.csrf_token }}</form>
                         <div class="product-carousel">
                             <div id="product-carousel" class="carousel slide carousel-fade" data-ride="carousel">
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                    <img src="static\placeholder.png" class="d-block w-100" alt="img\placeholder.png">
+                                        <img src="static\placeholder.png" class="d-block w-100"
+                                            alt="img\placeholder.png">
                                     </div>
                                 </div>
-                                <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+                                <a class="carousel-control-prev" href="#product-carousel" role="button"
+                                    data-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Previous</span>
                                 </a>
-                                <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+                                <a class="carousel-control-next" href="#product-carousel" role="button"
+                                    data-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>
                                 </a>
@@ -59,12 +65,15 @@
                         <!-- Product Name -->
                         <div class="new-product-box">
                             <div class="input-group mb-2">
-                                <input type="text" name="productName" class="form-control new-product-input" placeholder="Product Name..." aria-label="Placeholder" aria-describedby="basic-addon2" form="ListingForm">
+                                <input type="text" name="productName" class="form-control new-product-input"
+                                    placeholder="Product Name..." aria-label="Placeholder"
+                                    aria-describedby="basic-addon2" form="ListingForm">
                             </div>
                         </div>
                         <!-- Product category -->
                         <div class="input-group mb-2 new-product-type-box">
-                            <select onload="resetDropdown()" class="custom-select new-product-type-selection" id="productType" form="ListingForm" required name="productType" onchange="myFunction()">
+                            <select onload="resetDropdown()" class="custom-select new-product-type-selection"
+                                id="productType" form="ListingForm" required name="productType" onchange="myFunction()">
                                 <option value="default" selected>Product Type...</option>
                                 <option value="CPU">CPU</option>
                                 <option value="CPU Cooler">CPU Cooler</option>
@@ -83,7 +92,8 @@
                                 <span class="input-group-text">Upload</span>
                             </div>
                             <div class="custom-file">
-                                <input type="file" name="file" class="custom-file-input" id="inputGroupFile01" form="ListingForm">
+                                <input type="file" name="file" class="custom-file-input" id="inputGroupFile01"
+                                    form="ListingForm">
                                 <label class="custom-file-label" for="inputGroupFile01">Product Images</label>
                             </div>
                         </div>
@@ -96,7 +106,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text price-append">$</span>
                         </div>
-                        <input name="productPrice" type="number" min="1" step="any" class="form-control" placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)" form="ListingForm" required>
+                        <input name="productPrice" type="number" min="1" step="any" class="form-control"
+                            placeholder="Enter List Price" aria-label="Amount (to the nearest dollar)"
+                            form="ListingForm" required>
                     </div>
                 </div>
             </div>
@@ -111,10 +123,17 @@
                 <div class="edit-description-box">
                     <div class="form-horizontal">
                         <div class="form-group">
-                            <textarea name="productDescription" class="form-control" rows="8" placeholder="Please enter a description of the item here..." required form="ListingForm"></textarea>
+                            <textarea name="productDescription" class="form-control" rows="8"
+                                placeholder="Please enter a description of the item here..." required
+                                form="ListingForm"></textarea>
                         </div>
                     </div>
                 </div>
+                {% if message != None %}
+                <div class="alert alert-danger">
+                    <strong>Error: </strong> {{ message[0] }}
+                </div>
+                {% endif %}
             </div>
         </section>
         <form action="" method="POST" name="speciForm" form="ListingForm"></form>
@@ -125,18 +144,18 @@
                     <h2>Specifications</h2>
                 </div>
                 <div class="specifications-body-box">
-                    <table class="table" >
+                    <table class="table">
                         <tbody id="table">
                             <h5 id="ProductText">Choose A Product Type At The Top Of The Page First</h5>
                         </tbody>
                     </table>
 
                     <!-- Submit Button -->
-                        <button id="submit" disabled="true" type="submit" value="submit" class="btn btn-primary btn-edit-specs-submit" form="ListingForm" >Submit</button>
+                    <button id="submit" disabled="true" type="submit" value="submit"
+                        class="btn btn-primary btn-edit-specs-submit" form="ListingForm">Submit</button>
 
 
                 </div>
             </div>
         </section>
         {% endblock %}
-        
