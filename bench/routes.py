@@ -132,6 +132,7 @@ def viewListingNumber(id):
     listing = Listing.query.filter_by(id=id).first_or_404()
     user = User.query.filter_by(id=listing.userId).first()
     date = str(listing.ListingTimeStamp.day) + "/" + str(listing.ListingTimeStamp.month) + "/" + str(listing.ListingTimeStamp.year)
+
     form = bidForm()
     if(request.method == "POST"):
         if(current_user.is_anonymous):
@@ -148,21 +149,25 @@ def viewListingNumber(id):
         db.session.commit()
 
 
-
+    image = Images.query.filter_by(ImageListing=listing.id).first()
+    if(image is not None):
+        image =  "\\static\\Images\\" + image.ImageName
+    else:
+        image = r"\static\placeholder.png"
     if(listing.ListingType == "CPU"):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details,form=form, image=image )
 
     elif(listing.ListingType == "Graphics Card"):
         details = GPU.query.filter_by(GPUListing=listing.id).first()
         return render_template("ViewListingTemplates/GPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details,form=form, image=image)
 
     elif(listing.ListingType == "CPU Cooler"):
         details = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUCooler.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details,form=form, image=image)
 
     elif(listing.ListingType == "Memory"):
         details = Memory.query.filter_by(memoryListing=listing.id).first()
@@ -172,17 +177,17 @@ def viewListingNumber(id):
     elif(listing.ListingType == "Case"):
         details = Case.query.filter_by(caseListing=listing.id).first()
         return render_template("ViewListingTemplates/Case.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details,form=form, image=image)
 
     elif(listing.ListingType == "Power Supply"):
         details = PowerSupply.query.filter_by(PowerSupplyListing=listing.id).first()
         return render_template("ViewListingTemplates/PowerSupply.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details,form=form, image=image)
 
     elif(listing.ListingType == "Motherboard"):
         details = Motherboard.query.filter_by(MotherboardListing=listing.id).first()
         return render_template("ViewListingTemplates/Motherboard.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        listing=listing,user=user,date=date,details=details,form=form, image=image)
 
     else:
         return redirect("/")
@@ -212,20 +217,21 @@ def register():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+
+    title = "Login | BenchmarkPC"
     form = LoginForm()
+
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None or not user.check_password(form.password.data):
-            flash("Invalid username Or Password")
-            print("failed")
-            return redirect("/login")
+            return render_template("login.html", form=form, title=title, message="Email Or Password Is Incorrect")
+
 
         login_user(user)
         print("Logged IN")
         return redirect("/")
 
-    title = "Login | BenchmarkPC"
-    return render_template("login.html", form=form, title=title)
+    return render_template("login.html", form=form, title=title, message=None)
 
 @app.errorhandler(404)
 def not_found(e):

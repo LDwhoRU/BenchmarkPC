@@ -237,10 +237,11 @@ def upload_image(id, request):
                 image.filename = str(id) + '.jpeg'
                 
             filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config["UPLOAD_FOLDER"],filename ))
             image = Images(ImageName=filename,ImageListing=id)
             db.session.add(image)
             db.session.commit()
+            image.save(os.path.join(app.config["UPLOAD_FOLDER"],filename ))
+            
             return "Passed"
         else:
             return "Not Correct File Type"

@@ -32,10 +32,17 @@
             </p>
             <form action="" method="POST">
                     {{ form.csrf_token }}
+                    {% if message != None %}
+                    <div class="alert alert-danger">
+                        <strong>Error: </strong> {{ message }}
+                      </div>
+                    {% endif %}
             <div class="form-group input-group">
+                    
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-inbox"></i> </span>
                 </div>
+                
                 <!-- <input name="email" class="form-control" placeholder="Email address" type="email"> -->
                 {{ form.email(class_="form-control", placeholder="Enter Your Email") }}
             </div> <!-- form-group// -->
