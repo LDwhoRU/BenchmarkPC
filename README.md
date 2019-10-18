@@ -20,3 +20,6 @@ This page allows sellers to edit product descriptions and specifications, benchm
 
 6. New listing Page(insert screenshot of createNewListing.html)
 This page allows sellers to update images of the product they want to sell, they can set up new production description and specification and the price. 
+
+## Our guarantee
+Here at BenchmarkPC, we are so confident in our platform we provide a money-back guarantee on any product purchased that benchmarks 2% outside the score recorded on the date of purchase. If you happen to receive a faulty product please contact our support team with both proof of purchase and a video recording of the component being benchmarked live at the time of purchase. If you are considering purchasing with us we encourage you to ensure these are both recorded at the time of purchase, and are kept for any potential mishap.
