@@ -113,33 +113,20 @@
 <section class="featured">
     <div class="container">
         <div class="section-title">
-                <h2>Manage...</h2> <!-- Remember to change to Featured for Assignment 3 -->
+                <h2>Recent Listings</h2> <!-- Remember to change to Featured for Assignment 3 -->
             </div>
             <div class="row">
+                {% for listing in range(listings|length) %}
                 <div class="col-md-4 items">
-                    <a href="amd-ryzen-7-1700x.html">
-                        <img src="static\AMD Ryzen 7 1700X.jpg" alt="static\AMD Ryzen 7 1700X.jpg">
-                    </a>
-                    <div class="featured-price">
-                        <h3>$149.99</h3>
+                        <a href="/listing/{{ listings[listing].id }}">
+                            <img src="{{ images[listing] }}" alt="static\AMD Ryzen 7 1700X.jpg">
+                        </a>
+                        <div class="featured-price">
+                            <h3>${{ "%.2f"|format(listings[listing].ListingPrice) }}</h3>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4 items">
-                    <a href="amd-ryzen-7-1700x.html">
-                        <img src="static\Intel Core i5-7400.PNG" alt="static\Intel Core i5-7400.PNG">
-                    </a>
-                    <div class="featured-price">
-                        <h3>$179.99</h3>
-                    </div>
-                </div>
-                <div class="col-md-4 items">
-                    <a href="amd-ryzen-7-1700x.html">
-                        <img src="static\Intel Core i5-8500.jpg" alt="static\Intel Core i5-8500.jpg">
-                    </a>
-                    <div class="featured-price">
-                        <h3>$189.99</h3>
-                    </div>
-                </div>
+                {% endfor %}
+
             </div>
     </div>
 </section>

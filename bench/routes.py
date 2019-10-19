@@ -9,9 +9,19 @@ from bench.newListingFunctions import processListing, UpdateListing
 @app.route('/', methods=['GET','POST'])
 def index():
     title  = "Home | BenchmarkPC"
+    listings = Listing.query.order_by(Listing.ListingTimeStamp.desc()).limit(3).all()
+    images = []
+
+    for listing in listings:
+        image = Images.query.filter_by(ImageListing=listing.id)
+        if(image.scalar() != None):
+            images.append("/static/Images/" + image.first().ImageName)
+        else:
+            images.append("/static/placeholder.png")
+
     if(current_user.is_authenticated):
         print("Good")
-    return render_template('index.html',  title=title)
+    return render_template('index.html',  title=title, listings=listings, images=images)
 
 @app.route('/newListing', methods=['GET','POST'])
 def newListing():
@@ -29,10 +39,7 @@ def newListing():
             Listing.query.filter_by(id=message[1]).delete()
             db.session.commit()
             return render_template('createNewListing.html', form=form,title=title, message=message)
-        print(request.form.get('productName'))
-        print(request.form.get('productPrice'))
-        print(request.form.get('productDescription'))
-        print(request.form.get('productType'))
+        
 
     return render_template('createNewListing.html', form=form, title=title, message=None)
 
@@ -65,8 +72,8 @@ def manageListing(id):
         
     
     else:
-        print("Test")
         title = "Managing Listing {0} | BenchmarkPC".format(id)
+        print("Searching For Listing")
         listing = Listing.query.filter_by(id=id).first_or_404()
         listingBids = Bids.query.filter_by(bidListing=id)
         bidUsers = []
@@ -81,37 +88,44 @@ def manageListing(id):
             return redirect('/login')
         elif current_user.id != listing.userId:
             return redirect("/")
-
+        
+        image = Images.query.filter_by(ImageListing=listing.id)
+        print("here")
+        if(image.scalar() is not None):
+            image =  "\\static\\Images\\" + image.first().ImageName
+        else:
+            image = r"\static\placeholder.png"
+        print("here3")
         if(listing.ListingType == "Case"):
             case = Case.query.filter_by(caseListing=id).first_or_404()
             return render_template('manageListingTemplates/CaseHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, case=case,form=form)
+                bids=combinedList, length=length,listing=listing, case=case,form=form, image=image)
         elif(listing.ListingType == "CPU Cooler"):
             cooler = CPUCooler.query.filter_by(CPUCoolerListing=id).first()
             return render_template('manageListingTemplates/CPUCoolerHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, cooler=cooler,form=form)
+                bids=combinedList, length=length,listing=listing, cooler=cooler,form=form, image=image)
         elif(listing.ListingType == "CPU"):
             cpu = CPU.query.filter_by(CPUListing=id).first_or_404()
             print(cpu.Socket)
             print(cpu.Microarchitecture)
             return render_template('manageListingTemplates/CPUHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, cpu=cpu,form=form)
+                bids=combinedList, length=length,listing=listing, cpu=cpu,form=form, image=image)
         elif(listing.ListingType == 'Memory'):
             memory = Memory.query.filter_by(memoryListing=id).first_or_404()
             return render_template('manageListingTemplates/memoryHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, memory=memory,form=form)
+                bids=combinedList, length=length,listing=listing, memory=memory,form=form, image=image)
         elif(listing.ListingType == 'Graphics Card'):
             gpu = GPU.query.filter_by(GPUListing=id).first_or_404()
             return render_template('manageListingTemplates/GPUHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, gpu=gpu,form=form)
+                bids=combinedList, length=length,listing=listing, gpu=gpu,form=form, image=image)
         elif(listing.ListingType == 'Power Supply'):
             powerSupply = PowerSupply.query.filter_by(PowerSupplyListing=id).first_or_404()
             return render_template('manageListingTemplates/PowerSupplyHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, powerSupply=powerSupply,form=form)
+                bids=combinedList, length=length,listing=listing, powerSupply=powerSupply,form=form, image=image)
         elif(listing.ListingType == 'Motherboard'):
             motherboard = Motherboard.query.filter_by(MotherboardListing=id).first_or_404()
             return render_template('manageListingTemplates/MotherboardHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, motherboard=motherboard,form=form)
+                bids=combinedList, length=length,listing=listing, motherboard=motherboard,form=form, image=image)
 
     
    

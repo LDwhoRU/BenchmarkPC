@@ -56,7 +56,7 @@ def UpdateListing(request, idL):
         values = getCPUValues(request)
         
 
-        cpu.cpu.manufacturer=values.get('manufacturer')
+        cpu.manufacturer=values.get('manufacturer')
         cpu.TDP=values.get('TDP')
         cpu.CoreCount=values.get('CoreCount')
         cpu.CoreClock=values.get('CoreClock')
@@ -237,10 +237,11 @@ def upload_image(id, request):
                 image.filename = str(id) + '.jpeg'
                 
             filename = secure_filename(image.filename)
+            
+            image.save(os.path.join(app.config["UPLOAD_FOLDER"],filename ))
             image = Images(ImageName=filename,ImageListing=id)
             db.session.add(image)
             db.session.commit()
-            image.save(os.path.join(app.config["UPLOAD_FOLDER"],filename ))
             
             return "Passed"
         else:
@@ -478,7 +479,7 @@ def processMotherBoard(request, id):
     for key in IntegerKeys:
         if(values.get(key).isdigit() == False
            or int(values.get(key)) < 0):
-            values.update({key, 0})
+            values.update({key: 0})
 
     
 
