@@ -738,6 +738,7 @@ input::-webkit-inner-spin-button {
     background-color: #2d66c2 !important;
 }
 
+<<<<<<< Updated upstream
 /* Search results */
 .page-title {
     padding: 15px;
@@ -767,4 +768,17 @@ input::-webkit-inner-spin-button {
     padding-left: 15px;
 }
 
+=======
+.history-heading-box {
+    margin-bottom: 30px;
+}
+
+.past-sales-table {
+    width: 100%;
+}
+
+.past-sales-table td {
+    width:25%;
+}
+>>>>>>> Stashed changes
 /* Used for debugging */
