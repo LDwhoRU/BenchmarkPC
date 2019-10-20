@@ -130,7 +130,7 @@ input::-webkit-inner-spin-button {
 .custom-side-bar ul li:hover ul {
     display: block;
     height: 400px;
-    margin-left: 14.5%;
+    margin-left: 14%;
     padding: 0px 100px 10px 10px;
     position: fixed;
     background: #2d66c2;
@@ -147,6 +147,16 @@ input::-webkit-inner-spin-button {
     }
     .custom-side-bar ul li ul {
         top: 133px;
+    }
+}
+@media only screen and (max-width:1660px) { 
+    .custom-side-bar {
+        min-height: 60ch;
+    }
+}
+@media only screen and (max-width:1100px) { 
+    .custom-side-bar {
+        min-height: 40ch;
     }
 }
 
@@ -181,6 +191,7 @@ input::-webkit-inner-spin-button {
     height: 40px;
     display: flex;
     margin-bottom: 10px;
+    border-radius: 4px;
 }
 
 .section-title h2 {
@@ -233,6 +244,7 @@ input::-webkit-inner-spin-button {
     width: 268px;
     height: 40px;
     display: flex;
+    border-radius: 4px;
 }
 
 .just-listed-header h2 {
@@ -659,6 +671,7 @@ input::-webkit-inner-spin-button {
 .dropdown {
     position: relative !important;
     display: inline-block !important;
+    
 }
 
 .dropdown-content {
@@ -666,6 +679,7 @@ input::-webkit-inner-spin-button {
     position: absolute !important; 
     background-color: #f1f1f1 !important;
     z-index: 1 !important;
+    margin-top: -8px !important;
 }
 
 .dropdown-content a {
