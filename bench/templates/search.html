@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="results-heading-box">
+    <div class="container">
+            <h1 class="text-center page-title">Results</h1>
+    </div>
+</section>
+
+<section class="product-results">
+    <div class="sub-header-results container">
+        <h5>Products</h5>
+        <hr>
+    </div>
+    <div class="extra-actions container">
+        <ul>
+            <li>
+                <a href="/compare">
+                    <h6>Compare</h6>
+                </a>
+            </li>
+            <li>
+                <a href="/price-notif">
+                    <h6>Price Alert</h6>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <table class="table table-hover container results-table">
+        <thead>
+            <tr class="results-table-header">
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Component</th>
+            <th scope="col">Benchmark</th>
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            <th scope="row">
+                <img src="static/Images/6_p.jpg" alt="static/Images/6_p.jpg">
+            </th>
+            <td>Fantek PSU 1800W</td>
+            <td>PSU</td>
+            <td>N/A</td>
+            <td>$190</td>
+            <td><button type="button" class="btn btn-primary">View</button></td>
+            </tr>
+            <tr>
+            <th scope="row">
+                <img src="static/Images/8_p.jpg" alt="static/Images/8_p.jpg">
+            </th>
+            <td>Asus B150 GamerX</td>
+            <td>Motherboard</td>
+            <td>N/A</td>
+            <td>$200</td>
+            <td><button type="button" class="btn btn-primary">View</button></td>
+            </tr>
+            <tr>
+            <th scope="row">
+                <img src="static/Images/10_p.png" alt="static/Images/10_p.png">
+            </th>
+            <td>NVIDIA RTX 2080ti</td>
+            <td>GPU</td>
+            <td>N/A</td>
+            <td>$789</td>
+            <td><button type="button" class="btn btn-primary">View</button></td>
+            </tr>
+            <tr>
+            <th scope="row">
+                <img src="static/Images/11_p.png" alt="static/Images/11_p.png">
+            </th>
+            <td>Radeon R9 Nuke</td>
+            <td>GPU</td>
+            <td>N/A</td>
+            <td>$589</td>
+            <td><button type="button" class="btn btn-primary">View</button></td>
+            </tr>
+            <tr>
+            <th scope="row">
+                <img src="static/Images/12_p.png" alt="static/Images/12_p.png">
+            </th>
+            <td>AMD Ryzen 3 1200X</td>
+            <td>CPU</td>
+            <td>46.8</td>
+            <td>$199</td>
+            <td><button type="button" class="btn btn-primary">View</button></td>
+            </tr>
+            <tr>
+            <th scope="row">
+                <img src="static/Images/11_p.png" alt="static/Images/11_p.png">
+            </th>
+            <td>Radeon R9 Nuke</td>
+            <td>GPU</td>
+            <td>N/A</td>
+            <td>$589</td>
+            <td><button type="button" class="btn btn-primary">View</button></td>
+            </tr>
+            <tr>
+            <th scope="row">
+                <img src="static/Images/10_p.png" alt="static/Images/10_p.png">
+            </th>
+            <td>NVIDIA RTX 2080ti</td>
+            <td>GPU</td>
+            <td>N/A</td>
+            <td>$789</td>
+            <td><button type="button" class="btn btn-primary">View</button></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+{% endblock %}

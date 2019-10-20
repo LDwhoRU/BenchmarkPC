@@ -256,3 +256,7 @@ def logout():
     logout_user()
     return redirect("/")
 
+@app.route('/search')
+def search():
+    return render_template("search.html")
+

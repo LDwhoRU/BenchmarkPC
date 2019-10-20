@@ -681,4 +681,34 @@ input::-webkit-inner-spin-button {
 .dropdown-content a:hover {
     background-color: #2d66c2 !important;
 }
+
+/* Search results */
+.page-title {
+    padding: 15px;
+    color: #f1f1f1;
+}
+.results-heading-box {
+    background-color: #1f4582 !important;
+    margin-bottom: 30px;
+}
+.results-table-header {
+    border-top: hidden;
+}
+.sub-header-results hr {
+    color: black !important;
+    background-color: black !important;
+}
+.extra-actions ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+.extra-actions li {
+    float: right;
+}
+.extra-actions li a {
+    display: block;
+    text-align: center;
+    padding-left: 15px;
+}
+
 /* Used for debugging */
