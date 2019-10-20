@@ -256,7 +256,16 @@ def logout():
     logout_user()
     return redirect("/")
 
+<<<<<<< Updated upstream
 @app.route('/search')
 def search():
     return render_template("search.html")
+=======
+@app.route('/history')
+def history():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    title = "Past Sale | BenchmarkPC"
+    return render_template("history.html")
+>>>>>>> Stashed changes
 
