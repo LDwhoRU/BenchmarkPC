@@ -335,9 +335,29 @@ input::-webkit-inner-spin-button {
 
 /* Slide show of product images */
 .product-carousel {
-    max-width: 700px;
+    width: 700px;
     padding: 15px 0px;
     margin-left: 15px;
+}
+
+.product-carousel-container {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    padding: 56.2% 0 0 0;
+}
+
+.product-carousel-container img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 /* Share to social media */
