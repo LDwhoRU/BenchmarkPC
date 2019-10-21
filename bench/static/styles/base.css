@@ -29,6 +29,11 @@ input::-webkit-inner-spin-button {
     height: 40px;
     margin: 7px 12px;
 }
+.search-button-box {
+    overflow: hidden !important;
+    background: rgba(0, 0, 0, 0);
+    border-style: none !important;
+}
 .search-bar-form {
     margin-top: 9px;
     margin-left: 30px;
@@ -55,7 +60,7 @@ input::-webkit-inner-spin-button {
     width: 60%;
 }
 .fa-search {
-    color: #f1f1f1;
+    color: white;
 }
 .menu-bar {
     width: 40%;
@@ -734,8 +739,9 @@ input::-webkit-inner-spin-button {
     display: block !important;
 }
 
-.dropdown-content a:hover {
+.dropdown-item:hover {
     background-color: #2d66c2 !important;
+    color: #f1f1f1 !important;
 }
 
 /* Search results */
