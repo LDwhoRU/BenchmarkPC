@@ -92,18 +92,34 @@ def viewOldListings():
 @app.route('/manage/<id>',methods=['GET','POST'])
 def manageListing(id):
     form = manageListingForm()
+    
     if(request.method == "POST"):
         if('UpdateListing' in request.form):
             print("\n---Updating Listing---\n")
             UpdateListing(request,id)
-            return redirect('/manage/' + id)       
+            return redirect('/manage/' + id)
+        elif('selectBid' in request.form):
+            print(request.form)
+            bid = Bids.query.filter_by(id=request.form.get('bidID')).first_or_404()
+            print('got here')
+            print('Bid Listing ' + str(bid.bidListing))
+            print('Listing ' + str(id))
+            if(int(bid.bidListing) != int(id)):
+                return redirect('/')
+            print('here')
+            listing = Listing.query.filter_by(id=id).first()
+            listing.ListingState = 'Closed'
+            sale = Sales(ListingID=listing.id, BuyerID=bid.bidUser, SalePrice=bid.bidAmount)
+            Bids.query.filter_by(bidListing=listing.id).delete()
+            db.session.add(sale)
+            db.session.commit()
+            return redirect('/listing/' + id)
     
     else:
         title = "Managing Listing {0} | BenchmarkPC".format(id)
         print("Searching For Listing")
         listing = Listing.query.filter_by(id=id).first_or_404()
         if(listing.ListingState == 'Closed'):
-            
             return redirect('/listing/' + id)
         listingBids = Bids.query.filter_by(bidListing=id)
         bidUsers = []

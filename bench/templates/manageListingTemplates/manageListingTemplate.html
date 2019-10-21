@@ -30,6 +30,7 @@
                 </div>
             </div>
         </section>
+        <script type="text/javascript" src="{{ url_for('static', filename = 'javascript/confirmBid.js') }}"></script>
 
         <section class="product-display">
             <div class="container">
@@ -74,6 +75,7 @@
                         <div class="bids-header">
                             <h6>Bids</h6>
                         </div>
+
                         <!-- View Bids -->
                         <div class="table-responsive bids-table">
                             <table class="table table-sm">
@@ -97,7 +99,7 @@
                                             <td>${{bids[1][i].bidAmount}}</td>
                                             <td>{{bids[1][i].bidTimeStamp.day}}/{{bids[1][i].bidTimeStamp.month}}/{{bids[1][i].bidTimeStamp.year}}</td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#acceptBidModal">Accept</button>
+                                                <button type="button" value='{{ bids[1][i].id }}' onclick='changeBidForm(this.value)' class="btn btn-primary" data-toggle="modal" data-target="#acceptBidModal">Accept</input>
                                             </td>
                                             </tr>
                                         
@@ -111,17 +113,19 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                     </div>
                                     <div class="modal-body">
                                     Are you sure you wish to accept this bid?
                                     </div>
-                                    <form id="bidForm" action="" method="POST"></form>
+                                    <form name='bidForm' id="bidForm" action="" method="POST">{{ form.csrf_token }}</form>
+                                    <input class='hidden' name='bidID' type='number' value='' id='bidID' form='bidForm'>
+
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" form="bidForm" class="btn btn-primary" data-dismiss="modal">Accept</button> <!-- Remember to change data-dismiss for assignment 3 -->
+                                    <button type="submit" name='selectBid' form="bidForm" class="btn btn-primary">Accept</button> <!-- Remember to change data-dismiss for assignment 3 -->
                                     </div>
                                 </div>
                                 </div>

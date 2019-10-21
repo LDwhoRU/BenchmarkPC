@@ -31,7 +31,7 @@ class Sales(db.Model):
     ListingID = db.Column(db.Integer, db.ForeignKey('listing.id'))
     BuyerID = db.Column(db.Integer, db.ForeignKey('user.id'))
     SalePrice = db.Column(db.Numeric, unique=False, nullable=False)
-
+    SaleTimeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow(), nullable=False)
 
 
 class Listing(db.Model):
@@ -150,11 +150,11 @@ class Motherboard(db.Model):
     RAIDSupport = db.Column(db.String(80), nullable=True)
     MotherboardListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
 
+
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ImageName = db.Column(db.String(80), nullable=False)
     ImageListing = db.Column(db.Integer, db.ForeignKey('listing.id'))
-
 
 
 class GPU(db.Model):
