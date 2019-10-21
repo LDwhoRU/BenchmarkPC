@@ -767,4 +767,33 @@ input::-webkit-inner-spin-button {
     padding-left: 15px;
 }
 
+/* Past sales history page */
+.history-heading-box {
+    margin-bottom: 30px;
+}
+
+.past-sales-table {
+    width: 100%;
+    border-top: hidden;
+}
+
+.past-sales-table td {
+    width:25%;
+    text-align: center;
+}
+
+/* Current listings page */
+.current-listings-heading-box {
+    margin-bottom: 30px;
+}
+
+.card-current-listings {
+    width: 75rem;
+}
+
+.card-img-top {
+    width: 400px !important;
+    height: 350px !important;
+}
+
 /* Used for debugging */

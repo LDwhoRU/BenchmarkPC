@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+<html>
+    {% block breadcrumb %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a style="color: rgb(190, 190, 190)" href="/">Home</a></li>
+            <li class="breadcrumb-item"><a style="color: rgb(210, 210, 210)" href="#">Account</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Current Listings</li>
+        </ol>
+    </nav>
+    {% endblock %}
+
+    {% block content %}
+    <!-- Current listings page header -->
+    <section class="current-listings-heading-box">
+        <div class="container">
+            <h1 class="text-center">Current Listings</h1>
+        </div>
+    </section>
+
+    <!-- Current listings index-->
+    <section>
+        <div class="container">
+            <div class="card-deck card-current-listings">
+                <div class="card">
+                    <div class="card-header d-flex h-100">
+                        <img src="static/Images/6.jpg" class="card-img-top" alt="static/Images/6.jpg">  
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Fantek PSU 1800W</h5>
+                        <p class="card-text">This is a random item descrition. It contains a short description of the product and may also contain other information.</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>$190</strong></li>
+                        <li class="list-group-item"><strong>Component: </strong>PSU</li>
+                        <li class="list-group-item"><strong>Benchmark: </strong>N/A</li>
+                    </ul>
+                    <div class="card-footer text-center">
+                        <a href="/manage" class="btn btn-primary">Manage</a>
+                    </div>
+                </div>   
+                <div class="card">
+                    <div class="card-header d-flex h-100">
+                        <img src="/static/Images/8.jpg" class="card-img-top" alt="/static/Images/8.jpg">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">ASUS B150 GamerX</h5>
+                        <p class="card-text">This is a random item descrition. It contains a short description of the product and may also contain other information.</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>$200</strong></li>
+                        <li class="list-group-item"><strong>Component: </strong>Motherboard</li>
+                        <li class="list-group-item"><strong>Benchmark: </strong>N/A</li>
+                    </ul>
+                    <div class="card-footer text-center">
+                        <a href="/manage" class="btn btn-primary">Manage</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header d-flex h-100">
+                        <img src="static/AMD Ryzen 7 1700X.jpg" class="card-img-top" alt="static/AMD Ryzen 7 1700X.jpg">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">AMD Ryzen 7 1700X</h5>
+                        <p class="card-text">This is a random item descrition. It contains a short description of the product and may also contain other information.</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>$199</strong></li>
+                        <li class="list-group-item"><strong>Component: </strong>CPU</li>
+                        <li class="list-group-item"><strong>Benchmark: </strong>46.3</li>
+                    </ul>
+                    <div class="card-footer text-center">
+                        <a href="/manage" class="btn btn-primary">Manage</a>
+                    </div>                
+                </div>
+                <div class="card">
+                    <div class="card-header d-flex h-100">
+                        <img src="static/radeon-r9-nuke.jpg" class="card-img-top" alt="static/radeon-r9-nuke.jpg">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Radeon R9 Nuke</h5>
+                        <p class="card-text">This is a random item descrition. It contains a short description of the product and may also contain other information.</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>$589</strong></li>
+                        <li class="list-group-item"><strong>Component: </strong>GPU</li>
+                        <li class="list-group-item"><strong>Benchmark: </strong>N/A</li>
+                    </ul>
+                    <div class="card-footer text-center">
+                        <a href="/manage" class="btn btn-primary">Manage</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {% endblock %}
+
+
+</html>

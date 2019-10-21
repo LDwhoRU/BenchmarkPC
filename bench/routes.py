@@ -260,3 +260,15 @@ def logout():
 def search():
     return render_template("search.html")
 
+@app.route('/history')
+def history():
+    if current_user.is_anonymous:
+        return redirect('/login')
+    title = "Past Sales | BenchmarkPC"
+    return render_template("history.html")
+
+@app.route('/currentListings')
+def current_listings():
+    title = "Current Listings | BenchmarkPC"
+    return render_template("currentListings.html")
+
