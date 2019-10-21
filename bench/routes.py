@@ -278,6 +278,24 @@ def search():
                 listingsAndImages.append([listing])
             
         return render_template("search.html", listings=listingsAndImages)
+    elif(len(request.args) == 2):
+                listings = Listing.query.filter(Listing.ListingName.like( "%" + request.args.get('searchText') + "%"),Listing.ListingState != "Closed",
+                Listing.ListingType == request.args.get("type")).all()
+                print(listings)
+
+                listingsAndImages = []
+                for listing in listings:
+                    print("Getting Image")
+                    image = Images.query.filter_by(id=listing.id).first()
+                    if(image != None):
+                        print("Got Image")
+                        listingsAndImages.append([listing, image.ImageName])
+                    else:
+                        listingsAndImages.append([listing])
+                    
+                return render_template("search.html", listings=listingsAndImages)
+
+
         
     return render_template("search.html")
 
