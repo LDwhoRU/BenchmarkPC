@@ -9,7 +9,7 @@ from bench.newListingFunctions import processListing, UpdateListing
 @app.route('/', methods=['GET','POST'])
 def index():
     title  = "Home | BenchmarkPC"
-    listings = Listing.query.order_by(Listing.ListingTimeStamp.desc()).limit(3).all()
+    listings = Listing.query.order_by(Listing.ListingTimeStamp.desc()).filter(Listing.ListingState != 'Closed').limit(3).all()
     images = []
 
     for listing in listings:
@@ -79,6 +79,8 @@ def viewOldListings():
     listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Closed').all()
     
     listingsAndImages = []
+    listingIDS = []
+
     for listing in listings:
         print("Getting Image")
         image = Images.query.filter_by(ImageListing=listing.id).first()
@@ -87,7 +89,13 @@ def viewOldListings():
             listingsAndImages.append([listing, image.ImageName])
         else:
             listingsAndImages.append([listing])
-    return render_template('search.html', title=title, listings=listingsAndImages, viewType='previous')
+        listingIDS.append(listing.id)
+    sales = Sales.query.filter(Sales.ListingID.in_(listingIDS)).all()
+    for sale in sales:
+        user = User.query.filter_by(id=sale.BuyerID).first()
+        sale.BuyerID = user.username
+    print(sales[0].SaleTimeStamp)
+    return render_template('search.html', title=title, listings=listingsAndImages, viewType='previous', sales=sales)
 
 @app.route('/manage/<id>',methods=['GET','POST'])
 def manageListing(id):
