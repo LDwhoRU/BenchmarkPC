@@ -2,7 +2,12 @@
 {% block content %}
 <section class="results-heading-box">
     <div class="container">
+        {% if viewType == 'search' %}
             <h1 class="text-center page-title">Results</h1>
+        {% elif viewType == 'manage' %}
+        <h1 class="text-center page-title">My Listings</h1>
+        {% endif %}
+
     </div>
 </section>
 
