@@ -563,6 +563,16 @@ input::-webkit-inner-spin-button {
     color: #f1f1f1 !important;
     border: 1px solid #f1f1f1 !important;
 }
+.hidden {
+    width: 0px;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+    border: 0px;
+    display:none;
+    color: transparent;
+}
 .edit-listing-box {
     border-radius: 5px;
     border:1px solid #1f4582;

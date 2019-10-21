@@ -22,21 +22,24 @@
                 </a>
                 <form id="searchForm" action="/search" method="GET"></form>
                 <input form="searchForm" name="searchText" type="text" class="form-control search-bar-form">
+                <button type="submit" tabindex="2" form="searchForm" class="hidden">
+                        
+                    </button>
                 <div class="dropdown">
                     <button class="dropbtn dropdown-toggle" type="button" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                     <div class="dropdown-menu dropdown-content" aria-labelledby="dropdownMenuButton">
-                        <button class="dropdown-item">CPU</button>
-                        <button class="dropdown-item">CPU Cooler</button>
-                        <button class="dropdown-item">Motherboard</button>
-                        <button class="dropdown-item">Memory</button>
-                        <button class="dropdown-item">GPU</button>
-                        <button class="dropdown-item">Power Supply</button>
-                        <button class="dropdown-item">Case</button>
+                        <button tabindex="2" name="type" form="searchForm" value="CPU" class="dropdown-item">CPU</button>
+                        <button name="type" form="searchForm" value="CPU Cooler" class="dropdown-item">CPU Cooler</button>
+                        <button name="type" form="searchForm" value="Motherboard" class="dropdown-item">Motherboard</button>
+                        <button name="type" form="searchForm" value="Memory" class="dropdown-item">Memory</button>
+                        <button name="type" form="searchForm" value="GPU" class="dropdown-item">GPU</button>
+                        <button name="type" form="searchForm" value="Power Supply" class="dropdown-item">Power Supply</button>
+                        <button name="type" form="searchForm" value="Case" class="dropdown-item">Case</button>
                     </div>
                 </div>
                 <span class="input-group-text search-bar-span">
-                    <button type="submit" form="searchForm" class="search-button-box">
+                    <button type="submit" tabindex="2" form="searchForm" class="search-button-box">
                         <i class="fas fa-search"></i>
                     </button>
                 </span>

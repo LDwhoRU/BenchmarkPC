@@ -37,76 +37,25 @@
             </tr>
         </thead>
         <tbody>
+            {% for listing in listings %}
             <tr>
             <th scope="row">
-                <img src="static/Images/6_p.jpg" alt="static/Images/6_p.jpg">
+                {% if listing|length == 1 %}
+                <img src="static/placeholder.png" alt="static/Images/6_p.jpg">
+                {% elif listing|length == 2 %}
+                <img src="static/Images/{{ listing[1] }}" alt="static/Images/6_p.jpg">
+                {% endif %}
             </th>
-            <td>Fantek PSU 1800W</td>
-            <td>PSU</td>
-            <td>N/A</td>
-            <td>$190</td>
-            <td><button type="button" class="btn btn-primary">View</button></td>
+            <td>{{ listing[0].ListingName }}</td>
+            <td>{{ listing[0].ListingType }}</td>
+            <td>{{ listing[0].ListingScore }}</td>
+            <td>${{"{0: .2f}".format(listing[0].ListingPrice)}}</td>
+            <!-- <td><button type="button" class="btn btn-primary">View</button></td> -->
+            <td><a href="/listing/{{ listing[0].id }}" class="btn btn-primary">View</a></td>
             </tr>
-            <tr>
-            <th scope="row">
-                <img src="static/Images/8_p.jpg" alt="static/Images/8_p.jpg">
-            </th>
-            <td>Asus B150 GamerX</td>
-            <td>Motherboard</td>
-            <td>N/A</td>
-            <td>$200</td>
-            <td><button type="button" class="btn btn-primary">View</button></td>
-            </tr>
-            <tr>
-            <th scope="row">
-                <img src="static/Images/10_p.png" alt="static/Images/10_p.png">
-            </th>
-            <td>NVIDIA RTX 2080ti</td>
-            <td>GPU</td>
-            <td>N/A</td>
-            <td>$789</td>
-            <td><button type="button" class="btn btn-primary">View</button></td>
-            </tr>
-            <tr>
-            <th scope="row">
-                <img src="static/Images/11_p.png" alt="static/Images/11_p.png">
-            </th>
-            <td>Radeon R9 Nuke</td>
-            <td>GPU</td>
-            <td>N/A</td>
-            <td>$589</td>
-            <td><button type="button" class="btn btn-primary">View</button></td>
-            </tr>
-            <tr>
-            <th scope="row">
-                <img src="static/Images/12_p.png" alt="static/Images/12_p.png">
-            </th>
-            <td>AMD Ryzen 3 1200X</td>
-            <td>CPU</td>
-            <td>46.8</td>
-            <td>$199</td>
-            <td><button type="button" class="btn btn-primary">View</button></td>
-            </tr>
-            <tr>
-            <th scope="row">
-                <img src="static/Images/11_p.png" alt="static/Images/11_p.png">
-            </th>
-            <td>Radeon R9 Nuke</td>
-            <td>GPU</td>
-            <td>N/A</td>
-            <td>$589</td>
-            <td><button type="button" class="btn btn-primary">View</button></td>
-            </tr>
-            <tr>
-            <th scope="row">
-                <img src="static/Images/10_p.png" alt="static/Images/10_p.png">
-            </th>
-            <td>NVIDIA RTX 2080ti</td>
-            <td>GPU</td>
-            <td>N/A</td>
-            <td>$789</td>
-            <td><button type="button" class="btn btn-primary">View</button></td>
-            </tr>
+            {% endfor %}
+            
+            
         </tbody>
     </table>
 </section>

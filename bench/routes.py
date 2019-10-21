@@ -258,7 +258,27 @@ def logout():
     return redirect("/")
 
 @app.route('/search')
+# @app.route('/search?searchText=<searchingText>&type=<Ptype>')
 def search():
+    print(request.args.get('searchText'))
+    print(len(request.args))
+    if(len(request.args) == 1):
+        print("Getting Listings")
+        print("%{}%".format(request.args.get("searchText")))
+        listings = Listing.query.filter(Listing.ListingName.like( "%" + request.args.get('searchText') + "%"),Listing.ListingState != "Closed").all()
+
+        listingsAndImages = []
+        for listing in listings:
+            print("Getting Image")
+            image = Images.query.filter_by(id=listing.id).first()
+            if(image != None):
+                print("Got Image")
+                listingsAndImages.append([listing, image.ImageName])
+            else:
+                listingsAndImages.append([listing])
+            
+        return render_template("search.html", listings=listingsAndImages)
+        
     return render_template("search.html")
 
 @app.route('/history')
