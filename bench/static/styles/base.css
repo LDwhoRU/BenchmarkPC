@@ -537,16 +537,22 @@ input::-webkit-inner-spin-button {
     clear: both;
     margin-top: 25px;
 }
-.price-header-box h1 {
-    margin: 0px 25px;
-    display: inline;
-    text-decoration: line-through;
-    font-size: 36px;
-}
 .price-header-box h2 {
     padding-left: 10px;
     display: inline;
     font-size: 36px;
+}
+.price-header-box ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+.price-header-box li {
+    float: left;
+}
+.price-header-box li h2 {
+    display: block;
+    text-align: center;
+    padding-left: 15px;
 }
 
 /* Product Description */
