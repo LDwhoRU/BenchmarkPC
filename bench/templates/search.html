@@ -40,11 +40,15 @@
             {% for listing in listings %}
             <tr>
             <th scope="row">
-                {% if listing|length == 1 %}
-                <img src="static/placeholder.png" alt="static/Images/6_p.jpg">
-                {% elif listing|length == 2 %}
-                <img src="static/Images/{{ listing[1] }}" alt="static/Images/6_p.jpg">
-                {% endif %}
+                <div class="image-parent">
+                    <div class="image-container">
+                        {% if listing|length == 1 %}
+                        <img src="static/placeholder.png" alt="static/Images/6_p.jpg">
+                        {% elif listing|length == 2 %}
+                        <img src="static/Images/{{ listing[1] }}" alt="static/Images/6_p.jpg">
+                        {% endif %}
+                    </div>
+                </div>
             </th>
             <td>{{ listing[0].ListingName }}</td>
             <td>{{ listing[0].ListingType }}</td>
