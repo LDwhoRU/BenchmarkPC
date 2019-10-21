@@ -64,10 +64,12 @@
                     <div class="edit-listing-box">
                         
                         <!-- Benchmark Score -->
-                        <div class="benchmark-button">
-                            <h2>Benchmark Score</h2>
-                            <h5>Click here to Benchmark</h5>
-                        </div>
+                        {% if listing.ListingType == 'CPU' and listing.ListingScore != None %}
+                            <div class="benchmark-header">
+                                <h2>Benchmark Score</h2>
+                                <h5>{{ listing.ListingScore }}</h5>
+                            </div>
+                            {% endif %}
                         <!-- Bids Header -->
                         <div class="bids-header">
                             <h6>Bids</h6>

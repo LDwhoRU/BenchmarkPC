@@ -96,14 +96,15 @@ def manageListing(id):
         if('UpdateListing' in request.form):
             print("\n---Updating Listing---\n")
             UpdateListing(request,id)
-            return redirect('/manage/' + id)
-
-        
+            return redirect('/manage/' + id)       
     
     else:
         title = "Managing Listing {0} | BenchmarkPC".format(id)
         print("Searching For Listing")
         listing = Listing.query.filter_by(id=id).first_or_404()
+        if(listing.ListingState == 'Closed'):
+            
+            return redirect('/listing/' + id)
         listingBids = Bids.query.filter_by(bidListing=id)
         bidUsers = []
         listingBidsLists = []

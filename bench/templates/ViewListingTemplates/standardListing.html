@@ -101,10 +101,12 @@
                         </div>
                         <!-- Benchmark Score -->
                         <div class="benchmark-box">
+                            {% if listing.ListingType == 'CPU' and listing.ListingScore != None %}
                             <div class="benchmark-header">
                                 <h2>Benchmark Score</h2>
-                                <h5>97.3</h5>
+                                <h5>{{ listing.ListingScore }}</h5>
                             </div>
+                            {% endif %}
                         </div>
                         <!-- Bid for item -->
                         {% if listing.ListingState == "Open" and current_user.id != listing.userId%}
