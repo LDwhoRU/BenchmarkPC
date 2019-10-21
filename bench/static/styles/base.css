@@ -320,6 +320,10 @@ input::-webkit-inner-spin-button {
 .resources p {
     font-size: 12px;
 }
+.resources p a {
+    text-decoration:none;
+    color: #f1f1f1;
+}
 
 /* ---------------------------------------------------------------------------Product page------------------------------------------------------------------- */
 
@@ -850,6 +854,24 @@ input::-webkit-inner-spin-button {
 .card-img-top {
     width: 400px !important;
     height: 350px !important;
+}
+
+/* Contact us page */
+.container-contact-form {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px
+}
+
+.container-contact-form input[type=text], textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    resize: vertical;
 }
 
 /* Used for debugging */
