@@ -320,6 +320,10 @@ input::-webkit-inner-spin-button {
 .resources p {
     font-size: 12px;
 }
+.resources p a {
+    text-decoration:none;
+    color: #f1f1f1;
+}
 
 /* ---------------------------------------------------------------------------Product page------------------------------------------------------------------- */
 
