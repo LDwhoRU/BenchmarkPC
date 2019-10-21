@@ -54,33 +54,47 @@
             <th scope="col">Component</th>
             <th scope="col">Benchmark</th>
             <th scope="col">Price</th>
+            {% if viewType == 'previous' %}
+            <th scope="col">Sold On</th>
+            <th scope="col">Sold To</th>
+            {% endif %}
+
             <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            {% for listing in listings %}
+            {% for listing in range(listings|length) %}
             <tr>
             <th scope="row">
                 <div class="image-parent">
                     <div class="image-container">
-                        {% if listing|length == 1 %}
+                        {% if listings[listing]|length == 1 %}
                         <img src="static/placeholder.png" alt="static/Images/6_p.jpg">
-                        {% elif listing|length == 2 %}
-                        <img src="static/Images/{{ listing[1] }}" alt="static/Images/6_p.jpg">
+                        {% elif listings[listing]|length == 2 %}
+                        <img src="static/Images/{{ listings[listing][1] }}" alt="static/Images/6_p.jpg">
                         {% endif %}
                     </div>
                 </div>
             </th>
-            <td>{{ listing[0].ListingName }}</td>
-            <td>{{ listing[0].ListingType }}</td>
-            <td>{{ listing[0].ListingScore }}</td>
-            <td>{{"${0:.2f}".format(listing[0].ListingPrice)}}</td>
+            <td>{{ listings[listing][0].ListingName }}</td>
+            <td>{{ listings[listing][0].ListingType }}</td>
+            <td>{{ listings[listing][0].ListingScore }}</td>
+            {% if viewType == 'previous' %}
+            <td>{{"${0:.2f}".format(sales[listing].SalePrice)}}</td>
+            {% else %}
+            <td>{{"${0:.2f}".format(listings[listing][0].ListingPrice)}}</td>
+            {% endif %}
+
+            {% if viewType == 'previous' %}
+            <td>{{ sales[listing].SaleTimeStamp.strftime('%d-%m-%Y') }}</td>
+            <td>{{ sales[listing].BuyerID }}</td>
+            {% endif %}
             <!-- <td><button type="button" class="btn btn-primary">View</button></td> -->
             <td>
                 {% if viewType == 'search' or viewType == 'previous' %}
-                <a href="/listing/{{ listing[0].id }}" class="btn btn-primary">View</a></td>
+                <a href="/listing/{{ listings[listing][0].id }}" class="btn btn-primary">View</a></td>
                 {% elif viewType == 'manage' %}
-                <a href="/manage/{{ listing[0].id }}" class="btn btn-primary">Manage</a></td>
+                <a href="/manage/{{ listings[listing][0].id }}" class="btn btn-primary">Manage</a></td>
                 
                 {% endif %}
             </tr>
