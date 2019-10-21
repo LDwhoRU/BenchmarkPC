@@ -33,7 +33,7 @@ def newListing():
     if request.method == 'POST':
         message = processListing(request)
         if(message[0] == "Passed"):
-            return redirect("/")
+            return redirect("/listing/" + str(message[1]))
         else:
             Images.query.filter_by(ImageListing=message[1]).delete()
             Listing.query.filter_by(id=message[1]).delete()
