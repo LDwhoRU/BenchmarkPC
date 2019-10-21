@@ -155,13 +155,7 @@ def processListing(request):
 
     detailList = { "type" : type, "price" : price, "description" : description, "name" : name}
     
-    error = notNull(detailList)
-    if(error == False):
-        pass
-    else:
-        return error
-    if(priceCheck(detailList['price']) == False):
-        return "Price Error"
+    
 
     listing = Listing(
         ListingName=detailList["name"], 
@@ -174,11 +168,21 @@ def processListing(request):
     db.session.commit()
 
     ListingID = listing.id
+
+
+    error = notNull(detailList)
+    if(error == False):
+        pass
+    else:
+        return [error,ListingID]
+    if(priceCheck(detailList['price']) == False):
+        return ["Price Error", ListingID ]
+
     error = upload_image(ListingID,request)
     if(error != "Passed"):
         Listing.query.filter_by(id=ListingID).delete()
         db.session.commit()
-        return error
+        return [error, ListingID]
     
     if(type == "Case"):
         return [processCase(request,ListingID),ListingID] 
@@ -195,7 +199,7 @@ def processListing(request):
     elif(type == "Power Supply"):
         return [processPowerSupply(request, ListingID), ListingID]
     else:
-        return "No Type Selected"
+        return ["No Type Selected", ListingID]
 
 
 
