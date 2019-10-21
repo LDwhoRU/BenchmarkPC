@@ -55,7 +55,12 @@
             <td>{{ listing[0].ListingScore }}</td>
             <td>{{"${0:.2f}".format(listing[0].ListingPrice)}}</td>
             <!-- <td><button type="button" class="btn btn-primary">View</button></td> -->
-            <td><a href="/listing/{{ listing[0].id }}" class="btn btn-primary">View</a></td>
+            <td>
+                {% if viewType == 'search' %}
+                <a href="/listing/{{ listing[0].id }}" class="btn btn-primary">View</a></td>
+                {% elif viewType == 'manage' %}
+                <a href="/manage/{{ listing[0].id }}" class="btn btn-primary">Manage</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
             

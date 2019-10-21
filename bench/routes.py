@@ -55,11 +55,18 @@ def manageListings():
 
     title = "Manage Listings | BenchmarkPC"
 
-    listings = Listing.query.filter_by(userId=current_user.id) 
-    entries = listings.all()
-    for entry in entries:
-        print(entry.ListingName)
-    return render_template('manageListing.html', title=title, entries=entries)
+    listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Open').all()
+    
+    listingsAndImages = []
+    for listing in listings:
+        print("Getting Image")
+        image = Images.query.filter_by(id=listing.id).first()
+        if(image != None):
+            print("Got Image")
+            listingsAndImages.append([listing, image.ImageName])
+        else:
+            listingsAndImages.append([listing])
+    return render_template('search.html', listings=listingsAndImages, viewType='manage')
 
 @app.route('/manage/<id>',methods=['GET','POST'])
 def manageListing(id):
@@ -277,7 +284,7 @@ def search():
             else:
                 listingsAndImages.append([listing])
             
-        return render_template("search.html", listings=listingsAndImages)
+        return render_template("search.html", listings=listingsAndImages, viewType='search')
     elif(len(request.args) == 2):
                 listings = Listing.query.filter(Listing.ListingName.like( "%" + request.args.get('searchText') + "%"),Listing.ListingState != "Closed",
                 Listing.ListingType == request.args.get("type")).all()
@@ -293,7 +300,7 @@ def search():
                     else:
                         listingsAndImages.append([listing])
                     
-                return render_template("search.html", listings=listingsAndImages)
+                return render_template("search.html", listings=listingsAndImages, viewType='search')
 
 
         
