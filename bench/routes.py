@@ -52,7 +52,7 @@ def newListing():
 def manageListings():
     if current_user.is_anonymous:
         return redirect('/login')
-
+ 
     title = "Manage Listings | BenchmarkPC"
 
     listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Open').all()
@@ -60,13 +60,34 @@ def manageListings():
     listingsAndImages = []
     for listing in listings:
         print("Getting Image")
-        image = Images.query.filter_by(id=listing.id).first()
+        image = Images.query.filter_by(ImageListing=listing.id).first()
         if(image != None):
             print("Got Image")
             listingsAndImages.append([listing, image.ImageName])
         else:
             listingsAndImages.append([listing])
-    return render_template('search.html', listings=listingsAndImages, viewType='manage')
+    return render_template('search.html', title=title, listings=listingsAndImages, viewType='manage')
+
+
+@app.route('/previous')
+def viewOldListings():
+    if current_user.is_anonymous:
+        return redirect('/login')
+ 
+    title = "Viewing Old Listings | BenchmarkPC"
+
+    listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Closed').all()
+    
+    listingsAndImages = []
+    for listing in listings:
+        print("Getting Image")
+        image = Images.query.filter_by(ImageListing=listing.id).first()
+        if(image != None):
+            print("Got Image")
+            listingsAndImages.append([listing, image.ImageName])
+        else:
+            listingsAndImages.append([listing])
+    return render_template('search.html', title=title, listings=listingsAndImages, viewType='previous')
 
 @app.route('/manage/<id>',methods=['GET','POST'])
 def manageListing(id):
@@ -277,7 +298,7 @@ def search():
         listingsAndImages = []
         for listing in listings:
             print("Getting Image")
-            image = Images.query.filter_by(id=listing.id).first()
+            image = Images.query.filter_by(ImageListing=listing.id).first()
             if(image != None):
                 print("Got Image")
                 listingsAndImages.append([listing, image.ImageName])
@@ -293,7 +314,7 @@ def search():
                 listingsAndImages = []
                 for listing in listings:
                     print("Getting Image")
-                    image = Images.query.filter_by(id=listing.id).first()
+                    image = Images.query.filter_by(ImageListing=listing.id).first()
                     if(image != None):
                         print("Got Image")
                         listingsAndImages.append([listing, image.ImageName])

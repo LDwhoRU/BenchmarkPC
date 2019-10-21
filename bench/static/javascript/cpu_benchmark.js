@@ -30,6 +30,13 @@ function main() {
         console.log(final_result);
         activated = true;
         document.getElementById('benchmark').innerHTML = "<h3>Score: " + final_result + "</h3>"
+        inputElement = document.createElement('input');
+        inputElement.setAttribute('type', 'hidden');
+        inputElement.setAttribute('name', 'cpuScore');
+        inputElement.setAttribute('form','ListingForm');
+        inputElement.setAttribute('value',final_result);
+        document.getElementById('benchmark').appendChild(inputElement);
+
     }
 }
 
