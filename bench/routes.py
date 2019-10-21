@@ -273,3 +273,27 @@ def current_listings():
     title = "Current Listings | BenchmarkPC"
     return render_template("currentListings.html")
 
+@app.route('/privacy-policy')
+def privacy_policy():
+    title = "Privacy Policy | BenchmarkPC"
+    return render_template("privacy-policy.html")
+
+@app.route('/terms-conditions')
+def terms_of_usage():
+    title = "Terms Of Usage | BenchmarkPC"
+    return render_template("terms-conditions.html")
+
+@app.route('/returns')
+def returns_policy():
+    title = "Return Policy | BenchmarkPC"
+    return render_template("return-policy.html")
+
+@app.route('/about-us')
+def about_us():
+    title = "About Us | BenchmarkPC"
+    return render_template("about-us.html")
+
+@app.route('/contact')
+def contact_us():
+    title = "Contact Us | BenchmarkPC"
+    return render_template("contact-us.html")
