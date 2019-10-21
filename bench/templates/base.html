@@ -12,97 +12,99 @@
         <script src="https://kit.fontawesome.com/06e06e5c3b.js"></script>
     </head>
     <body>
-           
-
-        <!-- Navigation and Search Bar -->
-        <div class="nav-bar" style="margin-bottom: 0;">
-            <div class="search">
-                <a href="/">
-                    <img src="/static/logo.PNG" class="logo">
-                </a>
-                <form id="searchForm" action="/search" method="GET"></form>
-                <input form="searchForm" name="searchText" type="text" class="form-control search-bar-form">
-                <button type="submit" tabindex="2" form="searchForm" class="hidden">
-                        
-                    </button>
-                <div class="dropdown">
-                    <button class="dropbtn dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                    <div class="dropdown-menu dropdown-content" aria-labelledby="dropdownMenuButton">
-                        <button tabindex="2" name="type" form="searchForm" value="CPU" class="dropdown-item">CPU</button>
-                        <button name="type" form="searchForm" value="CPU Cooler" class="dropdown-item">CPU Cooler</button>
-                        <button name="type" form="searchForm" value="Motherboard" class="dropdown-item">Motherboard</button>
-                        <button name="type" form="searchForm" value="Memory" class="dropdown-item">Memory</button>
-                        <button name="type" form="searchForm" value="GPU" class="dropdown-item">GPU</button>
-                        <button name="type" form="searchForm" value="Power Supply" class="dropdown-item">Power Supply</button>
-                        <button name="type" form="searchForm" value="Case" class="dropdown-item">Case</button>
+        <div class="page-container">
+            <div class="content-wrapper">
+                <!-- Navigation and Search Bar -->
+                <div class="nav-bar" style="margin-bottom: 0;">
+                    <div class="search">
+                        <a href="/">
+                            <img src="/static/logo.PNG" class="logo">
+                        </a>
+                        <form id="searchForm" action="/search" method="GET"></form>
+                        <input form="searchForm" name="searchText" type="text" class="form-control search-bar-form">
+                        <button type="submit" tabindex="2" form="searchForm" class="hidden">
+                                
+                            </button>
+                        <div class="dropdown">
+                            <button class="dropbtn dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu dropdown-content" aria-labelledby="dropdownMenuButton">
+                                <button tabindex="2" name="type" form="searchForm" value="CPU" class="dropdown-item">CPU</button>
+                                <button name="type" form="searchForm" value="CPU Cooler" class="dropdown-item">CPU Cooler</button>
+                                <button name="type" form="searchForm" value="Motherboard" class="dropdown-item">Motherboard</button>
+                                <button name="type" form="searchForm" value="Memory" class="dropdown-item">Memory</button>
+                                <button name="type" form="searchForm" value="GPU" class="dropdown-item">GPU</button>
+                                <button name="type" form="searchForm" value="Power Supply" class="dropdown-item">Power Supply</button>
+                                <button name="type" form="searchForm" value="Case" class="dropdown-item">Case</button>
+                            </div>
+                        </div>
+                        <span class="input-group-text search-bar-span">
+                            <button type="submit" tabindex="2" form="searchForm" class="search-button-box">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="menu-bar">
+                        <ul>
+                            <li>
+                                <a href="/newListing">New Listing</a> <!-- Remember to change back to browse in assignment 3 -->
+                                <a href="/manage">Manage</a> <!-- Change link in assignment 3 -->
+                                {% if current_user.is_authenticated %}
+                                <a id="userText">Hello, {{ current_user.username }}</a> 
+                                <a href="/logout">Logout</a>
+                                {% else %}
+                                <a href="/login">Login</a>
+                                <a href="/register">Register</a>
+                                {% endif %}
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <span class="input-group-text search-bar-span">
-                    <button type="submit" tabindex="2" form="searchForm" class="search-button-box">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </span>
+                {% block breadcrumb %}
+                {% endblock %}
+
+                {% block content %}
+                {% endblock %}
+                <div class="push"></div>
             </div>
-            <div class="menu-bar">
-                <ul>
-                    <li>
-                        <a href="/newListing">New Listing</a> <!-- Remember to change back to browse in assignment 3 -->
-                        <a href="/manage">Manage</a> <!-- Change link in assignment 3 -->
-                        {% if current_user.is_authenticated %}
-                        <a id="userText">Hello, {{ current_user.username }}</a> 
-                        <a href="/logout">Logout</a>
-                        {% else %}
-                        <a href="/login">Login</a>
-                        <a href="/register">Register</a>
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
+        
+            <!-- Footer -->
+            <section class="footer">
+                <div class="text-center footer-box sticky-footer">
+                    <div class="container resources">
+                        <div class="row">
+                            <div class="col-md-3 footer-links">
+                                <h2>Useful Resources</h2>
+                                <p><a href="/terms-conditions">Terms of Usage</a></p>
+                                <p><a href="/privacy-policy">Privacy Policy</a></p>
+                                <p><a href="/returns">Return Policy</a></p>
+                            </div>
+                            <div class="col-md-3 footer-links">
+                                <h2>BenchmarkPC</h2>
+                                <p><a href="/about-us">About Us</a></p>
+                                <p><a href="/contact">Contact Us</a></p>
+                                <p>Careers</p>
+                            </div>
+                            <div class="col-md-3 footer-links">
+                                <h2>Social</h2>
+                                <p>
+                                    <i class="fab fa-facebook-f"></i>
+                                    Facebook
+                                </p>
+                                <p>
+                                    <i class="fab fa-instagram"></i>
+                                    Instagram
+                                </p>
+                                <p>
+                                    <i class="fab fa-twitter"></i>
+                                    Twitter
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </div>
-        {% block breadcrumb %}
-        {% endblock %}
-
-    {% block content %}
-    {% endblock %}
-
-    
-        <!-- Footer -->
-        <section class="Footer">
-            <div class="text-center footer-box">
-                <div class="container resources">
-                    <div class="row">
-                        <div class="col-md-3 footer-links">
-                            <h2>Useful Resources</h2>
-                            <p><a href="/terms-conditions">Terms of Usage</a></p>
-                            <p><a href="/privacy-policy">Privacy Policy</a></p>
-                            <p><a href="/returns">Return Policy</a></p>
-                        </div>
-                        <div class="col-md-3 footer-links">
-                            <h2>BenchmarkPC</h2>
-                            <p><a href="/about-us">About Us</a></p>
-                            <p><a href="/contact">Contact Us</a></p>
-                            <p>Careers</p>
-                        </div>
-                        <div class="col-md-3 footer-links">
-                            <h2>Social</h2>
-                            <p>
-                                <i class="fab fa-facebook-f"></i>
-                                Facebook
-                            </p>
-                            <p>
-                                <i class="fab fa-instagram"></i>
-                                Instagram
-                            </p>
-                            <p>
-                                <i class="fab fa-twitter"></i>
-                                Twitter
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </body>
 </html>

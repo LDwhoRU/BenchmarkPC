@@ -5,6 +5,12 @@
 body {
     background-color: #f1f1f1;
     font-family: sans-serif;
+    height: 100%;
+    margin: 0;
+}
+html {
+    height: 100%;
+    margin: 0;
 }
 
 input[type='number'] {
@@ -286,7 +292,9 @@ input::-webkit-inner-spin-button {
 }
 
 /* Guarantees/consumer benefits */
-
+.guarantees {
+    margin-top: 50px;
+}
 .guarantee-header {
     border-radius: 5px;
     color: #f1f1f1;
@@ -301,8 +309,7 @@ input::-webkit-inner-spin-button {
     color: #f1f1f1;
     background: #1f4582;
     position: relative;
-    padding: 8px;
-    padding-bottom: 10px;
+    padding: 5px;
 }
 
 /* Footer */
@@ -867,6 +874,18 @@ input::-webkit-inner-spin-button {
     margin-top: 5px;
     margin-bottom: 10px;
     resize: vertical;
+}
+
+/* Force footer */
+.content-wrapper {
+    min-height: 100%;
+    margin-bottom: 165px;
+}
+.sticky-footer {
+    height: 165px;
+}
+.push {
+    height: 115px;
 }
 
 /* Used for debugging */
