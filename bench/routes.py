@@ -38,6 +38,7 @@ def newListing():
             Images.query.filter_by(ImageListing=message[1]).delete()
             Listing.query.filter_by(id=message[1]).delete()
             db.session.commit()
+            print(message)
             return render_template('createNewListing.html', form=form,title=title, message=message)
         
 
