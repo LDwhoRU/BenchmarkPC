@@ -6,8 +6,6 @@
             <h1 class="text-center page-title">Results</h1>
         {% elif viewType == 'manage' %}
         <h1 class="text-center page-title">My Listings</h1>
-        {% elif viewType == 'previous' %}
-        <h1 class="text-center page-title">My Sold Listings</h1>
         {% endif %}
 
     </div>
@@ -20,30 +18,11 @@
     </div>
     <div class="extra-actions container">
         <ul>
-            {% if viewType == 'search' %}
-            <li>
-                <a href="/compare">
-                    <h6>Compare</h6>
-                </a>
-            </li>
-            <li>
-                <a href="/price-notif">
-                    <h6>Price Alert</h6>
-                </a>
-            </li>
-            {% elif viewType == 'manage' %}
             <li>
                 <a href="/previous">
                     <h6>View Previous</h6>
                 </a>
             </li>
-            {% elif viewType == 'previous' %}
-            <li>
-                <a href="/manage">
-                    <h6>Manage Current</h6>
-                </a>
-            </li>
-            {% endif %}
         </ul>
     </div>
     <table class="table table-hover container results-table">
@@ -77,11 +56,10 @@
             <td>{{"${0:.2f}".format(listing[0].ListingPrice)}}</td>
             <!-- <td><button type="button" class="btn btn-primary">View</button></td> -->
             <td>
-                {% if viewType == 'search' or viewType == 'previous' %}
+                {% if viewType == 'search' %}
                 <a href="/listing/{{ listing[0].id }}" class="btn btn-primary">View</a></td>
                 {% elif viewType == 'manage' %}
                 <a href="/manage/{{ listing[0].id }}" class="btn btn-primary">Manage</a></td>
-                
                 {% endif %}
             </tr>
             {% endfor %}

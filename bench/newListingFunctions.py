@@ -155,6 +155,9 @@ def processListing(request):
 
     detailList = { "type" : type, "price" : price, "description" : description, "name" : name}
     
+    cpuScore = request.form.get('cpuScore')
+    
+
     
 
     listing = Listing(
@@ -162,7 +165,7 @@ def processListing(request):
         ListingPrice=detailList["price"],
         ListingType=detailList["type"], 
         ListingDescription=detailList["description"],
-        userId=current_user.id)
+        userId=current_user.id, ListingScore=cpuScore)
 
     db.session.add(listing)
     db.session.commit()
@@ -535,7 +538,6 @@ def processCPU(request, id):
         values.update({"IntegratedGraphics" : "No"})
     elif(values.get('IncludesCPUCooler') not in ["Yes", "No"]):
         values.update({"IncludesCPUCooler" : "No"})
-
 
     cpu = CPU(
         manufacturer=values.get('manufacturer'),

@@ -52,14 +52,42 @@ def newListing():
 def manageListings():
     if current_user.is_anonymous:
         return redirect('/login')
-
+ 
     title = "Manage Listings | BenchmarkPC"
 
-    listings = Listing.query.filter_by(userId=current_user.id) 
-    entries = listings.all()
-    for entry in entries:
-        print(entry.ListingName)
-    return render_template('manageListing.html', title=title, entries=entries)
+    listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Open').all()
+    
+    listingsAndImages = []
+    for listing in listings:
+        print("Getting Image")
+        image = Images.query.filter_by(ImageListing=listing.id).first()
+        if(image != None):
+            print("Got Image")
+            listingsAndImages.append([listing, image.ImageName])
+        else:
+            listingsAndImages.append([listing])
+    return render_template('search.html', title=title, listings=listingsAndImages, viewType='manage')
+
+
+@app.route('/previous')
+def viewOldListings():
+    if current_user.is_anonymous:
+        return redirect('/login')
+ 
+    title = "Viewing Old Listings | BenchmarkPC"
+
+    listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Closed').all()
+    
+    listingsAndImages = []
+    for listing in listings:
+        print("Getting Image")
+        image = Images.query.filter_by(ImageListing=listing.id).first()
+        if(image != None):
+            print("Got Image")
+            listingsAndImages.append([listing, image.ImageName])
+        else:
+            listingsAndImages.append([listing])
+    return render_template('search.html', title=title, listings=listingsAndImages, viewType='previous')
 
 @app.route('/manage/<id>',methods=['GET','POST'])
 def manageListing(id):
@@ -68,14 +96,15 @@ def manageListing(id):
         if('UpdateListing' in request.form):
             print("\n---Updating Listing---\n")
             UpdateListing(request,id)
-            return redirect('/manage/' + id)
-
-        
+            return redirect('/manage/' + id)       
     
     else:
         title = "Managing Listing {0} | BenchmarkPC".format(id)
         print("Searching For Listing")
         listing = Listing.query.filter_by(id=id).first_or_404()
+        if(listing.ListingState == 'Closed'):
+            
+            return redirect('/listing/' + id)
         listingBids = Bids.query.filter_by(bidListing=id)
         bidUsers = []
         listingBidsLists = []
@@ -258,7 +287,45 @@ def logout():
     return redirect("/")
 
 @app.route('/search')
+# @app.route('/search?searchText=<searchingText>&type=<Ptype>')
 def search():
+    print(request.args.get('searchText'))
+    print(len(request.args))
+    if(len(request.args) == 1):
+        print("Getting Listings")
+        print("%{}%".format(request.args.get("searchText")))
+        listings = Listing.query.filter(Listing.ListingName.like( "%" + request.args.get('searchText') + "%"),Listing.ListingState != "Closed").all()
+
+        listingsAndImages = []
+        for listing in listings:
+            print("Getting Image")
+            image = Images.query.filter_by(ImageListing=listing.id).first()
+            if(image != None):
+                print("Got Image")
+                listingsAndImages.append([listing, image.ImageName])
+            else:
+                listingsAndImages.append([listing])
+            
+        return render_template("search.html", listings=listingsAndImages, viewType='search')
+    elif(len(request.args) == 2):
+                listings = Listing.query.filter(Listing.ListingName.like( "%" + request.args.get('searchText') + "%"),Listing.ListingState != "Closed",
+                Listing.ListingType == request.args.get("type")).all()
+                print(listings)
+
+                listingsAndImages = []
+                for listing in listings:
+                    print("Getting Image")
+                    image = Images.query.filter_by(ImageListing=listing.id).first()
+                    if(image != None):
+                        print("Got Image")
+                        listingsAndImages.append([listing, image.ImageName])
+                    else:
+                        listingsAndImages.append([listing])
+                    
+                return render_template("search.html", listings=listingsAndImages, viewType='search')
+
+
+        
     return render_template("search.html")
 
 @app.route('/history')
