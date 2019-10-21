@@ -574,6 +574,11 @@ input::-webkit-inner-spin-button {
     color: #1f4582;
 }
 
+.sold{
+    text-decoration:  line-through;
+    text-decoration-color: red;
+}
+
 @media only screen and (max-width:980px) {
     .description-body-box li {
         list-style-type: none;
