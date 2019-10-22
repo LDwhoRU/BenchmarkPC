@@ -435,7 +435,7 @@ def processCPUCooler(request, id):
     if(error != "Passed"):
         return error
 
-    if(values.get('Height').isDecimal() == False):
+    if(isDecimal(values.get('Height')) == False):
         return "Height Not Provided In Decimal Form"
 
     if(values.get('Noise').isdigit() == False):
