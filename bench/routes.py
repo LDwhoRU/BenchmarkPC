@@ -226,7 +226,7 @@ def viewListingNumber(id):
 
     image = Images.query.filter_by(ImageListing=listing.id).first()
     if(image is not None):
-        image = '\\static\\' + image.ImageName
+        image = '\\static\\Images\\' + image.ImageName
     else:
         image = r"\static\placeholder.png"
     if(listing.ListingType == "CPU"):
