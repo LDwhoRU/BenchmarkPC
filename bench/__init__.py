@@ -12,7 +12,8 @@ POSTGRES = {
     'host': 'localhost',
     'port': '5432',
 }
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SECRET_KEY'] = '13c144f006b7411aa39365a5d7d42da1'
 app.config['UPLOAD_FOLDER'] = r".\bench\static\Images"
 
