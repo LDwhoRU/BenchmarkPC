@@ -381,7 +381,10 @@ def processCase(request, id):
         values.update({'Bays25': int(values.get('Bays25'))})
         values.update({'Bays35': int(values.get('Bays35'))})    
 
-        
+    if(values.get('SidePanel') not in ['Yes', 'No']):
+        values.update({'SidePanel': 'No'})
+    if(values.get('Colour') == ""):
+        return "No Colour Selected"
 
     case = Case(manufacturer=values.get('manufacturer'), colour=values.get('Colour'), sidePanel=values.get('SidePanel'),
                 internal25Bays=values.get('Bays25'),
@@ -413,7 +416,10 @@ def processMemory(request, id):
     values.update({'modules': int(values.get('modules'))})
     values.update({'memorySpeed': int(values.get('memorySpeed'))})
 
-    
+    if(values.get('Colour') == ""):
+        return "No Colour Selected"
+    if(values.get('memoryType') not in ['DDR','DDR2','DDR3','DDR4', 'DDR5']):
+        return "Please Select One Of The Following For Memory Type: ['DDR','DDR2','DDR3','DDR4', 'DDR5']"
 
     memory = Memory(
         manufacturer=values.get('manufacturer'),
@@ -449,6 +455,12 @@ def processCPUCooler(request, id):
     values.update({'Noise':  int(values.get('Noise'))})
     values.update({'RPM': int(values.get('RPM'))})
 
+    if(values.get('Fanless') not in ['Yes', 'No']):
+        return "Please Select If Your Cooler Does Or Does Not Have A Fan."
+    if(values.get('WaterCooled') not in ['Yes', 'No']):
+        return "Please Select If Your Cooler Is A Water Cooler Or Not."
+    if(values.get('Socket') == ""):
+        return "Please Enter The Socket That Your Cooler Fits."
     
 
     Cooler = CPUCooler(
@@ -491,7 +503,18 @@ def processMotherBoard(request, id):
            or int(values.get(key)) < 0):
             values.update({key: 0})
 
-    
+    if(values.get('Socket') == ""):
+        return "Please Enter The Socket That Your Cooler Fits."
+    if(values.get('USB3') not in ['Yes', 'No']):
+        return "Please Select If Your Motherboard Has USB3 Headers"
+    if(values.get('RAID') not in ['Yes', 'No']):
+        values.update({'RAID': 'No'})
+    if(values.get('colour') == ""):
+        return "Please Enter The Colour Of The Motherboard"
+    if(values.get('Chipset') == ""):
+        return "Please Enter The Chipset Of Your Motherboard"
+    if(values.get('MemoryType') not in ['DDR','DDR2','DDR3','DDR4']):
+        return "Please Enter The Newest Memory Type Your Motherboard Supports"
 
     # Create The Motherboard Object And Add It To The Database
     MotherBoard = Motherboard(
@@ -541,6 +564,8 @@ def processCPU(request, id):
         values.update({"IntegratedGraphics" : "No"})
     elif(values.get('IncludesCPUCooler') not in ["Yes", "No"]):
         values.update({"IncludesCPUCooler" : "No"})
+    if(values.get('Socket') == ""):
+        return "Please Enter The Socket Type This CPU Fits."
 
     cpu = CPU(
         manufacturer=values.get('manufacturer'),
