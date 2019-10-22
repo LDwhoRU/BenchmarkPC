@@ -37,7 +37,7 @@ class Sales(db.Model):
 class Listing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ListingScore = db.Column(db.Integer, nullable=True)
-    ListingState = db.Column(db.Integer, nullable=True, server_default="Open")
+    ListingState = db.Column(db.String(80), nullable=True, server_default="Open")
     ListingName = db.Column(db.String(80), unique=False, nullable=False)
     ListingPrice = db.Column(db.Numeric, unique=False, nullable=False)
     ListingType = db.Column(db.String(80), unique=False, nullable=False)
