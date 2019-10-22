@@ -15,7 +15,7 @@ POSTGRES = {
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SECRET_KEY'] = '13c144f006b7411aa39365a5d7d42da1'
-app.config['UPLOAD_FOLDER'] = "./bench/static/Images"
+app.config['UPLOAD_FOLDER'] = os.path.join('bench', 'static', 'Images')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
