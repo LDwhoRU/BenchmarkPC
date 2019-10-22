@@ -388,3 +388,8 @@ def about_us():
 def contact_us():
     title = "Contact Us | BenchmarkPC"
     return render_template("contact-us.html")
+
+@app.route('/careers')
+def careers():
+    title = "Careers | BenchmarkPC"
+    return render_template("careers.html")
