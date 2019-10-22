@@ -1,1 +1,1 @@
-gunicorn 'BenchmarkPC:create_app()'
+gunicorn 'bench:app()'
