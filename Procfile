@@ -1,1 +1,1 @@
-gunicorn 'bench:app'
+gunicorn 'app:app'
