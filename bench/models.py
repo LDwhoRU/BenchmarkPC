@@ -57,10 +57,7 @@ class Bids(db.Model):
     bidTimeStamp = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
 
-class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    OrderUser = db.Column(db.Integer, db.ForeignKey('user.id'))
-# Classes For Computer Parts
+
 
 
 class Case(db.Model):
