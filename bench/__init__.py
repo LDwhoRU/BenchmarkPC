@@ -5,8 +5,14 @@ import os
 app = Flask(__name__)
 app.debug = True
 #Database
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
+POSTGRES = {
+    'user': 'postgres',
+    'pw': 'test',
+    'db': 'benchmarkpc',
+    'host': 'localhost',
+    'port': '5432',
+}
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 app.config['SECRET_KEY'] = '13c144f006b7411aa39365a5d7d42da1'
 app.config['UPLOAD_FOLDER'] = r".\bench\static\Images"
 
