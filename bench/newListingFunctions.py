@@ -72,6 +72,8 @@ def UpdateListing(request, idL):
 
         print(request.args)
         cooler = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
+        print(cooler)
+        print(CPUCooler.query.all())
         values = getCPUCoolerValues(request)      
         cooler.manufacturer=values.get('manufacturer')
         cooler.FanRPM=values.get('RPM')
