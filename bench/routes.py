@@ -1,15 +1,16 @@
 from bench import app, db
 from bench.models import *
 from flask import render_template, request, flash, redirect
-from forms import LoginForm, RegisterForm, newListingForm, bidForm,manageListingForm
+from forms import LoginForm, RegisterForm, newListingForm, bidForm, manageListingForm
 from flask_login import current_user, login_user, logout_user
 from bench.newListingFunctions import processListing, UpdateListing
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    title  = "Home | BenchmarkPC"
-    listings = Listing.query.order_by(Listing.ListingTimeStamp.desc()).filter(Listing.ListingState != 'Closed').limit(3).all()
+    title = "Home | BenchmarkPC"
+    listings = Listing.query.order_by(Listing.ListingTimeStamp.desc()).filter(
+        Listing.ListingState != 'Closed').limit(3).all()
     images = []
 
     for listing in listings:
@@ -23,7 +24,8 @@ def index():
         print("Good")
     return render_template('index.html',  title=title, listings=listings, images=images)
 
-@app.route('/newListing', methods=['GET','POST'])
+
+@app.route('/newListing', methods=['GET', 'POST'])
 def newListing():
     title = "New Listing | BenchmarkPC"
 
@@ -39,24 +41,21 @@ def newListing():
             Listing.query.filter_by(id=message[1]).delete()
             db.session.commit()
             print(message)
-            return render_template('createNewListing.html', form=form,title=title, message=message)
-        
+            return render_template('createNewListing.html', form=form, title=title, message=message)
 
     return render_template('createNewListing.html', form=form, title=title, message=None)
-
-
-
 
 
 @app.route('/manage')
 def manageListings():
     if current_user.is_anonymous:
         return redirect('/login')
- 
+
     title = "Manage Listings | BenchmarkPC"
 
-    listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Open').all()
-    
+    listings = Listing.query.filter(
+        Listing.userId == current_user.id, Listing.ListingState == 'Open').all()
+
     listingsAndImages = []
     for listing in listings:
         print("Getting Image")
@@ -73,11 +72,12 @@ def manageListings():
 def viewOldListings():
     if current_user.is_anonymous:
         return redirect('/login')
- 
+
     title = "Viewing Old Listings | BenchmarkPC"
 
-    listings = Listing.query.filter(Listing.userId==current_user.id, Listing.ListingState=='Closed').all()
-    
+    listings = Listing.query.filter(
+        Listing.userId == current_user.id, Listing.ListingState == 'Closed').all()
+
     listingsAndImages = []
     listingIDS = []
 
@@ -97,18 +97,20 @@ def viewOldListings():
     print(sales[0].SaleTimeStamp)
     return render_template('search.html', title=title, listings=listingsAndImages, viewType='previous', sales=sales)
 
-@app.route('/manage/<id>',methods=['GET','POST'])
+
+@app.route('/manage/<id>', methods=['GET', 'POST'])
 def manageListing(id):
     form = manageListingForm()
-    
+
     if(request.method == "POST"):
         if('UpdateListing' in request.form):
             print("\n---Updating Listing---\n")
-            UpdateListing(request,id)
+            UpdateListing(request, id)
             return redirect('/manage/' + id)
         elif('selectBid' in request.form):
             print(request.form)
-            bid = Bids.query.filter_by(id=request.form.get('bidID')).first_or_404()
+            bid = Bids.query.filter_by(
+                id=request.form.get('bidID')).first_or_404()
             print('got here')
             print('Bid Listing ' + str(bid.bidListing))
             print('Listing ' + str(id))
@@ -117,12 +119,13 @@ def manageListing(id):
             print('here')
             listing = Listing.query.filter_by(id=id).first()
             listing.ListingState = 'Closed'
-            sale = Sales(ListingID=listing.id, BuyerID=bid.bidUser, SalePrice=bid.bidAmount)
+            sale = Sales(ListingID=listing.id, BuyerID=bid.bidUser,
+                         SalePrice=bid.bidAmount)
             Bids.query.filter_by(bidListing=listing.id).delete()
             db.session.add(sale)
             db.session.commit()
             return redirect('/listing/' + id)
-    
+
     else:
         title = "Managing Listing {0} | BenchmarkPC".format(id)
         print("Searching For Listing")
@@ -142,47 +145,46 @@ def manageListing(id):
             return redirect('/login')
         elif current_user.id != listing.userId:
             return redirect("/")
-        
+
         image = Images.query.filter_by(ImageListing=listing.id)
         print("here")
         if(image.scalar() is not None):
-            image =  "\\static\\Images\\" + image.first().ImageName
+            image = "\\static\\Images\\" + image.first().ImageName
         else:
             image = r"\static\placeholder.png"
         print("here3")
         if(listing.ListingType == "Case"):
             case = Case.query.filter_by(caseListing=id).first_or_404()
             return render_template('manageListingTemplates/CaseHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, case=case,form=form, image=image)
+                                   bids=combinedList, length=length, listing=listing, case=case, form=form, image=image)
         elif(listing.ListingType == "CPU Cooler"):
             cooler = CPUCooler.query.filter_by(CPUCoolerListing=id).first()
             return render_template('manageListingTemplates/CPUCoolerHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, cooler=cooler,form=form, image=image)
+                                   bids=combinedList, length=length, listing=listing, cooler=cooler, form=form, image=image)
         elif(listing.ListingType == "CPU"):
             cpu = CPU.query.filter_by(CPUListing=id).first_or_404()
             print(cpu.Socket)
             print(cpu.Microarchitecture)
             return render_template('manageListingTemplates/CPUHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, cpu=cpu,form=form, image=image)
+                                   bids=combinedList, length=length, listing=listing, cpu=cpu, form=form, image=image)
         elif(listing.ListingType == 'Memory'):
             memory = Memory.query.filter_by(memoryListing=id).first_or_404()
             return render_template('manageListingTemplates/memoryHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, memory=memory,form=form, image=image)
+                                   bids=combinedList, length=length, listing=listing, memory=memory, form=form, image=image)
         elif(listing.ListingType == 'Graphics Card'):
             gpu = GPU.query.filter_by(GPUListing=id).first_or_404()
             return render_template('manageListingTemplates/GPUHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, gpu=gpu,form=form, image=image)
+                                   bids=combinedList, length=length, listing=listing, gpu=gpu, form=form, image=image)
         elif(listing.ListingType == 'Power Supply'):
-            powerSupply = PowerSupply.query.filter_by(PowerSupplyListing=id).first_or_404()
+            powerSupply = PowerSupply.query.filter_by(
+                PowerSupplyListing=id).first_or_404()
             return render_template('manageListingTemplates/PowerSupplyHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, powerSupply=powerSupply,form=form, image=image)
+                                   bids=combinedList, length=length, listing=listing, powerSupply=powerSupply, form=form, image=image)
         elif(listing.ListingType == 'Motherboard'):
-            motherboard = Motherboard.query.filter_by(MotherboardListing=id).first_or_404()
+            motherboard = Motherboard.query.filter_by(
+                MotherboardListing=id).first_or_404()
             return render_template('manageListingTemplates/MotherboardHTML.html', title=title,
-                bids=combinedList, length=length,listing=listing, motherboard=motherboard,form=form, image=image)
-
-    
-   
+                                   bids=combinedList, length=length, listing=listing, motherboard=motherboard, form=form, image=image)
 
 
 @app.route('/listing')
@@ -191,7 +193,8 @@ def viewListing():
 
     return render_template("view.html", title=title)
 
-@app.route('/listing/<id>', methods=['GET','POST'])
+
+@app.route('/listing/<id>', methods=['GET', 'POST'])
 def viewListingNumber(id):
     title = "Listing | BenchmarkPC"
 
@@ -199,75 +202,83 @@ def viewListingNumber(id):
 
     listing = Listing.query.filter_by(id=id).first_or_404()
     user = User.query.filter_by(id=listing.userId).first()
-    date = str(listing.ListingTimeStamp.day) + "/" + str(listing.ListingTimeStamp.month) + "/" + str(listing.ListingTimeStamp.year)
+    date = str(listing.ListingTimeStamp.day) + "/" + \
+        str(listing.ListingTimeStamp.month) + \
+        "/" + str(listing.ListingTimeStamp.year)
 
     form = bidForm()
     if(request.method == "POST"):
         if(current_user.is_anonymous):
             return redirect('/login')
-        exists = db.session.query(Bids.bidUser).filter_by(bidUser=current_user.id).first()
+        exists = db.session.query(Bids.bidUser).filter_by(
+            bidUser=current_user.id).first()
         print(exists)
         bidMoney = request.form.get("bid")
         if(exists is not None):
-                bid = Bids.query.filter_by(bidUser=current_user.id, bidListing=id).first()
-                bid.bidAmount = bidMoney
+            bid = Bids.query.filter_by(
+                bidUser=current_user.id, bidListing=id).first()
+            bid.bidAmount = bidMoney
         else:
-                bid = Bids(bidAmount=bidMoney, bidUser=current_user.id, bidListing=id)
+            bid = Bids(bidAmount=bidMoney,
+                       bidUser=current_user.id, bidListing=id)
         db.session.add(bid)
         db.session.commit()
 
-
     image = Images.query.filter_by(ImageListing=listing.id).first()
     if(image is not None):
-        image =  "\\static\\Images\\" + image.ImageName
+        image = app.config['UPLOAD_FOLDER'] + image.ImageName
     else:
         image = r"\static\placeholder.png"
     if(listing.ListingType == "CPU"):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
-        return render_template("ViewListingTemplates/CPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form, image=image )
+        return render_template("ViewListingTemplates/CPUListing.html", title=title,
+                               listing=listing, user=user, date=date, details=details, form=form, image=image)
 
     elif(listing.ListingType == "Graphics Card"):
         details = GPU.query.filter_by(GPUListing=listing.id).first()
-        return render_template("ViewListingTemplates/GPUListing.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form, image=image)
+        return render_template("ViewListingTemplates/GPUListing.html", title=title,
+                               listing=listing, user=user, date=date, details=details, form=form, image=image)
 
     elif(listing.ListingType == "CPU Cooler"):
-        details = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
-        return render_template("ViewListingTemplates/CPUCooler.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form, image=image)
+        details = CPUCooler.query.filter_by(
+            CPUCoolerListing=listing.id).first()
+        return render_template("ViewListingTemplates/CPUCooler.html", title=title,
+                               listing=listing, user=user, date=date, details=details, form=form, image=image)
 
     elif(listing.ListingType == "Memory"):
         details = Memory.query.filter_by(memoryListing=listing.id).first()
-        return render_template("ViewListingTemplates/Memory.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form)
+        return render_template("ViewListingTemplates/Memory.html", title=title,
+                               listing=listing, user=user, date=date, details=details, form=form)
 
     elif(listing.ListingType == "Case"):
         details = Case.query.filter_by(caseListing=listing.id).first()
-        return render_template("ViewListingTemplates/Case.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form, image=image)
+        return render_template("ViewListingTemplates/Case.html", title=title,
+                               listing=listing, user=user, date=date, details=details, form=form, image=image)
 
     elif(listing.ListingType == "Power Supply"):
-        details = PowerSupply.query.filter_by(PowerSupplyListing=listing.id).first()
-        return render_template("ViewListingTemplates/PowerSupply.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form, image=image)
+        details = PowerSupply.query.filter_by(
+            PowerSupplyListing=listing.id).first()
+        return render_template("ViewListingTemplates/PowerSupply.html", title=title,
+                               listing=listing, user=user, date=date, details=details, form=form, image=image)
 
     elif(listing.ListingType == "Motherboard"):
-        details = Motherboard.query.filter_by(MotherboardListing=listing.id).first()
-        return render_template("ViewListingTemplates/Motherboard.html", title=title, 
-        listing=listing,user=user,date=date,details=details,form=form, image=image)
+        details = Motherboard.query.filter_by(
+            MotherboardListing=listing.id).first()
+        return render_template("ViewListingTemplates/Motherboard.html", title=title,
+                               listing=listing, user=user, date=date, details=details, form=form, image=image)
 
     else:
         return redirect("/")
-@app.route('/register', methods=['post','get'])
 
 
+@app.route('/register', methods=['post', 'get'])
 def register():
     if current_user.is_authenticated:
         return redirect('/')
     form = RegisterForm()
     if form.validate_on_submit():
-        user = User(username=form.user_name.data, email=form.email.data, phone=form.phone_number.data)
+        user = User(username=form.user_name.data,
+                    email=form.email.data, phone=form.phone_number.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -280,7 +291,7 @@ def register():
 
     title = "Register | BenchmarkPC"
 
-    return render_template("register.html",form=form, title=title)
+    return render_template("register.html", form=form, title=title)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -294,21 +305,23 @@ def login():
         if user is None or not user.check_password(form.password.data):
             return render_template("login.html", form=form, title=title, message="Email Or Password Is Incorrect")
 
-
         login_user(user)
         print("Logged IN")
         return redirect("/")
 
     return render_template("login.html", form=form, title=title, message=None)
 
+
 @app.errorhandler(404)
 def not_found(e):
     return render_template('404Error.html')
+
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect("/")
+
 
 @app.route('/search')
 # @app.route('/search?searchText=<searchingText>&type=<Ptype>')
@@ -318,7 +331,8 @@ def search():
     if(len(request.args) == 1):
         print("Getting Listings")
         print("%{}%".format(request.args.get("searchText")))
-        listings = Listing.query.filter(Listing.ListingName.like( "%" + request.args.get('searchText') + "%"),Listing.ListingState != "Closed").all()
+        listings = Listing.query.filter(Listing.ListingName.like(
+            "%" + request.args.get('searchText') + "%"), Listing.ListingState != "Closed").all()
 
         listingsAndImages = []
         for listing in listings:
@@ -329,28 +343,27 @@ def search():
                 listingsAndImages.append([listing, image.ImageName])
             else:
                 listingsAndImages.append([listing])
-            
+
         return render_template("search.html", listings=listingsAndImages, viewType='search')
     elif(len(request.args) == 2):
-                listings = Listing.query.filter(Listing.ListingName.like( "%" + request.args.get('searchText') + "%"),Listing.ListingState != "Closed",
-                Listing.ListingType == request.args.get("type")).all()
-                print(listings)
+        listings = Listing.query.filter(Listing.ListingName.like("%" + request.args.get('searchText') + "%"), Listing.ListingState != "Closed",
+                                        Listing.ListingType == request.args.get("type")).all()
+        print(listings)
 
-                listingsAndImages = []
-                for listing in listings:
-                    print("Getting Image")
-                    image = Images.query.filter_by(ImageListing=listing.id).first()
-                    if(image != None):
-                        print("Got Image")
-                        listingsAndImages.append([listing, image.ImageName])
-                    else:
-                        listingsAndImages.append([listing])
-                    
-                return render_template("search.html", listings=listingsAndImages, viewType='search')
+        listingsAndImages = []
+        for listing in listings:
+            print("Getting Image")
+            image = Images.query.filter_by(ImageListing=listing.id).first()
+            if(image != None):
+                print("Got Image")
+                listingsAndImages.append([listing, image.ImageName])
+            else:
+                listingsAndImages.append([listing])
 
+        return render_template("search.html", listings=listingsAndImages, viewType='search')
 
-        
     return render_template("search.html")
+
 
 @app.route('/history')
 def history():
@@ -359,35 +372,42 @@ def history():
     title = "Past Sales | BenchmarkPC"
     return render_template("history.html")
 
+
 @app.route('/currentListings')
 def current_listings():
     title = "Current Listings | BenchmarkPC"
     return render_template("currentListings.html")
+
 
 @app.route('/privacy-policy')
 def privacy_policy():
     title = "Privacy Policy | BenchmarkPC"
     return render_template("privacy-policy.html")
 
+
 @app.route('/terms-conditions')
 def terms_of_usage():
     title = "Terms Of Usage | BenchmarkPC"
     return render_template("terms-conditions.html")
+
 
 @app.route('/returns')
 def returns_policy():
     title = "Return Policy | BenchmarkPC"
     return render_template("return-policy.html")
 
+
 @app.route('/about-us')
 def about_us():
     title = "About Us | BenchmarkPC"
     return render_template("about-us.html")
 
+
 @app.route('/contact')
 def contact_us():
     title = "Contact Us | BenchmarkPC"
     return render_template("contact-us.html")
+
 
 @app.route('/careers')
 def careers():

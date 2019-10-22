@@ -69,9 +69,10 @@ def UpdateListing(request, idL):
         
         db.session.commit()
     elif(listingType == "CPU Cooler"):
+
+        print(request.args)
         cooler = CPUCooler.query.filter_by(CPUCoolerListing=listing.id).first()
         values = getCPUCoolerValues(request)      
-    
         cooler.manufacturer=values.get('manufacturer')
         cooler.FanRPM=values.get('RPM')
         cooler.NoiseLevel=values.get('Noise')
