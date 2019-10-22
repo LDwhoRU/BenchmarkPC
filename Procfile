@@ -1,1 +1,1 @@
-gunicorn 'benchmarkpc:app'
+gunicorn 'bench:app'
