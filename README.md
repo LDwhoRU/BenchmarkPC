@@ -6,7 +6,6 @@ BenchmarkPC is a website that allows users to benchmark their pc, and the main f
 
 1. Home Page (insert screenshot of base.html)
 
-
 The home page contains information of the website and different products available for sale. It has a navigation bar that helps users to select products, and a search bar allows users to search for specific items by entering the category of the item. 
 
 2. Login/Register Page (insert screenshot of login.html)
