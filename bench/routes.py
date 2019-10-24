@@ -317,6 +317,11 @@ def not_found(e):
     return render_template('404Error.html')
 
 
+@app.errorhandler(500)
+def not_found500(e):
+    return render_template('500Error.html')
+
+
 @app.route('/logout')
 def logout():
     logout_user()
