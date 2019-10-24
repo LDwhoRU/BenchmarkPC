@@ -288,11 +288,14 @@ def viewListingNumber(id):
         db.session.add(bid)
         db.session.commit()
 
+    #Get Listing Image
     image = Images.query.filter_by(ImageListing=listing.id).first()
     if(image is not None):
         image = "\\static\\Images\\" + image.ImageName
     else:
         image = r"\static\placeholder.png"
+
+    #Return Appropriate Template
     if(listing.ListingType == "CPU"):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUListing.html", title=title,
@@ -357,7 +360,6 @@ def register():
         return redirect("/")
     else:
         #Give The User An Error Message.
-
         return render_template("register.html", form=form,title=title, message="Error: Either Account Already Exists, Or Some Of The Details You Provided Are Incorrect")
     
 
@@ -393,49 +395,58 @@ def login():
     return render_template("login.html", form=form, title=title, message=None)
 
 
+#Error Handling For Page Not Found
 @app.errorhandler(404)
 def not_found(e):
     return render_template('404Error.html')
 
 
+#Error Handling For Internal Server Error
 @app.errorhandler(500)
 def not_found500(e):
     return render_template('500Error.html')
 
 
+#Route For Logging The User Out Of The Website.
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect("/")
 
 
+#Route For The Search Function
+#Allows The User To Search By Text And Type
 @app.route('/search')
-# @app.route('/search?searchText=<searchingText>&type=<Ptype>')
-def search():
-    print(request.args.get('searchText'))
-    print(len(request.args))
+def seach():
+    #Check If The Request Has 1 Arguments,
+    #Meaning That The User Is Searching By Just Text
     if(len(request.args) == 1):
-        print("Getting Listings")
-        print("%{}%".format(request.args.get("searchText")))
-        listings = Listing.query.filter(Listing.ListingName.like(
+        
+        #Search For The Text Using Like Search
+        #Only Return Non-Closed Listings
+        listings = Listing.query.filter(Listing.ListingName.ilike(
             "%" + request.args.get('searchText') + "%"), Listing.ListingState != "Closed").all()
 
+        #Get The Images For Each Listing
         listingsAndImages = []
         for listing in listings:
-            print("Getting Image")
             image = Images.query.filter_by(ImageListing=listing.id).first()
             if(image != None):
-                print("Got Image")
                 listingsAndImages.append([listing, image.ImageName])
             else:
                 listingsAndImages.append([listing])
 
+        #Return Page With Search Resutls
         return render_template("search.html", listings=listingsAndImages, viewType='search')
+
+    #Check If The Request Has 2 Arguments,
+    #Means User Is Searching By Text And Type.
     elif(len(request.args) == 2):
+
+        #Get Listings
         listings = Listing.query.filter(Listing.ListingName.ilike("%" + request.args.get('searchText') + "%"), Listing.ListingState != "Closed",
                                         Listing.ListingType == request.args.get("type")).all()
-        print(listings)
-
+        #Get The Images For The Listings
         listingsAndImages = []
         for listing in listings:
             print("Getting Image")
@@ -446,11 +457,14 @@ def search():
             else:
                 listingsAndImages.append([listing])
 
+        #Render The Page With The Search Results
         return render_template("search.html", listings=listingsAndImages, viewType='search')
 
+    #Otherwise Render An Empty Search Result
     return render_template("search.html")
 
 
+""" #Alternative Page For History
 @app.route('/history')
 def history():
     if current_user.is_anonymous:
@@ -463,7 +477,7 @@ def history():
 def current_listings():
     title = "Current Listings | BenchmarkPC"
     return render_template("currentListings.html")
-
+ """
 
 @app.route('/privacy-policy')
 def privacy_policy():
