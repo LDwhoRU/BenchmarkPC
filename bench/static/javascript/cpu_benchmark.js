@@ -26,6 +26,7 @@ function main() {
     if (!activated) {
         result = timeIt(10, 10, bench);
         result.sort((a, b) => a - b);
+        console.log(result[0]);
         final_result = Math.floor(((3 - (result[0] / 1000)) * 1/1.8) * 100)
         console.log(final_result);
         activated = true;
