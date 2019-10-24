@@ -17,19 +17,17 @@ This page allows users to register/login (through Twitter and Google) to their a
 
 4. Listing Page (insert screenshot of view.html)
 
-
 This page shows images, price information, benchmark scores, detailed product descriptions and product specifications to users. It allows buyers to leave their e-mail adreess and phone number for the seller to contact. 
 
 5. Manage item Page(insert screenshot of manageListing.html)
 
-
 This page allows sellers to edit product descriptions and specifications, benchmark their items, set the price and see all bids made by bidders. The bids information will contain dates, names, phone numbers, and e-mails. The sellers can choose to accept the bids or not. 
 
 6. New listing Page(insert screenshot of createNewListing.html)
+
 This page allows sellers to update images of the product they want to sell, they can set up new production description and specification and the price. 
 
 7. Error Page
-
 
 The website will display a page displaying a 404 error message if the url is not correct
 
