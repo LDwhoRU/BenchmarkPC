@@ -351,7 +351,7 @@ def search():
 
         return render_template("search.html", listings=listingsAndImages, viewType='search')
     elif(len(request.args) == 2):
-        listings = Listing.query.filter(Listing.ListingName.like("%" + request.args.get('searchText') + "%"), Listing.ListingState != "Closed",
+        listings = Listing.query.filter(Listing.ListingName.ilike("%" + request.args.get('searchText') + "%"), Listing.ListingState != "Closed",
                                         Listing.ListingType == request.args.get("type")).all()
         print(listings)
 
