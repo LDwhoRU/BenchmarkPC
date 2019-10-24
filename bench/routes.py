@@ -134,62 +134,80 @@ def viewOldListings():
     #Render The Page.
     return render_template('search.html', title=title, listings=listingsAndImages, viewType='previous', sales=sales)
 
-
+#Route For Manage Item Page
+#This Page Allows The User To Manage One Of Their Listings.
 @app.route('/manage/<id>', methods=['GET', 'POST'])
 def manageListing(id):
+    #Create The Form
     form = manageListingForm()
 
+    #Check If POST Request
     if(request.method == "POST"):
+        #Check If The User Is Updating The Listing,
+        #Or If They Are Selecting A Bid.
         if('UpdateListing' in request.form):
-            print("\n---Updating Listing---\n")
+            #Updates The Listing
             UpdateListing(request, id)
+            #Redirects Back To The Same Page
             return redirect('/manage/' + id)
         elif('selectBid' in request.form):
-            print(request.form)
+            #Get The Bids For The Listing
             bid = Bids.query.filter_by(
                 id=request.form.get('bidID')).first_or_404()
-            print('got here')
-            print('Bid Listing ' + str(bid.bidListing))
-            print('Listing ' + str(id))
+            
+            #Check That The Bid The User Selected Is Actually One Of The Bids For The Listing.
             if(int(bid.bidListing) != int(id)):
                 return redirect('/')
-            print('here')
+
+            #Get The Current Listing
             listing = Listing.query.filter_by(id=id).first()
+            #Change The State Of The Listing To Closed.
             listing.ListingState = 'Closed'
+            #Create A New Sale Using The Current Listing
             sale = Sales(ListingID=listing.id, BuyerID=bid.bidUser,
                          SalePrice=bid.bidAmount)
+
+            #Delete All The Bids For The Listing.
             Bids.query.filter_by(bidListing=listing.id).delete()
+            #Add And Commit The Sale
             db.session.add(sale)
             db.session.commit()
+            #Redirect To The Viewing Page For The Listing
             return redirect('/listing/' + id)
-
+    #If Get Request, Do This.
     else:
         title = "Managing Listing {0} | BenchmarkPC".format(id)
-        print("Searching For Listing")
+        #Get The Current Listing, Or 404
         listing = Listing.query.filter_by(id=id).first_or_404()
+        #If The Listing Is Already Sold, Redirect To Viewing The Listing
         if(listing.ListingState == 'Closed'):
             return redirect('/listing/' + id)
+        
+        #Get The Bids For The Listing
         listingBids = Bids.query.filter_by(bidListing=id)
         bidUsers = []
         listingBidsLists = []
         for i in listingBids:
-            print(i)
             bidUsers.append(User.query.filter_by(id=i.bidUser).first())
             listingBidsLists.append(i)
+
         combinedList = [bidUsers, listingBidsLists]
         length = len(listingBidsLists)
+        #If The User Is Not Logged In Redirect To Login
         if current_user.is_anonymous:
             return redirect('/login')
+        #If The Current User Is Not The Owner Of The Listing, Redirect To Index
         elif current_user.id != listing.userId:
             return redirect("/")
 
+        #Get The Image For The Listing
         image = Images.query.filter_by(ImageListing=listing.id)
-        print("here")
         if(image.scalar() is not None):
             image = "\\static\\Images\\" + image.first().ImageName
         else:
             image = r"\static\placeholder.png"
-        print("here3")
+
+        #Check What Type The Listing Is And Return The Correct Tempalte.
         if(listing.ListingType == "Case"):
             case = Case.query.filter_by(caseListing=id).first_or_404()
             return render_template('manageListingTemplates/CaseHTML.html', title=title,
@@ -226,34 +244,47 @@ def manageListing(id):
 
 
 
-
+#Route For Listings
+#Allows The User To View A Listing
 @app.route('/listing/<id>', methods=['GET', 'POST'])
 def viewListingNumber(id):
     title = "Listing | BenchmarkPC"
 
-    print("Viewing Listing: " + id)
-
+    #Get The Listing Details
     listing = Listing.query.filter_by(id=id).first_or_404()
+    #Get The Listing Owners Details
     user = User.query.filter_by(id=listing.userId).first()
+
+    #Get The Date The Listing Was Created
     date = str(listing.ListingTimeStamp.day) + "/" + \
         str(listing.ListingTimeStamp.month) + \
         "/" + str(listing.ListingTimeStamp.year)
 
+    #Create The Bid Form
     form = bidForm()
+
+    #If The Request Method Is A POST Request.
     if(request.method == "POST"):
+        #If The User Is Not Logged In, Redirect To Login.
         if(current_user.is_anonymous):
             return redirect('/login')
+        #Check If The User Already Has A Bid.
         exists = db.session.query(Bids.bidUser).filter_by(
             bidUser=current_user.id).first()
-        print(exists)
+
+        #Get The Bid Amount From The Form
         bidMoney = request.form.get("bid")
+
+        #If The User Already Has A Bid, Replace That Bid
         if(exists is not None):
             bid = Bids.query.filter_by(
                 bidUser=current_user.id, bidListing=id).first()
             bid.bidAmount = bidMoney
+        #Else, Create A New Bid.
         else:
             bid = Bids(bidAmount=bidMoney,
                        bidUser=current_user.id, bidListing=id)
+        #Commit The Bid To The Database.
         db.session.add(bid)
         db.session.commit()
 
