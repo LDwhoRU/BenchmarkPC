@@ -6,95 +6,132 @@ from flask_login import current_user, login_user, logout_user
 from bench.newListingFunctions import processListing, UpdateListing
 
 
+#Route For The Landing Page
+#Allows The User To View Recent Listings
+#Allows The User To Search For Listings
+#Has Links For New Listing And Manage Listings.
 @app.route('/', methods=['GET', 'POST'])
 def index():
     title = "Home | BenchmarkPC"
+
+    #Get The Three Most Recent Listings That Are Open.
     listings = Listing.query.order_by(Listing.ListingTimeStamp.desc()).filter(
         Listing.ListingState != 'Closed').limit(3).all()
     images = []
 
+    #Get The Images For Each Listing
     for listing in listings:
         image = Images.query.filter_by(ImageListing=listing.id)
         if(image.scalar() != None):
             images.append("/static/Images/" + image.first().ImageName)
         else:
+            #If The Listing Has No Image, Insert The Placeholder Image.
             images.append("/static/placeholder.png")
 
-    if(current_user.is_authenticated):
-        print("Good")
+    #Render Initial Page.
     return render_template('index.html',  title=title, listings=listings, images=images)
 
 
+#Route For New Listing Page
+#Allows The User To Create New Listings
+#Lots Of Backend Stuff In newListingFunctions.py For Form Validation And Database.
 @app.route('/newListing', methods=['GET', 'POST'])
 def newListing():
     title = "New Listing | BenchmarkPC"
 
+    #If The User Is Not Logged In, Redirect To The Login Page
     if current_user.is_anonymous:
         return redirect('/login')
+
+    #Define The Listing Form
     form = newListingForm()
+
+    #Check If POST Request
     if request.method == 'POST':
+        #Get The Result Of Processing The Listing,
+        #First Argument Is The Error, Second Argument Is The Listing ID.
         message = processListing(request)
+        
+        #If The Listing Was Processed Correctly, Redirect To The Listing Page.
         if(message[0] == "Passed"):
             return redirect("/listing/" + str(message[1]))
         else:
+            #If The Process Listing Failed.
+            #Delete Any Images Connected To The Listing.
             Images.query.filter_by(ImageListing=message[1]).delete()
+            #Delete The Listing That Was Created.
             Listing.query.filter_by(id=message[1]).delete()
+            #Commit These Changes.
             db.session.commit()
-            print(message)
+
+            #Give The User The Reason That The New Listing Failed.
             return render_template('createNewListing.html', form=form, title=title, message=message)
 
+    #Render Initial Page
     return render_template('createNewListing.html', form=form, title=title, message=None)
 
-
+#Manage Page
+#Allows The User To Manage Their Current Items.
 @app.route('/manage')
 def manageListings():
+
+    #If The User Is Not logged In Redirect To Login Page.
     if current_user.is_anonymous:
         return redirect('/login')
 
     title = "Manage Listings | BenchmarkPC"
 
+    #Get The Users Listings
     listings = Listing.query.filter(
         Listing.userId == current_user.id, Listing.ListingState == 'Open').all()
 
     listingsAndImages = []
+    #Get The Listings Images.
     for listing in listings:
-        print("Getting Image")
         image = Images.query.filter_by(ImageListing=listing.id).first()
         if(image != None):
-            print("Got Image")
             listingsAndImages.append([listing, image.ImageName])
         else:
             listingsAndImages.append([listing])
+
+    #Render The Initial Template
     return render_template('search.html', title=title, listings=listingsAndImages, viewType='manage')
 
-
+#Route For Previous Page.
+#Allows The User To View Their Previous Sales
 @app.route('/previous')
 def viewOldListings():
+
+    #If The User Is Not Logged In, Redirect To The Login Page.
     if current_user.is_anonymous:
         return redirect('/login')
 
     title = "Viewing Old Listings | BenchmarkPC"
 
+    #Get The Listings For The Current User That Are Closed.
     listings = Listing.query.filter(
         Listing.userId == current_user.id, Listing.ListingState == 'Closed').all()
 
     listingsAndImages = []
     listingIDS = []
 
+    #Get The Images For Each Listing
     for listing in listings:
         print("Getting Image")
         image = Images.query.filter_by(ImageListing=listing.id).first()
         if(image != None):
-            print("Got Image")
             listingsAndImages.append([listing, image.ImageName])
         else:
             listingsAndImages.append([listing])
         listingIDS.append(listing.id)
+
+    #Get The Sales Listings For Each Listings.
     sales = Sales.query.filter(Sales.ListingID.in_(listingIDS)).all()
     for sale in sales:
         user = User.query.filter_by(id=sale.BuyerID).first()
         sale.BuyerID = user.username
-    print(sales[0].SaleTimeStamp)
+
+    #Render The Page.
     return render_template('search.html', title=title, listings=listingsAndImages, viewType='previous', sales=sales)
 
 
@@ -187,11 +224,7 @@ def manageListing(id):
                                    bids=combinedList, length=length, listing=listing, motherboard=motherboard, form=form, image=image)
 
 
-@app.route('/listing')
-def viewListing():
-    title = "Listing | BenchmarkPC"
 
-    return render_template("view.html", title=title)
 
 
 @app.route('/listing/<id>', methods=['GET', 'POST'])
@@ -270,45 +303,62 @@ def viewListingNumber(id):
     else:
         return redirect("/")
 
-
+#Route To The Register Page
+#Allows The User To Register An Account
+#Backend Ensures The User Already Doesn't Exist.
 @app.route('/register', methods=['post', 'get'])
 def register():
+
+    title = "Register | BenchmarkPC"
+    #If The User Is Logged In, Redirect Them To The Landing Page.
     if current_user.is_authenticated:
         return redirect('/')
+
+    #Define The Form
     form = RegisterForm()
+    #Check If Form Fields Are Correct
     if form.validate_on_submit():
         user = User(username=form.user_name.data,
                     email=form.email.data, phone=form.phone_number.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        print("registed i cant spell")
         return redirect("/")
-    print("test")
-    if(request.method == 'POST'):
-        print("Username: " + form.user_name.data)
-        print("Email: " + form.email.data)
+    else:
+        #Give The User An Error Message.
 
-    title = "Register | BenchmarkPC"
+        return render_template("register.html", form=form,title=title, message="Error: Either Account Already Exists, Or Some Of The Details You Provided Are Incorrect")
+    
 
+    #Render The Initial Page
     return render_template("register.html", form=form, title=title)
 
-
+#Route To The Login Page.
+#The Login Page Allows The User To Login.
+#The Following Function Validates The User Values, And Returns An Appropriate Error Message.
 @app.route('/login', methods=['POST', 'GET'])
 def login():
 
     title = "Login | BenchmarkPC"
     form = LoginForm()
+    #Check If The Form Is Being Submitted.
+    if(request.method == 'POST'):
+        #Check If The Form Fields Are Of Correct Type.
+        if form.validate_on_submit():
+            #Get User From Database
+            user = User.query.filter_by(email=form.email.data).first()
+            #Check If User Exists Or The Password Is Incorrect.
+            if user is None or not user.check_password(form.password.data):
+                return render_template("login.html", form=form, title=title, message="Email Or Password Is Incorrect.")
 
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is None or not user.check_password(form.password.data):
-            return render_template("login.html", form=form, title=title, message="Email Or Password Is Incorrect")
-
-        login_user(user)
-        print("Logged IN")
-        return redirect("/")
-
+            #Log The User In.
+            login_user(user)
+            return redirect("/")
+        else:
+            #Tell The User Some Details Are Wrong.
+            return render_template("login.html",title=title,message="Some Of The Values Provided Are Of The Incorrect Type.")   
+    
+    #Render The Initial Page.
     return render_template("login.html", form=form, title=title, message=None)
 
 

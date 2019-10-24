@@ -15,7 +15,6 @@
             
 
 <div class="container">
-    
     <div class="card bg-light centre-register-box">
         <article class="card-body mx-auto" style="max-width: 400px;">
             <h4 class="card-title mt-3 text-center">
@@ -77,6 +76,11 @@
     
     </div> 
     <!--container end.//-->
+    {% if message != None %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
+    {% endif %}
 
 
     </body>
