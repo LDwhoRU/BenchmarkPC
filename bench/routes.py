@@ -360,7 +360,7 @@ def register():
             db.session.add(user)
             db.session.commit()
 
-            user = User.query.filter_by(id=user.id)
+            user = User.query.filter_by(id=user.id).first()
             login_user(user)
             return redirect("/")
         else:
