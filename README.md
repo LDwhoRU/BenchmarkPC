@@ -4,30 +4,34 @@ BenchmarkPC is a website that allows users to benchmark their pc, and the main f
 
 ## Website deliverablies
 
-1. Home Page (insert screenshot of base.html)
-
+1. Home Page
+![Landing_page1](https://user-images.githubusercontent.com/55529623/67618699-1671f400-f836-11e9-8f49-db5f4528f1be.jpg)
+![Landing_page2](https://user-images.githubusercontent.com/55529623/67618717-55a04500-f836-11e9-9586-e8c527b48528.jpg)
 The home page contains information of the website and different products available for sale. It has a navigation bar that helps users to select products, and a search bar allows users to search for specific items by entering the category of the item. 
 
-2. Login/Register Page (insert screenshot of login.html)
-
+2. Login/Register Page
+![Loginpage](https://user-images.githubusercontent.com/55529623/67618722-78caf480-f836-11e9-893a-d91354991c84.png)
+![registerpage](https://user-images.githubusercontent.com/55529623/67618730-9f892b00-f836-11e9-9803-5812dd983a3b.jpg)
 
 This page allows users to register/login (through Twitter and Google) to their accounts. While registering for an account, users are required to type in their username and password
 
-3. Results Page
+3. Listing Page (insert screenshot of view.html)
+![manage](https://user-images.githubusercontent.com/55529623/67618840-c7c55980-f837-11e9-8b0e-c4b35c6c0977.png)
 
-4. Listing Page (insert screenshot of view.html)
+This page shows images, price information, detailed product descriptions and product specifications to users. It allows buyers to leave their e-mail adreess and phone number for the seller to contact. 
 
-This page shows images, price information, benchmark scores, detailed product descriptions and product specifications to users. It allows buyers to leave their e-mail adreess and phone number for the seller to contact. 
+4. Manage item Page(insert screenshot of manageListing.html)
 
-5. Manage item Page(insert screenshot of manageListing.html)
 
 This page allows sellers to edit product descriptions and specifications, benchmark their items, set the price and see all bids made by bidders. The bids information will contain dates, names, phone numbers, and e-mails. The sellers can choose to accept the bids or not. 
 
-6. New listing Page(insert screenshot of createNewListing.html)
+5. New listing Page
 
-This page allows sellers to update images of the product they want to sell, they can set up new production description and specification and the price. 
 
-7. Error Page
+This page allows sellers to update images of the product they want to sell, they can set up new production description and specification and the price, it also runs a script and benchmark the product. 
+
+66. Error Page
+![errorpage](https://user-images.githubusercontent.com/55529623/67618760-ec6d0180-f836-11e9-9c00-024726e6ddd4.png)
 
 The website will display a page displaying a 404 error message if the url is not correct
 
