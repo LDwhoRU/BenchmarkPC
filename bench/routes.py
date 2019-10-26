@@ -353,6 +353,7 @@ def register():
     if request.method == "POST":
         #Check If Form Fields Are Correct
         if form.validate_on_submit():
+            
             user = User(username=form.user_name.data,
                         email=form.email.data, phone=form.phone_number.data)
             user.set_password(form.password.data)
