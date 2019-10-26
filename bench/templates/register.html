@@ -72,9 +72,9 @@
             <p class="text-center">Have an account? <a href="login">Log In</a> </p>                                                                 
         </form>
         </article>
-        {% if message != None and message != "" %}
+        {% if message %}
             <div class="alert alert-danger" role="alert">
-                {{ message }}
+                <p>{{ message }}</p>
             </div>
         {% endif %}
         </div> <!-- card.// -->
