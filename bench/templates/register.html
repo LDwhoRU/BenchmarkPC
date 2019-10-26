@@ -72,12 +72,13 @@
             <p class="text-center">Have an account? <a href="login">Log In</a> </p>                                                                 
         </form>
         </article>
-        </div> <!-- card.// -->
-        {% if message != None %}
-        <div class="alert alert-danger" role="alert">
-            {{ message }}
-          </div>
+        {% if message != None and message != "" %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
         {% endif %}
+        </div> <!-- card.// -->
+        
     </div> 
     <!--container end.//-->
     
