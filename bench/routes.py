@@ -350,17 +350,18 @@ def register():
 
     #Define The Form
     form = RegisterForm()
-    #Check If Form Fields Are Correct
-    if form.validate_on_submit():
-        user = User(username=form.user_name.data,
-                    email=form.email.data, phone=form.phone_number.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        return redirect("/")
-    else:
-        #Give The User An Error Message.
-        return render_template("register.html", form=form,title=title, message="Error: Either Account Already Exists, Or Some Of The Details You Provided Are Incorrect")
+    if request.method == "POST":
+        #Check If Form Fields Are Correct
+        if form.validate_on_submit():
+            user = User(username=form.user_name.data,
+                        email=form.email.data, phone=form.phone_number.data)
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            return redirect("/")
+        else:
+            #Give The User An Error Message.
+            return render_template("register.html", form=form,title=title, message="Error: Either Account Already Exists, Or Some Of The Details You Provided Are Incorrect")   
     
 
     #Render The Initial Page
