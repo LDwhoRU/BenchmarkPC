@@ -365,7 +365,7 @@ def register():
     
 
     #Render The Initial Page
-    return render_template("register.html", form=form, title=title)
+    return render_template("register.html", form=form, title=title, message=None)
 
 #Route To The Login Page.
 #The Login Page Allows The User To Login.
