@@ -27,7 +27,7 @@ This page allows sellers to see product descriptions and specifications, benchma
 
 5. New listing Page
 
-![newlisting](https://user-images.githubusercontent.com/55529623/67619189-c7c75880-f83b-11e9-8cdc-f348906c9ecc.png)
+![cpu](https://user-images.githubusercontent.com/55529623/67619228-3e645600-f83c-11e9-9e9a-2ed85664344c.png)
 ![listing](https://user-images.githubusercontent.com/55529623/67619181-b4b48880-f83b-11e9-8422-082ea267542d.png)
 This page allows sellers to update images of the product they want to sell, they can set up new production description and specification and the price, it also runs a script and benchmark the product. 
 
