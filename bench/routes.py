@@ -359,6 +359,9 @@ def register():
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
+
+            user = User.query.filter_by(id=used.id)
+            login_user(user)
             return redirect("/")
         else:
             #Give The User An Error Message.
