@@ -262,7 +262,7 @@ def viewListingNumber(id):
 
     #Create The Bid Form
     form = bidForm()
-
+    message = None
     #If The Request Method Is A POST Request.
     if(request.method == "POST"):
         #If The User Is Not Logged In, Redirect To Login.
@@ -288,6 +288,11 @@ def viewListingNumber(id):
         db.session.add(bid)
         db.session.commit()
 
+        message = "Bid Placed"
+
+        
+
+
     #Get Listing Image
     image = Images.query.filter_by(ImageListing=listing.id).first()
     if(image is not None):
@@ -299,40 +304,40 @@ def viewListingNumber(id):
     if(listing.ListingType == "CPU"):
         details = CPU.query.filter_by(CPUListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUListing.html", title=title,
-                               listing=listing, user=user, date=date, details=details, form=form, image=image)
+                               listing=listing, user=user, date=date, details=details, form=form, image=image, message=message)
 
     elif(listing.ListingType == "Graphics Card"):
         details = GPU.query.filter_by(GPUListing=listing.id).first()
         return render_template("ViewListingTemplates/GPUListing.html", title=title,
-                               listing=listing, user=user, date=date, details=details, form=form, image=image)
+                               listing=listing, user=user, date=date, details=details, form=form, image=image, message=message)
 
     elif(listing.ListingType == "CPU Cooler"):
         details = CPUCooler.query.filter_by(
             CPUCoolerListing=listing.id).first()
         return render_template("ViewListingTemplates/CPUCooler.html", title=title,
-                               listing=listing, user=user, date=date, details=details, form=form, image=image)
+                               listing=listing, user=user, date=date, details=details, form=form, image=image, message=message)
 
     elif(listing.ListingType == "Memory"):
         details = Memory.query.filter_by(memoryListing=listing.id).first()
         return render_template("ViewListingTemplates/Memory.html", title=title,
-                               listing=listing, user=user, date=date, details=details, form=form)
+                               listing=listing, user=user, date=date, details=details, form=form, image=image, message=message)
 
     elif(listing.ListingType == "Case"):
         details = Case.query.filter_by(caseListing=listing.id).first()
         return render_template("ViewListingTemplates/Case.html", title=title,
-                               listing=listing, user=user, date=date, details=details, form=form, image=image)
+                               listing=listing, user=user, date=date, details=details, form=form, image=image, message=message)
 
     elif(listing.ListingType == "Power Supply"):
         details = PowerSupply.query.filter_by(
             PowerSupplyListing=listing.id).first()
         return render_template("ViewListingTemplates/PowerSupply.html", title=title,
-                               listing=listing, user=user, date=date, details=details, form=form, image=image)
+                               listing=listing, user=user, date=date, details=details, form=form, image=image, message=message)
 
     elif(listing.ListingType == "Motherboard"):
         details = Motherboard.query.filter_by(
             MotherboardListing=listing.id).first()
         return render_template("ViewListingTemplates/Motherboard.html", title=title,
-                               listing=listing, user=user, date=date, details=details, form=form, image=image)
+                               listing=listing, user=user, date=date, details=details, form=form, image=image, message=message)
 
     else:
         return redirect("/")

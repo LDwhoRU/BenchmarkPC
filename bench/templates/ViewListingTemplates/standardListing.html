@@ -98,7 +98,13 @@
                             <button type="submit" form=ListingForm class="btn btn-primary btn-bid">Bid</button>
                         </div>
                     </div>
+                    {% if message != None %}
+                    <div class="alert alert-success" role="alert">
+                        Bid Placed
+                      </div>
                     {% endif %}
+                    {% endif %}
+
                 </div>
             </div>
 
