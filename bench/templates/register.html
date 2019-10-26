@@ -73,14 +73,14 @@
         </form>
         </article>
         </div> <!-- card.// -->
-    
+        {% if message != None %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+        {% endif %}
     </div> 
     <!--container end.//-->
-    {% if message != None %}
-    <div class="alert alert-danger" role="alert">
-        {{ message }}
-      </div>
-    {% endif %}
+    
 
 
     </body>
