@@ -366,14 +366,22 @@ def notNull(detailList):
 
 
 
-
+#Function To Process A New Case Listing
+#Validates Form Inputs
+#Returns Error If Form Doesn't Pass Tests
 def processCase(request, id):
+
+    #Get Case Values
     values = getCaseValues(request)
-    
+
+    #Check If Manufacturer Info Passes Test
     error = manufacturerError(values.get('manufacturer'))
     if(error != "Passed"):
         return error
 
+    #Check If Amount Of Bays Inputs Are Digits,
+    #If Not Set Both To 0
+    #Otherwise Convert The String Form To Int
     if(values.get('Bays25').isdigit() == False or values.get('Bays35').isdigit() == False):
         values.update({'Bays25': 0})
         values.update({'Bays35': 0})
@@ -381,46 +389,74 @@ def processCase(request, id):
         values.update({'Bays25': int(values.get('Bays25'))})
         values.update({'Bays35': int(values.get('Bays35'))})    
 
+    #Check If SidePanel Argument Is Yes Or No.
+    #If Neither Set To No.
     if(values.get('SidePanel') not in ['Yes', 'No']):
         values.update({'SidePanel': 'No'})
+
+    #Check If Colour Value Provided,
+    #If Not Return Error
     if(values.get('Colour') == ""):
         return "No Colour Selected"
 
+    #Create Case Listing With Values Given
     case = Case(manufacturer=values.get('manufacturer'), colour=values.get('Colour'), sidePanel=values.get('SidePanel'),
                 internal25Bays=values.get('Bays25'),
                 internal35Bays=values.get('Bays35'),
                 caseListing=id)
+
+    #Add The Listing To The DB
     db.session.add(case)
     db.session.commit()
 
+    #Tell The Routes Program, That The New Listing Was Added
     return "Passed"
 
+#Function To Check If Manufacturer Argument Provided
 def manufacturerError(manufacturer):
     if(manufacturer == ""):
         return "No Value For Manufacturer Provided"
     else:
         return "Passed"
+
+#Function To Process New Memory Listing
+#Returns Error If Listing Values Are Wrong
 def processMemory(request, id):
+
+    #Get The Values From The Form
     values = getMemoryValues(request)
 
+    #Check If Manufacturer Input Is Provided
     error = manufacturerError(values.get('manufacturer'))
     if(error != "Passed"):
         return error
-        
+
+    #Check If Amount Of Modules Is A Digit
+    #If Not, Set It To 1.        
     if(values.get('modules').isdigit() == False):
         values.update({'modules' : 1})
 
+    #Check If Memory Speed Is Digit,
+    #If Not Return Error.
     if(values.get('memorySpeed').isdigit() == False):
         return "Memory Speed Not Provided Or In Incorrect Format"
 
+    #Set The Two Values To INT Values
     values.update({'modules': int(values.get('modules'))})
     values.update({'memorySpeed': int(values.get('memorySpeed'))})
 
+    #Check If Colour Values Provided,
+    #If Not, Return Error.
     if(values.get('Colour') == ""):
         return "No Colour Selected"
+
+    #Check If Memory Type Matches Possible Options,
+    #If Not, Return Error.
     if(values.get('memoryType') not in ['DDR','DDR2','DDR3','DDR4', 'DDR5']):
         return "Please Select One Of The Following For Memory Type: ['DDR','DDR2','DDR3','DDR4', 'DDR5']"
 
+
+    #Create Memory Object
     memory = Memory(
         manufacturer=values.get('manufacturer'),
         colour=values.get('colour'),
@@ -428,41 +464,65 @@ def processMemory(request, id):
         speed=values.get('memorySpeed'),
         modules=values.get('modules'),
         memoryListing=id)
+
+    #Add Memory Object To DB
     db.session.add(memory)
     db.session.commit()
 
+    #Tell The Routes Program That The New Listing Was Added.
     return "Passed"
 
 
+#Function To Process New CPUCooler Listing.
+#Returns Error, If Something Doesn't Pass Tests.
 def processCPUCooler(request, id):
+
+    #Get The Cooler Values From The Form.
     values = getCPUCoolerValues(request)
-    
+
+    #Check If Manufacturer Argument Is Provided
     error = manufacturerError(values.get('manufacturer'))
     if(error != "Passed"):
         return error
 
+    #Check If Height Argument Is Decimal,
+    #If Not, Return Error.
     if(isDecimal(values.get('Height')) == False):
         return "Height Not Provided In Decimal Form"
 
+    #Check If Noise Argument Is Digit,
+    #If Not, Return Error.
     if(values.get('Noise').isdigit() == False):
         return "Noise Was Not Provided In Integer Form"
 
-
+    #Check If RPM Argument Is Digit,
+    #If Not, Return Error.
     if(values.get('RPM').isdigit() == False):
         return "RPM Not Provided As An Integer"
         
+
+    #Set The Following Arguments To INT Versions Of Themselves
     values.update({'Height':  int(values.get('Height'))})
     values.update({'Noise':  int(values.get('Noise'))})
     values.update({'RPM': int(values.get('RPM'))})
 
+    #Check If Fanless Yes Or No,
+    #If Not, Return Error.
     if(values.get('Fanless') not in ['Yes', 'No']):
         return "Please Select If Your Cooler Does Or Does Not Have A Fan."
+
+    #Check If WaterCooled Argument Yes Or No,
+    #If Not, Return Error.
     if(values.get('WaterCooled') not in ['Yes', 'No']):
         return "Please Select If Your Cooler Is A Water Cooler Or Not."
+
+    #Check If Socket Argument Is Provided,
+    #If Not, Return Error.
     if(values.get('Socket') == ""):
         return "Please Enter The Socket That Your Cooler Fits."
     
 
+    #Create CPUCooler Object
     Cooler = CPUCooler(
         manufacturer=values.get('manufacturer'),
         FanRPM=values.get('RPM'),
@@ -472,19 +532,28 @@ def processCPUCooler(request, id):
         Fanless=values.get('Fanless'),
         CPUCoolerListing=id,
         Socket=values.get('socket'))
+
+    #Add Object To DB
     db.session.add(Cooler)
     db.session.commit()
 
+    #Tell The Program That The Item Was Added.
     return "Passed"
 
 
+#Function To Process New Motherboard Listing
+#Returns Error If Arguments Do Not Pass Test
 def processMotherBoard(request, id):
+
+    #Get Form Values
     values = getMotherboardValues(request)
 
+    #Check If Manufacturer Argument Provided.
     error = manufacturerError(values.get('manufacturer'))
     if(error != "Passed"):
         return error
 
+    #Create Array Of Keys
     IntegerKeys = [
         'RamSlots',
         'MaxRam',
@@ -498,6 +567,9 @@ def processMotherBoard(request, id):
         'mSATA',
         'M2'
     ]
+    
+    #If Int Values Not A Digit, Or Less Than 0,
+    #Set The Value Of The Key To 0.
     for key in IntegerKeys:
         if(values.get(key).isdigit() == False
            or int(values.get(key)) < 0):
